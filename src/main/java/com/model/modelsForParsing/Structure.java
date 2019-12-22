@@ -1,4 +1,4 @@
-package com.model;
+package com.model.modelsForParsing;
 
 import java.util.*;
 import java.util.stream.Collectors;

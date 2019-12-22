@@ -1,8 +1,15 @@
-apply plugin: 'java'
-apply plugin: "idea"
-apply plugin: "eclipse"
-apply plugin: 'maven'
-apply plugin: 'project-report'
+plugins {
+  id 'com.gradle.build-scan' version '2.0.2'
+  id 'org.springframework.boot' version '2.1.7.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+  id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+springBoot {
+  mainClassName = "com.Application"
+}
 
 group 'com.parser'
 version '1.0-SNAPSHOT'
@@ -13,12 +20,65 @@ repositories repo
 
 dependencies {
   testCompile group: 'junit', name: 'junit', version: '4.12'
-  compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
+  compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
   compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
   compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+  compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+  implementation 'org.springframework.boot:spring-boot-dependencies:2.0.5.RELEASE'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+  implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
+  compile group: 'com.opencsv', name: 'opencsv', version: '4.0'
+  compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.2.1.RELEASE'
+//  compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.2.1.RELEASE'
+  compile group: 'org.springframework.ldap', name: 'spring-ldap-core', version: '2.3.2.RELEASE'
+  compile("org.springframework.ldap:spring-ldap-core")
+  compile("org.springframework.security:spring-security-ldap")
+  compile("org.springframework:spring-tx")
+  compile("com.unboundid:unboundid-ldapsdk")
 
 }
 
+/*
+  config when angular placed in one project with spring boot in webapp
 
+def webappDir = "$projectDir/src/main/webapp"
+sourceSets {
+  main {
+    resources {
+      srcDirs = ["$webappDir/dist", "$projectDir/src/main/resources"]
+    }
+  }
+}
 
+processResources {
+  dependsOn "buildAngular"
+}
+
+task buildAngular(type:Exec) {
+//  dependsOn "installAngular"
+  workingDir "$webappDir"
+  inputs.dir "$webappDir"
+  group = BasePlugin.BUILD_GROUP
+//	outputs.dir "$webappDir/dist"
+  if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+    commandLine "ng.cmd", "build"
+  } else {
+    commandLine "ng", "build"
+  }
+}
+
+task installAngular(type:Exec) {
+  workingDir "$webappDir"
+  inputs.dir "$webappDir"
+  group = BasePlugin.BUILD_GROUP
+  if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+    commandLine "npm.cmd", "install"
+  } else {
+    commandLine "npm", "install"
+  }
+}
+*/
 

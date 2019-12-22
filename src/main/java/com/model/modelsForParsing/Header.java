@@ -1,4 +1,4 @@
-package com.model;
+package com.model.modelsForParsing;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Header implements Bean{
+public class Header implements Bean {
 
   private String key;
   private Map<String, String> values = new HashMap<>();

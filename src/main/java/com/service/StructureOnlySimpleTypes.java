@@ -1,4 +1,6 @@
-package com;
+package com.service;
+
+import com.utils.Constants;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -14,8 +16,8 @@ public class StructureOnlySimpleTypes {
     Map<String, String> secondTypeValues = new TreeMap<>();
 
     // extract header key and value
-//    String a = parseString(com.Constants.configString, "=*(\\w+)\\s+");
-//    String b = parseString(com.Constants.configString, "(\\w+=\\w+,\\w+=\\w+)");
+//    String a = parseString(com.utils.Constants.configString, "=*(\\w+)\\s+");
+//    String b = parseString(com.utils.Constants.configString, "(\\w+=\\w+,\\w+=\\w+)");
 //    header.put(a, b);
 
 

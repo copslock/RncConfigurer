@@ -1,4 +1,4 @@
-package com.model;
+package com.model.modelsForParsing;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +16,15 @@ public class ArrayIntegers implements Bean {
     // TODO think maybe it is possible to make it better
 
     name = rows.split("\\s")[0];
-    List<String> keyValueArrays = Arrays.stream(rows.split("\\(|=|\\)")).filter(el -> !el.isEmpty()).collect(Collectors.toList());
+
+    if(size != 0) {
+      init(rows, size);
+    }
+
+  }
+
+  void init(String rows, int size) {
+    List<String> keyValueArrays = Arrays.stream(rows.split("\\(|=|\\)|,")).filter(el -> !el.isEmpty()).collect(Collectors.toList());
 
     List<String> vals = Arrays.asList(keyValueArrays.get(1).split("\\s")).stream().filter(el -> !el.isEmpty()).collect(Collectors.toList());
 
@@ -36,7 +44,6 @@ public class ArrayIntegers implements Bean {
         values.add(item);
       }
     }
-
   }
 
   @Override

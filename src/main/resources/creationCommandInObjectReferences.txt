@@ -1,0 +1,368 @@
+Object 1
+{
+	name: "RncFunction=1,EutraNetwork=Astelit,EutranFrequency=1300,ExternalEutranCell=CK0001L31",
+	cellId: 31,
+	eNodeBId: 940001,
+	physicalCellIdentity: -1,
+	tac: 12710,
+	userLabel: ''
+}
+
+Object 2
+{
+	name: "RncFunction=1,ExternalGsmNetwork=Astelit,ExternalGsmCell=CK00013",
+	bandIndicator: 0,
+	bcc: 6,
+	bcchFrequency: 525,
+	cellIdentity: 9643,
+	individualOffset: 0,
+	lac: 12710,
+	maxTxPowerUl: 30,
+	ncc: 1,
+	qRxLevMin: -105,
+	userLabel: CK00013
+}
+
+Object 3
+{
+	name: "RncFunction=1,UtranCell=CK0029J,GsmRelation=CK00013",
+	externalGsmCellRef: {ExternalGsmNetwork: Astelit,ExternalGsmCell:CK00013},
+	mobilityRelationType: 0,
+	qOffset1sn: 7,
+	selectionPriority: 1
+}
+
+Object 4
+{
+	name: "RncFunction=1,IubLink=CK0001",
+	administrativeState: 1,
+	atmUserPlaneTermSubrackRef: '', 
+	controlPlaneTransportOption: {atm: 0,ipv4: 1},
+	dlHwAdm: 99,
+	l2EstReqRetryTimeNbapC: 5,
+	l2EstReqRetryTimeNbapD: 5,
+	linkType: 0,
+	poolRedundancy: 0,
+	rSiteRef: '', 
+	rbsId: 677,
+	remoteCpIpAddress1: '10.80.158.245',
+	remoteCpIpAddress2: '', 
+	remoteSctpPortNbapC: 5113,
+	remoteSctpPortNbapD: 5114,
+	rncModuleAllocWeight: 10,
+	rncModulePreferredRef: '', 
+	softCongThreshGbrBwDl: 100,
+	softCongThreshGbrBwUl: 100,
+	spare: 0,
+	spareA: [0,0,0,0,0,0,0,0,0,677],
+	ulHwAdm: 99,
+	userLabel: '', 
+	userPlaneGbrAdmBandwidthDl: 10000,
+	userPlaneGbrAdmBandwidthUl: 10000,
+	userPlaneGbrAdmEnabled: 0,
+	userPlaneGbrAdmMarginDl: 0,
+	userPlaneGbrAdmMarginUl: 0,
+	userPlaneIpResourceRef: {IpAccessHostPool: IUB},
+	userPlaneTransportOption: {atm:0,ipv4:1}
+}
+
+Object 5
+{
+	name: "RncFunction=1,UtranCell=CK0108I,UtranRelation=CK0001K",
+	hcsSib11Config: {hcsPrio: 0,qHcs:0, penaltyTime:0,temporaryOffset1:0,temporaryOffset2:0},
+	loadSharingCandidate: 0,
+	mobilityRelationType: 0,
+	qOffset1sn: 0,
+	qOffset2sn: 0,
+	selectionPriority: 1,
+	utranCellRef: {UtranCell:CK0001K},
+}
+
+Object 6
+{
+	name: "RncFunction=1,UtranCell=CK0001K,EutranFreqRelation=1300,EutranCellRelation=1",
+	coSited: 1,
+	externalEutranCellRef: {EutraNetwork:Astelit,EutranFrequency:1300,ExternalEutranCell:CK0001L31},
+	userLabel: '' 
+}
+
+Object 7
+{
+	name: "RncFunction=1,UtranCell=CK0001K,CoverageRelation=CK0001G",
+	coverageIndicator: 1,
+	hsIflsDownswitch: 1,
+	hsPathlossThreshold: 0,
+	relationCapability: { dchLoadSharing:1,hsCellSelection:0,hsLoadSharing:1,powerSave:0},
+	utranCellRef: { UtranCell:CK0001G},
+}
+
+Object 8
+{
+	name: "RncFunction=1,UtranCell=CK0001K,Hsdsch=1,Eul=1",
+	administrativeState: 1,
+	eulDchBalancingEnabled: 0,
+	eulDchBalancingLoad: 6,
+	eulDchBalancingOverload: 0,
+	eulDchBalancingReportPeriod: 60,
+	eulDchBalancingSuspendDownSw: 0,
+	eulDchBalancingTimerNg: 1000,
+	eulLoadTriggeredSoftCong: 0,
+	eulMaxTargetRtwp: -499,
+	numEagchCodes: 3,
+	numEhichErgchCodes: 4,
+	pathlossThresholdEulTti2: 130,
+	releaseAseUlNg: 3,
+	threshEulTti2Ecno: -18,
+	userLabel: ''
+}
+
+Object 9
+{
+	name: "RncFunction=1,UtranCell=CK0001K,Hsdsch=1",
+	administrativeState: 1,
+	codeThresholdPdu656: 0,
+	cqiFeedbackCycle: 8,
+	deltaAck1: 5,
+	deltaAck2: 7,
+	deltaCqi1: 4,
+	deltaCqi2: 6,
+	deltaNack1: 5,
+	deltaNack2: 7,
+	hsMeasurementPowerOffset: 80,
+	initialAckNackRepetitionFactor: 1,
+	initialCqiRepetitionFactor: 1,
+	numHsPdschCodes: 5,
+	numHsScchCodes: 4,
+	userLabel: '' 
+}
+
+Object 10
+{
+	name: "RncFunction=1,UtranCell=CK0001K,Fach=1",
+	administrativeState: 1,
+	maxFach1Power: 38,
+	maxFach2Power: 19,
+	pOffset1Fach: 0,
+	pOffset3Fach: 0,
+	sccpchOffset: 0,
+	userLabel: '' 
+}
+
+Object 11
+{
+	name: "RncFunction=1,UtranCell=CK0001K,Pch=1",
+	administrativeState: 1,
+	pchPower: -4,
+	pichPower: -7,
+	sccpchOffset: 20,
+	userLabel: ''
+}
+
+Object 12
+{
+	name: "RncFunction=1,UtranCell=CK0001K,Rach=1",
+	administrativeState: 1,
+	aichPower: -6,
+	aichTransmissionTiming: 4,
+	constantValueCprach: -24,
+	increasedRachCoverageEnabled: 0,
+	maxPreambleCycle: 8,
+	nb01Max: 0,
+	nb01Min: 0,
+	powerOffsetP0: 1,
+	powerOffsetPpm: -2,
+	preambleRetransMax: 32,
+	preambleSignatures: 65535,
+	scramblingCodeWordNo: 0,
+	spreadingFactor: 32,
+	subChannelNo: 4095,
+	userLabel: '' 
+}
+
+Object 13
+{
+	name: "RncFunction=1,UtranCell=CK0001K",
+	absPrioCellRes: {cellReselectionPriority:3,sPrioritySearch1:10,sPrioritySearch2:4,threshServingLow:16,measIndFach:0},
+	accessClassNBarred: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	accessClassesBarredCs: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	accessClassesBarredPs: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	admBlockRedirection: {gsmRrc:1,rrc:0,speech:1},
+	administrativeState: 1,
+	agpsEnabled: 1,
+	amrNbSelector: 0,
+	amrWbRateDlMax: 12650,
+	amrWbRateUlMax: 12650,
+	anrIafUtranCellConfig: {anrEnabled:1,relationAddEnabled:1,relationRemoveEnabled:0,sib11IafAnclEnabled:0},
+	anrIefUtranCellConfig: {anrEnabled:1,sib11IefAnclEnabled:1},
+	antennaPosition: {latitudeSign:0,latitude:4610187,longitude:1492952},
+	aseDlAdm: 500,
+	aseLoadThresholdUlSpeech: {amr12200:100,amr7950:100,amr5900:100},
+	aseUlAdm: 500,
+	autoAcbEnabled: 0,
+	autoAcbMaxPsClassesToBar: 10,
+	autoAcbMinRcssrInput: 5,
+	autoAcbRcssrThresh: 50,
+	autoAcbRcssrWeight: 2,
+	autoAcbRtwpThresh: -70,
+	autoAcbRtwpWeight: 10,
+	bchPower: -31,
+	cId: 30563,
+	cbsSchedulePeriodLength: 64,
+	cellBroadcastSac: -1,
+	cellReserved: 1,
+	cellUpdateConfirmCsInitRepeat: 3,
+	cellUpdateConfirmPsInitRepeat: 3,
+	codeLoadThresholdDlSf128: 100,
+	compModeAdm: 15,
+	ctchAdmMargin: 0,
+	ctchOccasionPeriod: 255,
+	cyclicAcb {acbEnabled:0,rotationGroupSize:5},
+	cyclicAcbCs: {acbEnabled:0,rotationGroupSize:5},
+	cyclicAcbPs: { acbEnabled:0,rotationGroupSize:5},
+	dchIflsMarginCode: 0,
+	dchIflsMarginPower: 0,
+	dchIflsThreshCode: 0,
+	dchIflsThreshPower: 0,
+	directedRetryTarget: '',
+	dlCodeAdm: 90,
+	dlCodeOffloadLimit: 100,
+	dlCodePowerCmEnabled: 0,
+	dlPowerOffloadLimit: 100,
+	dmcrEnabled: 0,
+	dnclEnabled: 0,
+	downswitchTimer: -1,
+	eulMcServingCellUsersAdmTti2: 3,
+	eulNonServingCellUsersAdm: 100,
+	eulServingCellUsersAdm: 60,
+	eulServingCellUsersAdmTti2: 32,
+	fachMeasOccaCycLenCoeff: 0,
+	ganHoEnabled: 0,
+	hardIfhoCorr: 3,
+	hcsSib3Config: {hcsPrio:0,qHcs:0,sSearchHcs:-105},
+	hcsUsage: {idleMode:0,connectedMode:0},
+	hoType: 1,
+	hsIflsDownswitchTrigg: {toFach:0,toUra:0,fastDormancy:1},
+	hsIflsHighLoadThresh: 100,
+	hsIflsMarginUsers: 0,
+	hsIflsPowerLoadThresh: 0,
+	hsIflsRedirectLoadLimit: 0,
+	hsIflsSpeechMultiRabTrigg: 0,
+	hsIflsThreshUsers: 1,
+	hsIflsTrigger: { fromFach:1,fromUra:1},
+	hsdpaUsersAdm: 60,
+	hsdpaUsersOffloadLimit: 100,
+	hsdschInactivityTimer: -1,
+	hsdschInactivityTimerCpc: -1,
+	iFCong: 621,
+	iFHyst: 6000,
+	ifIratHoPsIntHsEnabled: 1,
+	iflsCpichEcnoThresh: -24,
+	iflsMode: 2,
+	iflsRedirectUarfcn: 0,
+	inactivityTimeMultiPsInteractive: -1,
+	inactivityTimer: -1,
+	inactivityTimerEnhUeDrx: -1,
+	inactivityTimerPch: -1,
+	individualOffset: 0,
+	interFreqFddMeasIndicator: 1,
+	interPwrMax: 30,
+	interRate: 845,
+	iubLinkRef: {IubLink:CK0001},
+	loadBasedHoSupport: 1,
+	loadBasedHoType: 0,
+	loadSharingGsmFraction: 100,
+	loadSharingGsmThreshold: 80,
+	loadSharingMargin: 0,
+	localCellId: 30563,
+	locationAreaRef: {LocationArea:12710},
+	lteMeasEnabled: 1,
+	maxPwrMax: 30,
+	maxRate: 40690,
+	maxTxPowerUl: 24,
+	maximumTransmissionPower: 430,
+	minPwrMax: -15,
+	minPwrRl: -150,
+	minimumRate: 370,
+	mocnCellProfileRef: {MocnCellProfile:Astelit},
+	nOutSyncInd: 21,
+	pagingPermAccessCtrl: {locRegAcb: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0],locRegRestr:0,pagingRespRestr:0},
+	pathlossThreshold: 130,
+	primaryCpichPower: 330,
+	primarySchPower: -18,
+	primaryScramblingCode: 361,
+	primaryTpsCell: 0,
+	psHoToLteEnabled: 1,
+	pwrAdm: 85,
+	pwrLoadThresholdDlSpeech: {amr12200:100,amr7950:100,amr5900:100},
+	qHyst1: 2,
+	qHyst2: 2,
+	qQualMin: -20,
+	qRxLevMin: -115,
+	qualMeasQuantity: 2,
+	rachOverloadProtect: 1,
+	rateSelectionPsInteractive: {channelType:0,ulPrefRate:16,dlPrefRate:16},
+	redirectUarfcn: 0,
+	releaseRedirect: 1,
+	releaseRedirectEutraTriggers: {csFallbackCsRelease:1,csFallbackDchToFach:0,dchToFach:0,fachToUra:0,fastDormancy:0,normalRelease:0},
+	releaseRedirectHsIfls: 0,
+	reportingRange1a: 0,
+	reportingRange1b: 0,
+	rlFailureT: 20,
+	routingAreaRef: {LocationArea:12710,RoutingArea:2},
+	rrcLcEnabled: 1,
+	rwrEutraCc: 1,
+	sHcsRat: 3,
+	sInterSearch: 19,
+	sIntraSearch: 23,
+	sRatSearch: 0,
+	secondaryCpichPower: 0,
+	secondarySchPower: -35,
+	servDiffRrcAdmHighPrioProfile: 3,
+	serviceAreaRef: {LocationArea:12710,ServiceArea:30563},
+	serviceRestrictions: {csVideoCalls:0},
+	sf128Adm: 128,
+	sf16Adm: 16,
+	sf16AdmUl: 16,
+	sf16gAdm: 16,
+	sf32Adm: 32,
+	sf4AdmUl: 4,
+	sf64AdmUl: 100,
+	sf8Adm: 8,
+	sf8AdmUl: 8,
+	sf8gAdmUl: 8,
+	sib11UtranCellConfig: {minGsmRelationsInSib11:10,minIefRelationsInSib11:20},
+	sib1PlmnScopeValueTag: 5,
+	spare: 0,
+	spareA: [0,0,0,0,0,0,0,0,0,0],
+	srbAdmExempt: 0,
+	standAloneSrbSelector: 1,
+	tCell: 6,
+	timeToTrigger1a: -1,
+	timeToTrigger1b: -1,
+	tpsCellThresholds: {tpsCellThreshEnabled:0,tpsLockThreshold:5,tpsUnlockThreshold:15},
+	tpsPeriodsRef: '', 
+	transmissionScheme: 0,
+	treSelection: 1,
+	uarfcnDl: 10612,
+	uarfcnUl: 9662,
+	updateLocator: 0,
+	uraRef: {RncFunction:1,Ura:12731},
+	usedFreqThresh2dEcno: -16,
+	usedFreqThresh2dRscp: -110,
+	userLabel: '',
+	utranCellPosition: ''
+}
+
+Object 14
+{
+	name: 'RncFunction=1,LocationArea=12710,ServiceArea=30563',
+	sac: 30563,
+	userLabel: '' 
+}
+
+Object 15
+{
+	name: 'RncFunction=1,IubLink=CK0001,IubEdch=1',
+	edchDataFrameDelayThreshold: 60,
+	userLabel: ''
+}
