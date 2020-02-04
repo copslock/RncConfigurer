@@ -1,12 +1,14 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
-public class ExtrrnalGsmCellRef implements CreationCommand {
+public class ExternalGsmCellRef implements CreationCommand {
 
 
   /**
@@ -22,11 +24,19 @@ public class ExtrrnalGsmCellRef implements CreationCommand {
   private int mobilityRelationType;
   private int qOffset1sn;
   private int selectionPriority;
+  private String[] source;
 
-  final String begin = "RncFunction=[0-9]*,";
-  final String end = "[\\s\\n\\w\\.,=-]*[\\s\\n]*";
+  public ExternalGsmCellRef() {
+  }
 
-  final Pattern compile3 = Pattern.compile(begin + "UtranCell=[\\w]*,GsmRelation=[\\w]*" + end);
+  public ExternalGsmCellRef(String[] source) {
+    this.source = source;
+    name =source[0];
+    externalGsmCellRef = new ExternalGsmCellRefBean(source[1].split("\\s").length == 2 ? source[1].split("\\s")[1].split(",") : null);
+    mobilityRelationType =source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
+    qOffset1sn =source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
+    selectionPriority =source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
+  }
 
   public String getName() {
     return name;
@@ -74,13 +84,14 @@ public class ExtrrnalGsmCellRef implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    return values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.EXTERNAL_GSM_CELL_REF;
   }
 
   public static class ExternalGsmCellRefBean {
@@ -91,6 +102,16 @@ public class ExtrrnalGsmCellRef implements CreationCommand {
 
     private String ExternalGsmNetwork;
     private String ExternalGsmCell;
+
+    public ExternalGsmCellRefBean() {
+    }
+
+    public ExternalGsmCellRefBean(String[] source) {
+      if(null != source) {
+        ExternalGsmNetwork = source[0].split("=").length == 2 ? source[0].split("=")[1] : null;
+        ExternalGsmCell = source[1].split("=").length == 2 ? source[1].split("=")[1] : null;
+      }
+    }
 
     public String getExternalGsmNetwork() {
       return ExternalGsmNetwork;
@@ -107,5 +128,20 @@ public class ExtrrnalGsmCellRef implements CreationCommand {
     public void setExternalGsmCell(String ExternalGsmCell) {
       this.ExternalGsmCell = ExternalGsmCell;
     }
+
+    @Override
+    public String toString() {
+      return "ExternalGsmNetwork=" + ExternalGsmNetwork + ",ExternalGsmCell=" + (ExternalGsmCell == null ? "" : ExternalGsmCell);
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "crn " + name + "\n" +
+        "externalGsmCellRef " + externalGsmCellRef + "\n" +
+        "mobilityRelationType " + mobilityRelationType + "\n" +
+        "qOffset1sn " + qOffset1sn + "\n" +
+        "selectionPriority " + selectionPriority + "\n" +
+        "end\n";
   }
 }

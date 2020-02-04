@@ -1,9 +1,15 @@
 package com.model.modelsForCreationCommands;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.VariableExtractor;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AtmUserPlaneTermSubrackRef implements CreationCommand {
 
@@ -71,6 +77,45 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
   private UserPlaneIpResourceRefBean userPlaneIpResourceRef;
   private UserPlaneTransportOptionBean userPlaneTransportOption;
   private List<Integer> spareA;
+  private int i = 0;
+  private String[] source;
+
+  public AtmUserPlaneTermSubrackRef() {
+  }
+
+  public AtmUserPlaneTermSubrackRef(String[] source) throws IOException {
+    this.source = source;
+    name = source[i++];
+    administrativeState = VariableExtractor.extractInteger(source[i++]);
+    atmUserPlaneTermSubrackRef = VariableExtractor.extractString(source[i++]);
+    controlPlaneTransportOption = source[i].split("\\s").length == 2 ? new ControlPlaneTransportOptionBean(source[i++].split("\\s")[1].split(",")) : null;
+    dlHwAdm = VariableExtractor.extractInteger(source[i++]);
+    l2EstReqRetryTimeNbapC = VariableExtractor.extractInteger(source[i++]);
+    l2EstReqRetryTimeNbapD = VariableExtractor.extractInteger(source[i++]);
+    linkType = VariableExtractor.extractInteger(source[i++]);
+    poolRedundancy = VariableExtractor.extractInteger(source[i++]);
+    rSiteRef = VariableExtractor.extractString(source[i++]);
+    rbsId = VariableExtractor.extractInteger(source[i++]);
+    remoteCpIpAddress1 = VariableExtractor.extractString(source[i++]);
+    remoteCpIpAddress2 = VariableExtractor.extractString(source[i++]);
+    remoteSctpPortNbapC = VariableExtractor.extractInteger(source[i++]);
+    remoteSctpPortNbapD = VariableExtractor.extractInteger(source[i++]);
+    rncModuleAllocWeight = VariableExtractor.extractInteger(source[i++]);
+    rncModulePreferredRef = VariableExtractor.extractString(source[i++]);
+    softCongThreshGbrBwDl = VariableExtractor.extractInteger(source[i++]);
+    softCongThreshGbrBwUl = VariableExtractor.extractInteger(source[i++]);
+    spare = VariableExtractor.extractInteger(source[i++]);
+    spareA = VariableExtractor.extractArray(source[i++]);
+    ulHwAdm = VariableExtractor.extractInteger(source[i++]);
+    userLabel = VariableExtractor.extractString(source[i++]);
+    userPlaneGbrAdmBandwidthDl = VariableExtractor.extractInteger(source[i++]);
+    userPlaneGbrAdmBandwidthUl = VariableExtractor.extractInteger(source[i++]);
+    userPlaneGbrAdmEnabled = VariableExtractor.extractInteger(source[i++]);
+    userPlaneGbrAdmMarginDl = VariableExtractor.extractInteger(source[i++]);
+    userPlaneGbrAdmMarginUl = VariableExtractor.extractInteger(source[i++]);
+    userPlaneIpResourceRef = source[i].split("\\s").length == 2 ? new UserPlaneIpResourceRefBean(source[i++].split("\\s")[1].split("=")[1]) : null;
+    userPlaneTransportOption = source[i].split("\\s").length == 2 ? new UserPlaneTransportOptionBean(source[i++].split("\\s")[1].split(",")) : null;
+  }
 
   public String getName() {
     return name;
@@ -318,13 +363,16 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String,String> values;
+    values = StructureWithModels.createMapProperties(source);
+
+    return values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.ATM_USER_PLANE_TERM_SUBRACK_REF;
   }
 
   public static class ControlPlaneTransportOptionBean {
@@ -335,6 +383,14 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
 
     private int atm;
     private int ipv4;
+
+    public ControlPlaneTransportOptionBean() {
+    }
+
+    public ControlPlaneTransportOptionBean(String[] source) {
+      atm = VariableExtractor.extractIntegerFromObject(source[0]);
+      ipv4 = VariableExtractor.extractIntegerFromObject(source[1]);
+    }
 
     public int getAtm() {
       return atm;
@@ -351,6 +407,12 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
     public void setIpv4(int ipv4) {
       this.ipv4 = ipv4;
     }
+
+    @Override
+    public String toString() {
+      return "atm=" + atm +
+          ",ipv4=" + ipv4;
+    }
   }
 
   public static class UserPlaneIpResourceRefBean {
@@ -360,12 +422,24 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
 
     private String IpAccessHostPool;
 
+    public UserPlaneIpResourceRefBean() {
+    }
+
+    public UserPlaneIpResourceRefBean(String source) {
+      IpAccessHostPool = source;
+    }
+
     public String getIpAccessHostPool() {
       return IpAccessHostPool;
     }
 
     public void setIpAccessHostPool(String IpAccessHostPool) {
       this.IpAccessHostPool = IpAccessHostPool;
+    }
+
+    @Override
+    public String toString() {
+      return "IpAccessHostPool=" + IpAccessHostPool;
     }
   }
 
@@ -378,6 +452,14 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
     private int atm;
     private int ipv4;
 
+    public UserPlaneTransportOptionBean() {
+    }
+
+    public UserPlaneTransportOptionBean(String[] source) {
+      atm = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
+      ipv4 = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
+    }
+
     public int getAtm() {
       return atm;
     }
@@ -393,5 +475,46 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
     public void setIpv4(int ipv4) {
       this.ipv4 = ipv4;
     }
+
+    @Override
+    public String toString() {
+      return "atm=" + atm +
+          ",ipv4=" + ipv4;
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "crn " + name + "\n" +
+        "administrativeState " + administrativeState + "\n" +
+        "atmUserPlaneTermSubrackRef " + (atmUserPlaneTermSubrackRef == null ? "" : atmUserPlaneTermSubrackRef) + "\n" +
+        "controlPlaneTransportOption " + controlPlaneTransportOption + "\n" +
+        "dlHwAdm " + dlHwAdm + "\n" +
+        "l2EstReqRetryTimeNbapC " + l2EstReqRetryTimeNbapC + "\n" +
+        "l2EstReqRetryTimeNbapD " + l2EstReqRetryTimeNbapD + "\n" +
+        "linkType " + linkType + "\n" +
+        "poolRedundancy " + poolRedundancy + "\n" +
+        "rSiteRef " + (rSiteRef == null ? "" : rSiteRef) + "\n" +
+        "rbsId " + rbsId + "\n" +
+        "remoteCpIpAddress1 " + remoteCpIpAddress1 + "\n" +
+        "remoteCpIpAddress2 " + (remoteCpIpAddress2 == null ? "" : remoteCpIpAddress2) + "\n" +
+        "remoteSctpPortNbapC " + remoteSctpPortNbapC + "\n" +
+        "remoteSctpPortNbapD " + remoteSctpPortNbapD + "\n" +
+        "rncModuleAllocWeight " + rncModuleAllocWeight + "\n" +
+        "rncModulePreferredRef " + (rncModulePreferredRef == null ? "" : rncModulePreferredRef) + "\n" +
+        "softCongThreshGbrBwDl " + softCongThreshGbrBwDl + "\n" +
+        "softCongThreshGbrBwUl " + softCongThreshGbrBwUl + "\n" +
+        "spare " + spare + "\n" +
+        "spareA " + spareA.toString().replaceAll("[\\[\\]\\s]", "") + "\n" +
+        "ulHwAdm " + ulHwAdm + "\n" +
+        "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
+        "userPlaneGbrAdmBandwidthDl " + userPlaneGbrAdmBandwidthDl + "\n" +
+        "userPlaneGbrAdmBandwidthUl " + userPlaneGbrAdmBandwidthUl + "\n" +
+        "userPlaneGbrAdmEnabled " + userPlaneGbrAdmEnabled + "\n" +
+        "userPlaneGbrAdmMarginDl " + userPlaneGbrAdmMarginDl + "\n" +
+        "userPlaneGbrAdmMarginUl " + userPlaneGbrAdmMarginUl + "\n" +
+        "userPlaneIpResourceRef " + userPlaneIpResourceRef + "\n" +
+        "userPlaneTransportOption " + userPlaneTransportOption + "\n" +
+        "end\n";
   }
 }

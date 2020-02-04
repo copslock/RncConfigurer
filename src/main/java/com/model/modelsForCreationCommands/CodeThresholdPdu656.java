@@ -1,9 +1,11 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.util.List;
+import java.util.Map;
 
 public class CodeThresholdPdu656 implements CreationCommand {
 
@@ -42,6 +44,30 @@ public class CodeThresholdPdu656 implements CreationCommand {
   private int numHsPdschCodes;
   private int numHsScchCodes;
   private String userLabel;
+  private String[] source;
+
+  public CodeThresholdPdu656() {
+  }
+
+  public CodeThresholdPdu656(String[] source) {
+    this.source = source;
+    name = source[0];
+    administrativeState = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
+    codeThresholdPdu656 = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
+    cqiFeedbackCycle = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
+    deltaAck1 = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
+    deltaAck2 = source[5].split("\\s").length == 2 ? Integer.parseInt(source[5].split("\\s")[1]) : null;
+    deltaCqi1 = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
+    deltaCqi2 = source[7].split("\\s").length == 2 ? Integer.parseInt(source[7].split("\\s")[1]) : null;
+    deltaNack1 = source[8].split("\\s").length == 2 ? Integer.parseInt(source[8].split("\\s")[1]) : null;
+    deltaNack2 = source[9].split("\\s").length == 2 ? Integer.parseInt(source[9].split("\\s")[1]) : null;
+    hsMeasurementPowerOffset = source[10].split("\\s").length == 2 ? Integer.parseInt(source[10].split("\\s")[1]) : null;
+    initialAckNackRepetitionFactor = source[11].split("\\s").length == 2 ? Integer.parseInt(source[11].split("\\s")[1]) : null;
+    initialCqiRepetitionFactor = source[12].split("\\s").length == 2 ? Integer.parseInt(source[12].split("\\s")[1]) : null;
+    numHsPdschCodes = source[13].split("\\s").length == 2 ? Integer.parseInt(source[13].split("\\s")[1]) : null;
+    numHsScchCodes = source[14].split("\\s").length == 2 ? Integer.parseInt(source[14].split("\\s")[1]) : null;
+    userLabel = source[15].split("\\s").length == 2 ? source[15].split("\\s")[1] : null;
+  }
 
   public String getName() {
     return name;
@@ -177,12 +203,34 @@ public class CodeThresholdPdu656 implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    return values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.CODE_THRESHOLD_PDU_656;
+  }
+
+  @Override
+  public String toString() {
+    return "crn " + name + "\n" +
+        "administrativeState " + administrativeState + "\n" +
+        "codeThresholdPdu656 " + codeThresholdPdu656 + "\n" +
+        "cqiFeedbackCycle " + cqiFeedbackCycle + "\n" +
+        "deltaAck1 " + deltaAck1 + "\n" +
+        "deltaAck2 " + deltaAck2 + "\n" +
+        "deltaCqi1 " + deltaCqi1 + "\n" +
+        "deltaCqi2 " + deltaCqi2 + "\n" +
+        "deltaNack1 " + deltaNack1 + "\n" +
+        "deltaNack2 " + deltaNack2 + "\n" +
+        "hsMeasurementPowerOffset " + hsMeasurementPowerOffset + "\n" +
+        "initialAckNackRepetitionFactor " + initialAckNackRepetitionFactor + "\n" +
+        "initialCqiRepetitionFactor " + initialCqiRepetitionFactor + "\n" +
+        "numHsPdschCodes " + numHsPdschCodes + "\n" +
+        "numHsScchCodes " + numHsScchCodes + "\n" +
+        "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
+        "end\n";
   }
 }

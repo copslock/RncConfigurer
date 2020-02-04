@@ -1,9 +1,11 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.util.List;
+import java.util.Map;
 
 public class PchPower implements CreationCommand {
 
@@ -22,6 +24,20 @@ public class PchPower implements CreationCommand {
   private int pichPower;
   private int sccpchOffset;
   private String userLabel;
+  private String[] source;
+
+  public PchPower() {
+  }
+
+  public PchPower(String[] source) {
+    this.source = source;
+    name = source[0];
+    administrativeState = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
+    pchPower = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
+    pichPower = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
+    sccpchOffset = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
+    userLabel = source[5].split("\\s").length == 2 ? source[5].split("\\s")[1] : null;
+  }
 
   public String getName() {
     return name;
@@ -77,12 +93,24 @@ public class PchPower implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    return values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.PCH_POWER;
+  }
+
+  @Override
+  public String toString() {
+    return "crn " + name + "\n" +
+        "administrativeState " + administrativeState + "\n" +
+        "pchPower " + pchPower + "\n" +
+        "pichPower " + pichPower + "\n" +
+        "sccpchOffset " + sccpchOffset + "\n" +
+        "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
+        "end\n";
   }
 }

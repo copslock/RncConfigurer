@@ -1,4 +1,4 @@
-package com.model.modelsForParsing;
+package com.model.rncInformationTypes;
 
 public interface ItemIntf {
 

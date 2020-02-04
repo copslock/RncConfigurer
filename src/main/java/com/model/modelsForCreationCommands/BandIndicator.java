@@ -1,9 +1,12 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.VariableExtractor;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class BandIndicator implements CreationCommand {
@@ -34,10 +37,26 @@ public class BandIndicator implements CreationCommand {
   private int ncc;
   private int qRxLevMin;
   private String userLabel;
+  private String[] source;
+  private int i = 0;
 
-  final static String begin = "RncFunction=[0-9]*,";
-  final static String end = "[\\s\\n\\w\\.,=-]*[\\s\\n]*";
-  final Pattern pattern = Pattern.compile(begin + "ExternalGsmNetwork=[a-zA-Z]*,ExternalGsmCell=[\\w]*[\\s\\n]*bandIndicator" + end);
+  public BandIndicator() {
+  }
+
+  public BandIndicator(String[] source) {
+    this.source = source;
+    name = source[i++];
+    bandIndicator = VariableExtractor.extractInteger(source[i++]);
+    bcc = VariableExtractor.extractInteger(source[i++]);
+    bcchFrequency = VariableExtractor.extractInteger(source[i++]);
+    cellIdentity = VariableExtractor.extractInteger(source[i++]);
+    individualOffset = VariableExtractor.extractInteger(source[i++]);
+    lac = VariableExtractor.extractInteger(source[i++]);
+    maxTxPowerUl = VariableExtractor.extractInteger(source[i++]);
+    ncc = VariableExtractor.extractInteger(source[i++]);
+    qRxLevMin = VariableExtractor.extractInteger(source[i++]);
+    userLabel = VariableExtractor.extractString(source[i++]);
+  }
 
   public String getName() {
     return name;
@@ -133,12 +152,30 @@ public class BandIndicator implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String, String> values = StructureWithModels.createMapProperties(source);
+
+    return values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.BAND_INDICATOR;
+  }
+
+  @Override
+  public String toString() {
+    return "crn " + name +  "\n" +
+        "bandIndicator " + bandIndicator + "\n" +
+        "bcc " + bcc + "\n" +
+        "bcchFrequency " + bcchFrequency + "\n" +
+        "cellIdentity " + cellIdentity + "\n" +
+        "individualOffset " + individualOffset + "\n" +
+        "lac " + lac + "\n" +
+        "maxTxPowerUl " + maxTxPowerUl + "\n" +
+        "ncc " + ncc + "\n" +
+        "qRxLevMin " + qRxLevMin + "\n" +
+        "userLabel " + userLabel +  "\n" +
+        "end\n";
   }
 }

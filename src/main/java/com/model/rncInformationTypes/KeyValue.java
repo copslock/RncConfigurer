@@ -1,4 +1,4 @@
-package com.model.modelsForParsing;
+package com.model.rncInformationTypes;
 
 import org.apache.commons.lang3.StringUtils;
 

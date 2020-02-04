@@ -1,6 +1,8 @@
 package com.service;
 
 import com.opencsv.CSVReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ParseCsvFileService {
+
+  private static final Logger LOG = LogManager.getLogger(ParseCsvFileService.class);
 
   public List<List<String>> readCsv(String fileName) {
     List<List<String>> lines = new ArrayList<>();
@@ -25,17 +29,20 @@ public class ParseCsvFileService {
     CSVReader reader = null;
 
     try {
-      reader = new CSVReader(new FileReader(csvFile));
 
-      String[] line;
-      while ((line = reader.readNext()) != null) {
-        if(line.length > 0) {
-          lines.add(Arrays.asList(line));
-        }
-      }
+      Files.readAllLines(new File(csvFile).toPath()).stream().filter(e -> e.length() > 0).forEach(e -> lines.add(Arrays.asList(e)));
+
+//      reader = new CSVReader(new FileReader(csvFile));
+//
+//      String[] line;
+//      while ((line = reader.readNext()) != null) {
+//        if(line.length > 0) {
+//          lines.add(Arrays.asList(line));
+//        }
+//      }
 
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error("something went wrong ", e);
     }
 
     return  lines;
@@ -46,9 +53,9 @@ public class ParseCsvFileService {
     String csvFile;
     int id = 1;
     if(null == fileName || fileName.isEmpty() || isValidateFileName(fileName)) {
-      csvFile = "/home/atian/Documents/uploads/RncMaximoTable.csv";
+      csvFile = "/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources//RncMaximoTable1.csv";
     } else {
-      csvFile = "/home/atian/Documents/uploads/" + fileName;
+      csvFile = "/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/" + fileName;
     }
 
     CSVReader reader = null;
@@ -57,7 +64,6 @@ public class ParseCsvFileService {
       reader = new CSVReader(new FileReader(csvFile));
 
       String[] line;
-//      List<String> headers = Arrays.stream(reader.readNext()).map(e -> e.replace(".", "")).map(e -> e.replace(" ", "")).collect(Collectors.toList());
       List<String> headers = Arrays.asList(reader.readNext());
 
       while ((line = reader.readNext()) != null) {
@@ -74,9 +80,7 @@ public class ParseCsvFileService {
       }
 
     } catch (IOException e) {
-      e.printStackTrace();
-    } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error("something went wrong ", e);
     }
 
     return  lines;
@@ -103,7 +107,7 @@ public class ParseCsvFileService {
       return false;
     }
 
-    return true;
+    return false;
   }
 
 }

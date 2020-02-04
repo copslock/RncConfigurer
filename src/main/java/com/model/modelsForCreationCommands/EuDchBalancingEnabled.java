@@ -1,9 +1,11 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.util.List;
+import java.util.Map;
 
 public class EuDchBalancingEnabled implements CreationCommand {
 
@@ -42,6 +44,30 @@ public class EuDchBalancingEnabled implements CreationCommand {
   private int releaseAseUlNg;
   private int threshEulTti2Ecno;
   private String userLabel;
+  private String[] source;
+
+  public EuDchBalancingEnabled() {
+  }
+
+  public EuDchBalancingEnabled(String[] source) {
+    this.source = source;
+    name = source[0];
+    administrativeState = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
+    eulDchBalancingEnabled = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
+    eulDchBalancingLoad = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
+    eulDchBalancingOverload = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
+    eulDchBalancingReportPeriod = source[5].split("\\s").length == 2 ? Integer.parseInt(source[5].split("\\s")[1]) : null;
+    eulDchBalancingSuspendDownSw = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
+    eulDchBalancingTimerNg = source[7].split("\\s").length == 2 ? Integer.parseInt(source[7].split("\\s")[1]) : null;
+    eulLoadTriggeredSoftCong = source[8].split("\\s").length == 2 ? Integer.parseInt(source[8].split("\\s")[1]) : null;
+    eulMaxTargetRtwp = source[9].split("\\s").length == 2 ? Integer.parseInt(source[9].split("\\s")[1]) : null;
+    numEagchCodes = source[10].split("\\s").length == 2 ? Integer.parseInt(source[10].split("\\s")[1]) : null;
+    numEhichErgchCodes = source[11].split("\\s").length == 2 ? Integer.parseInt(source[11].split("\\s")[1]) : null;
+    pathlossThresholdEulTti2 = source[12].split("\\s").length == 2 ? Integer.parseInt(source[12].split("\\s")[1]) : null;
+    releaseAseUlNg = source[13].split("\\s").length == 2 ? Integer.parseInt(source[13].split("\\s")[1]) : null;
+    threshEulTti2Ecno = source[14].split("\\s").length == 2 ? Integer.parseInt(source[14].split("\\s")[1]) : null;
+    userLabel = source[15].split("\\s").length == 2 ? source[15].split("\\s")[1] : null;
+  }
 
   public String getName() {
     return name;
@@ -177,12 +203,34 @@ public class EuDchBalancingEnabled implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    return values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.EU_DCH_BALANCING_ENABLED;
+  }
+
+  @Override
+  public String toString() {
+    return "crn " + name + "\n" +
+        "administrativeState " + administrativeState + "\n" +
+        "eulDchBalancingEnabled " + eulDchBalancingEnabled + "\n" +
+        "eulDchBalancingLoad " + eulDchBalancingLoad + "\n" +
+        "eulDchBalancingOverload " + eulDchBalancingOverload + "\n" +
+        "eulDchBalancingReportPeriod " + eulDchBalancingReportPeriod + "\n" +
+        "eulDchBalancingSuspendDownSw " + eulDchBalancingSuspendDownSw + "\n" +
+        "eulDchBalancingTimerNg " + eulDchBalancingTimerNg + "\n" +
+        "eulLoadTriggeredSoftCong " + eulLoadTriggeredSoftCong + "\n" +
+        "eulMaxTargetRtwp " + eulMaxTargetRtwp + "\n" +
+        "numEagchCodes " + numEagchCodes + "\n" +
+        "numEhichErgchCodes " + numEhichErgchCodes + "\n" +
+        "pathlossThresholdEulTti2 " + pathlossThresholdEulTti2 + "\n" +
+        "releaseAseUlNg " + releaseAseUlNg + "\n" +
+        "threshEulTti2Ecno " + threshEulTti2Ecno + "\n" +
+        "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
+        "end\n";
   }
 }

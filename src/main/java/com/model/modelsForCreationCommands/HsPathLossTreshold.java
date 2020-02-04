@@ -1,9 +1,11 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.util.List;
+import java.util.Map;
 
 public class HsPathLossTreshold implements CreationCommand {
 
@@ -22,6 +24,20 @@ public class HsPathLossTreshold implements CreationCommand {
   private int hsPathlossThreshold;
   private RelationCapabilityBean relationCapability;
   private UtranCellRefBean utranCellRef;
+  private String[] source;
+
+  public HsPathLossTreshold() {
+  }
+
+  public HsPathLossTreshold(String[] source) {
+    this.source = source;
+    name = source[0];
+    coverageIndicator = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
+    hsIflsDownswitch = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
+    hsPathlossThreshold = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
+    relationCapability = source[4].split("\\s").length == 2 ? new RelationCapabilityBean(source[4].split("\\s")[1].split(",")) : null;
+    utranCellRef = source[5].split("\\s").length == 2 ? new UtranCellRefBean(source[5].split("\\s")[1].split("=")[1]) : null;
+  }
 
   public String getName() {
     return name;
@@ -77,13 +93,14 @@ public class HsPathLossTreshold implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    return values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.HS_PATH_LOSS_TRESHOLD;
   }
 
   public static class RelationCapabilityBean {
@@ -98,6 +115,16 @@ public class HsPathLossTreshold implements CreationCommand {
     private int hsCellSelection;
     private int hsLoadSharing;
     private int powerSave;
+
+    public RelationCapabilityBean() {
+    }
+
+    public RelationCapabilityBean(String[] source) {
+      dchLoadSharing = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
+      hsCellSelection = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
+      hsLoadSharing = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
+      powerSave = source[3].split("=").length == 2 ? Integer.parseInt(source[3].split("=")[1]) : null;
+    }
 
     public int getDchLoadSharing() {
       return dchLoadSharing;
@@ -130,6 +157,11 @@ public class HsPathLossTreshold implements CreationCommand {
     public void setPowerSave(int powerSave) {
       this.powerSave = powerSave;
     }
+
+    @Override
+    public String toString() {
+      return "dchLoadSharing=" + dchLoadSharing + ",hsCellSelection=" + hsCellSelection + ",hsLoadSharing=" + hsLoadSharing + ",powerSave=" + powerSave;
+    }
   }
 
   public static class UtranCellRefBean {
@@ -139,6 +171,13 @@ public class HsPathLossTreshold implements CreationCommand {
 
     private String UtranCell;
 
+    public UtranCellRefBean() {
+    }
+
+    public UtranCellRefBean(String source) {
+      UtranCell = source;
+    }
+
     public String getUtranCell() {
       return UtranCell;
     }
@@ -146,5 +185,21 @@ public class HsPathLossTreshold implements CreationCommand {
     public void setUtranCell(String UtranCell) {
       this.UtranCell = UtranCell;
     }
+
+    @Override
+    public String toString() {
+      return "UtranCell=" + UtranCell;
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "crn " + name + "\n" +
+        "coverageIndicator " + coverageIndicator + "\n" +
+        "hsIflsDownswitch " + hsIflsDownswitch + "\n" +
+        "hsPathlossThreshold " + hsPathlossThreshold + "\n" +
+        "relationCapability " + relationCapability + "\n" +
+        "utranCellRef " + utranCellRef + "\n" +
+        "end\n";
   }
 }

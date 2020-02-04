@@ -2,12 +2,15 @@ package com.controller;
 
 import com.dao.RncListRepository;
 import com.dao.RncRepository;
+import com.google.gson.Gson;
 import com.model.Rnc;
 import com.model.RncList;
 import com.model.UploadFileResponse;
+import com.model.modelsForCreationCommands.util.CreationCommand;
 import com.service.FileStorageService;
 import com.service.ParseCsvFileService;
 import com.service.RncParseAndSave;
+import com.service.StructureWithModels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", exposedHeaders = "Content-Disposition")
@@ -35,20 +36,29 @@ public class FileController {
   private static final Logger logger = LoggerFactory.getLogger(FileController.class);
   private static String lastFileName;
 
-  @Autowired
   private FileStorageService fileStorageService;
-
-  @Autowired
   private ParseCsvFileService parseCsvFile;
-
-  @Autowired
   private RncParseAndSave rncParseAndSave;
-
-  @Autowired
   private RncRepository entityRepository;
+  private RncListRepository rncRepo;
+  private StructureWithModels parser;
 
   @Autowired
-  private RncListRepository rncRepo;
+  public FileController(
+      FileStorageService fileStorageService,
+      ParseCsvFileService parseCsvFile,
+      RncParseAndSave rncParseAndSave,
+      RncRepository entityRepository,
+      RncListRepository rncRepo,
+      StructureWithModels parser
+  ) {
+    this.fileStorageService = fileStorageService;
+    this.parseCsvFile = parseCsvFile;
+    this.rncParseAndSave = rncParseAndSave;
+    this.entityRepository = entityRepository;
+    this.rncRepo = rncRepo;
+    this.parser = parser;
+  }
 
   @PostMapping("/uploadFile")
   public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
@@ -150,6 +160,33 @@ public class FileController {
     }
 
     return false;
+  }
+
+  @GetMapping("/modifyFile/{filename}")
+  public List<List<Map<String, String>>> preformModification(@PathVariable("filename") String fileOfChanges) {
+
+    System.out.println(fileOfChanges);
+
+    List<List<Map<String, String>>> listChangesAndListResults = new ArrayList<>();
+
+    List<CreationCommand> creationCommands = parser.performModification(fileOfChanges);
+    List<CreationCommand> creationCommandsBefore = parser.prepareObjectsToChange(parser.extractCreationCommands("/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/undo_KIER7_191118-105157.mos"), parser.extractRehomeInformation("RncMaximoTable1.csv"));
+
+    List<Map<String, String>> valuesBefore = new ArrayList<>();
+    List<Map<String, String>> valuesAfter = new ArrayList<>();
+
+    for (CreationCommand creationCommand : creationCommands) {
+      valuesAfter.add(creationCommand.getValues());
+    }
+
+    for (CreationCommand creationCommand : creationCommandsBefore) {
+      valuesBefore.add(creationCommand.getValues());
+    }
+
+    listChangesAndListResults.add(valuesBefore);
+    listChangesAndListResults.add(valuesAfter);
+
+    return listChangesAndListResults;
   }
 
 }

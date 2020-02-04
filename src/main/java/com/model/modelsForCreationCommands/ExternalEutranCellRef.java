@@ -1,11 +1,13 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.util.List;
+import java.util.Map;
 
-public class ExternalEutramCellRef implements CreationCommand {
+public class ExternalEutranCellRef implements CreationCommand {
 
 
   /**
@@ -19,6 +21,18 @@ public class ExternalEutramCellRef implements CreationCommand {
   private int coSited;
   private ExternalEutranCellRefBean externalEutranCellRef;
   private String userLabel;
+  private String[] source;
+
+  public ExternalEutranCellRef() {
+  }
+
+  public ExternalEutranCellRef(String[] source) {
+    this.source = source;
+    name = source[0];
+    coSited = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
+    externalEutranCellRef = source[2].split("\\s").length == 2 ? new ExternalEutranCellRefBean(source[2].split("\\s")[1].split(",")) : null;
+    userLabel = source[3].split("\\s").length == 2 ? source[3].split("\\s")[1] : null;
+  }
 
   public String getName() {
     return name;
@@ -58,13 +72,14 @@ public class ExternalEutramCellRef implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    return values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.EXTERNAL_EUTRAN_CELL_REF;
   }
 
   public static class ExternalEutranCellRefBean {
@@ -77,6 +92,15 @@ public class ExternalEutramCellRef implements CreationCommand {
     private String EutraNetwork;
     private int EutranFrequency;
     private String ExternalEutranCell;
+
+    public ExternalEutranCellRefBean() {
+    }
+
+    public ExternalEutranCellRefBean(String[] source) {
+      EutraNetwork = source[0].split("=").length == 2 ? source[0].split("=")[1] : null;
+      EutranFrequency = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
+      ExternalEutranCell = source[2].split("=").length == 2 ? source[2].split("=")[1] : null;
+    }
 
     public String getEutraNetwork() {
       return EutraNetwork;
@@ -101,5 +125,19 @@ public class ExternalEutramCellRef implements CreationCommand {
     public void setExternalEutranCell(String ExternalEutranCell) {
       this.ExternalEutranCell = ExternalEutranCell;
     }
+
+    @Override
+    public String toString() {
+      return "EutraNetwork=" + EutraNetwork + ",EutranFrequency=" + EutranFrequency + ",ExternalEutranCell=" + ExternalEutranCell;
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "crn " + name + "\n" +
+        "coSited " + coSited + "\n" +
+        "externalEutranCellRef " + externalEutranCellRef + "\n" +
+        "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
+        "end\n";
   }
 }

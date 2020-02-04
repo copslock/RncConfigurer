@@ -1,9 +1,11 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.VariableExtractor;
+import com.service.StructureWithModels;
 import com.utils.Patterns;
 
-import java.util.List;
+import java.util.*;
 
 public class AichTransmissionTiming implements CreationCommand {
 
@@ -44,6 +46,33 @@ public class AichTransmissionTiming implements CreationCommand {
   private int spreadingFactor;
   private int subChannelNo;
   private String userLabel;
+  private String[] source;
+
+  private int i = 0;
+
+  public AichTransmissionTiming() {
+  }
+
+  public AichTransmissionTiming(String[] source) {
+    this.source = source;
+    name = source[i++];
+    administrativeState = VariableExtractor.extractInteger(source[i++]);
+    aichPower = VariableExtractor.extractInteger(source[i++]);
+    aichTransmissionTiming = VariableExtractor.extractInteger(source[i++]);
+    constantValueCprach = VariableExtractor.extractInteger(source[i++]);
+    increasedRachCoverageEnabled = VariableExtractor.extractInteger(source[i++]);
+    maxPreambleCycle = VariableExtractor.extractInteger(source[i++]);
+    nb01Max = VariableExtractor.extractInteger(source[i++]);
+    nb01Min = VariableExtractor.extractInteger(source[i++]);
+    powerOffsetP0 = VariableExtractor.extractInteger(source[i++]);
+    powerOffsetPpm = VariableExtractor.extractInteger(source[i++]);
+    preambleRetransMax = VariableExtractor.extractInteger(source[i++]);
+    preambleSignatures = VariableExtractor.extractInteger(source[i++]);
+    scramblingCodeWordNo = VariableExtractor.extractInteger(source[i++]);
+    spreadingFactor = VariableExtractor.extractInteger(source[i++]);
+    subChannelNo = VariableExtractor.extractInteger(source[i++]);
+    userLabel = VariableExtractor.extractString(source[i++]);
+  }
 
   public String getName() {
     return name;
@@ -187,12 +216,56 @@ public class AichTransmissionTiming implements CreationCommand {
   }
 
   @Override
-  public List<?> getValues() {
-    return null;
+  public Map<String,String> getValues() {
+    Map<String, String> values;
+//    values.put("crn", name);
+//    values.put("administrativeState", administrativeState);
+//    values.put("aichPower", aichPower);
+//    values.put("aichTransmissionTiming", aichTransmissionTiming);
+//    values.put("constantValueCprach", constantValueCprach);
+//    values.put("increasedRachCoverageEnabled", increasedRachCoverageEnabled);
+//    values.put("maxPreambleCycle", maxPreambleCycle);
+//    values.put("nb01Max", nb01Max);
+//    values.put("nb01Min", nb01Min);
+//    values.put("powerOffsetP0", powerOffsetP0);
+//    values.put("powerOffsetPpm", powerOffsetPpm);
+//    values.put("preambleRetransMax", preambleRetransMax);
+//    values.put("preambleSignatures", preambleSignatures);
+//    values.put("spreadingFactor", spreadingFactor);
+//    values.put("subChannelNo", subChannelNo);
+//    values.put("userLabel", (userLabel == null ? "" : userLabel));
+
+    values = StructureWithModels.createMapProperties(source);
+
+    return values == null ? Collections.emptyMap() : values;
   }
 
   @Override
-  public String getType() {
-    return null;
+  public Patterns getType() {
+    return Patterns.AICH_TRANSMISSION_TIMING;
   }
+
+  @Override
+  public String toString() {
+    return "crn " + name + "\n" +
+        "administrativeState " + administrativeState + "\n" +
+        "aichPower " + aichPower + "\n" +
+        "aichTransmissionTiming " + aichTransmissionTiming + "\n" +
+        "constantValueCprach " + constantValueCprach + "\n" +
+        "increasedRachCoverageEnabled " + increasedRachCoverageEnabled + "\n" +
+        "maxPreambleCycle " + maxPreambleCycle + "\n" +
+        "nb01Max " + nb01Max + "\n" +
+        "nb01Min " + nb01Min + "\n" +
+        "powerOffsetP0 " + powerOffsetP0 + "\n" +
+        "powerOffsetPpm " + powerOffsetPpm + "\n" +
+        "preambleRetransMax " + preambleRetransMax + "\n" +
+        "preambleSignatures " + preambleSignatures + "\n" +
+        "scramblingCodeWordNo " + scramblingCodeWordNo + "\n" +
+        "spreadingFactor " + spreadingFactor + "\n" +
+        "subChannelNo " + subChannelNo + "\n" +
+        "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
+        "end\n";
+  }
+
+
 }
