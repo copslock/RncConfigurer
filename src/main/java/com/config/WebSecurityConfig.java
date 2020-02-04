@@ -1,10 +1,5 @@
 package com.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.ldap.core.support.LdapContextSource;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,17 +12,6 @@ import org.springframework.ldap.core.support.LdapContextSource;
 //import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 //import org.springframework.security.web.savedrequest.RequestCache;
 //import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.util.StringUtils;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
 
 //@Configuration
 public class WebSecurityConfig {

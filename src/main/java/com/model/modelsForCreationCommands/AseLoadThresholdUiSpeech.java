@@ -1,13 +1,13 @@
 package com.model.modelsForCreationCommands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.model.Rnc;
 import com.model.modelsForCreationCommands.util.CreationCommand;
-import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AseLoadThresholdUiSpeech implements CreationCommand {
 
@@ -1905,7 +1905,7 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     values.put("name", name);
     values.put("cId", String.valueOf(this.cId));
     values.put("LAC", String.valueOf(this.locationAreaRef));
-//    values = StructureWithModels.createMapProperties(source);
+//    values = ModelUtils.createMapProperties(source);
 
     return values;
   }

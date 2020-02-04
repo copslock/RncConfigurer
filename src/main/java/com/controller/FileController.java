@@ -2,7 +2,6 @@ package com.controller;
 
 import com.dao.RncListRepository;
 import com.dao.RncRepository;
-import com.google.gson.Gson;
 import com.model.Rnc;
 import com.model.RncList;
 import com.model.UploadFileResponse;
@@ -25,7 +24,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", exposedHeaders = "Content-Disposition")

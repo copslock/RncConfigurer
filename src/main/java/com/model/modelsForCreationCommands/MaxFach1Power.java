@@ -1,12 +1,10 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
-import com.service.StructureWithModels;
+import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class MaxFach1Power implements CreationCommand {
 
@@ -117,7 +115,7 @@ public class MaxFach1Power implements CreationCommand {
 
   @Override
   public Map<String,String> getValues() {
-    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    Map<String, String> values = ModelUtils.createMapProperties(source);
     return values;
   }
 

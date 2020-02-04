@@ -1,13 +1,11 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.model.modelsForCreationCommands.util.VariableExtractor;
-import com.service.StructureWithModels;
 import com.utils.Patterns;
 
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class BandIndicator implements CreationCommand {
 
@@ -153,7 +151,7 @@ public class BandIndicator implements CreationCommand {
 
   @Override
   public Map<String,String> getValues() {
-    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    Map<String, String> values = ModelUtils.createMapProperties(source);
 
     return values;
   }

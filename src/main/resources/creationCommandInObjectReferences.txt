@@ -32,7 +32,7 @@ EXTERNAL_GSM_CELL_REF
 	selectionPriority: 1
 }
 
-ATM_USER_PLANE_TERM_SUBRACK_REF
+ATM_USER_PLANE_TERM_SUBRACK_REF -
 {
 	name: "RncFunction=1,IubLink=CK0001",
 	administrativeState: 1,
@@ -93,7 +93,7 @@ HS_PATH_LOSS_TRESHOLD
 	hsIflsDownswitch: 1,
 	hsPathlossThreshold: 0,
 	relationCapability: { dchLoadSharing:1,hsCellSelection:0,hsLoadSharing:1,powerSave:0},
-	utranCellRef: { UtranCell:CK0001G},
+	utranCellRef: { UtranCell:CK0001G}
 }
 
 EU_DCH_BALANCING_ENABLED

@@ -1,13 +1,11 @@
 package com.model.modelsForCreationCommands;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.model.modelsForCreationCommands.util.VariableExtractor;
-import com.service.StructureWithModels;
 import com.utils.Patterns;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -365,7 +363,7 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
   @Override
   public Map<String,String> getValues() {
     Map<String,String> values;
-    values = StructureWithModels.createMapProperties(source);
+    values = ModelUtils.createMapProperties(source);
 
     return values;
   }

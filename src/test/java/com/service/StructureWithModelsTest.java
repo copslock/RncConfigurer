@@ -1,16 +1,5 @@
 package com.service;
 
-import com.model.modelsForCreationCommands.util.CreationCommand;
-import com.model.modelsForCreationCommands.util.CreationCommandFabric;
-import com.utils.Patterns;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.stream.Collectors;
-
 /*
 public class StructureWithModelsTest {
 

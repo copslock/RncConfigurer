@@ -1,7 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
-import com.service.StructureWithModels;
+import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
 import java.util.Map;
@@ -76,7 +76,7 @@ public class BarredCnOperatorRef implements CreationCommand {
 
   @Override
   public Map<String, String> getValues() {
-    Map<String, String> values = StructureWithModels.createMapProperties(source);
+    Map<String, String> values = ModelUtils.createMapProperties(source);
 
     return values;
   }

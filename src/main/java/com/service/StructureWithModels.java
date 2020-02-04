@@ -1,6 +1,6 @@
 package com.service;
 
-import com.model.modelsForCreationCommands.AseLoadThresholdUiSpeech;
+import com.model.modelsForCreationCommands.*;
 import com.model.modelsForCreationCommands.util.CreationCommand;
 import com.model.modelsForCreationCommands.util.CreationCommandFabric;
 import com.model.rncInformationTypes.*;
@@ -8,12 +8,16 @@ import com.utils.Patterns;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -23,8 +27,16 @@ public class StructureWithModels {
   private static final Logger LOG = LogManager.getLogger(StructureWithModels.class);
   private static boolean isHeaderExist = false;
 
+  private static final String OLD_ORIGINAL_FILE_OF_COMMANDS = "/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/undo_KIER7_200126-183751.mos";
+
   private static final String ORIGINAL_FILE_OF_COMMANDS = "/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/undo_KIER7_200126-183751.mos";
   private static final String FILE_OF_COMMANDS_WITH_MARKERS = "/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/undo_KIER7_200126-183751_div.mos";
+
+
+  private static final String UTRAN_REl_FILE = "src/main/resources/resultFiles/utran_rel_CH0006.mos";
+  private static final String GSM_REL_FILE = "src/main/resources/resultFiles/gsm_rel_CH0006.mos";
+  private static final String EUTRAN_REL_FILE = "src/main/resources/resultFiles/Eutran_rel_CH0006.mos";
+  private static final String IUB_CELL_FILE = "src/main/resources/resultFiles/iub_cell_CH0006.mos";
 
   public static void main(String[] args) throws IOException {
 
@@ -45,11 +57,84 @@ public class StructureWithModels {
 
     List<CreationCommand> creationCommands = parser.extractCreationCommands(ORIGINAL_FILE_OF_COMMANDS);
 
+    parser.placeByFiles(creationCommands);
+
+  }
+
+
+  public boolean placeByFiles(List<CreationCommand> creationCommands) {
+
+    validateFiles();
+
     for (CreationCommand creationCommand : creationCommands) {
-      System.out.println(creationCommand);
+      if(creationCommand instanceof HcsSid11Config) {
+        writeToFile(creationCommand, UTRAN_REl_FILE);
+        continue;
+      }
+
+      if(creationCommand instanceof ExternalGsmCellRef) {
+        writeToFile(creationCommand, GSM_REL_FILE);
+        continue;
+      }
+
+      if(creationCommand instanceof BarredCnOperatorRef || creationCommand instanceof ExternalEutranCellRef) {
+        writeToFile(creationCommand, EUTRAN_REL_FILE);
+        continue;
+      }
+
+      if(!(creationCommand instanceof HsPathLossTreshold) && !(creationCommand instanceof BandIndicator)) {
+        writeToFile(creationCommand, IUB_CELL_FILE);
+      }
     }
 
-    System.out.println("\n " + creationCommands.size());
+    return true;
+  }
+
+  private void validateFiles() {
+
+    try {
+      if (Paths.get(IUB_CELL_FILE).toFile().exists()) {
+        Path path = Paths.get(IUB_CELL_FILE);
+        Files.delete(path);
+      }
+
+      if (Paths.get(GSM_REL_FILE).toFile().exists()) {
+        Path path = Paths.get(GSM_REL_FILE);
+        Files.delete(path);
+      }
+
+      if (Paths.get(UTRAN_REl_FILE).toFile().exists()) {
+        Path path = Paths.get(UTRAN_REl_FILE);
+        Files.delete(path);
+      }
+
+      if (Paths.get(EUTRAN_REL_FILE).toFile().exists()) {
+        Path path = Paths.get(EUTRAN_REL_FILE);
+        Files.delete(path);
+      }
+    } catch (IOException e) {
+      LOG.error("can't delete file", e);
+    }
+
+  }
+
+  private void writeToFile(CreationCommand creationCommand, String fileName) {
+    if(!Paths.get(fileName).toFile().exists()) {
+      try {
+        Path path = Paths.get(fileName);
+        Files.createFile(path);
+      } catch (IOException e) {
+        LOG.error("can't create new File becouse ", e);
+        return;
+      }
+    }
+
+    try {
+      Files.write(Paths.get(fileName), creationCommand.toString().getBytes(), StandardOpenOption.APPEND);
+      Files.write(Paths.get(fileName), "\n".getBytes(), StandardOpenOption.APPEND);
+    } catch (IOException e) {
+      LOG.error("can't write objects to File ", e);
+    }
 
   }
 
@@ -253,62 +338,6 @@ public class StructureWithModels {
     return true;
   }
 
-  public static Map<String, String> createMapProperties(String[] creationCommand) {
-    Map<String, String> props = new LinkedHashMap<>();
 
-    for (String s : creationCommand) {
-
-      if(s.matches("#DoNotEditThisLine:[\\w\\s-./=]+")) {
-        String key = s.split(" ")[0];
-        props.put(key, s.replace(key+" ", ""));
-        continue;
-      }
-
-      if(s.matches("lset\\s(\\w+=\\w+,)+(\\w+=\\w+)+[\\w\\s\\n$]+")) {
-
-        props.put(s, "");
-        continue;
-      }
-
-      if(s.matches("crn[\\w\\s-=,\\n\\.]+")) {
-        props.put("crn", s.replace("crn ", ""));
-        continue;
-      }
-
-      if(s.matches("\\w+\\s+[\\w-]*")) {
-        String[] keyValue = s.split(" ");
-        props.put(s.split(" ")[0], keyValue.length >= 2 ? keyValue[1] : "");
-        continue;
-      }
-      if(s.matches("\\w+\\s\\w+[=\\d\\s,]+(\\w+=\\w+,)+(\\w+=\\w+)+")) {
-        String key = s.split(" ")[0];
-        props.put(key, s.replace(key+" ", ""));
-        continue;
-      }
-
-
-      if(s.matches("\\w+\\s+(\\w+=\\w+,)+[\\w=,-]+\\s?(#SystemCreated)?")) {
-        String[] keyValue = s.split(" ");
-        String systemProp = keyValue.length >= 3 ? keyValue[2] : "";
-        props.put(s.split(" ")[0], keyValue[1] + " " +systemProp);
-        continue;
-      }
-
-      if(s.matches("\\w+\\s+(\\d+,)+(\\d+)+")) {
-        String[] keyValue = s.split(" ");
-        props.put(s.split(" ")[0], keyValue[1]);
-        continue;
-      }
-
-      if(s.matches("\\w+\\s\\w+=\\w+")) {
-        String[] keyValue = s.split(" ");
-        props.put(s.split(" ")[0], keyValue[1]);
-        continue;
-      }
-
-    }
-
-    return props;
-  }
 
 }

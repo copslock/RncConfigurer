@@ -1,9 +1,5 @@
 package com.service;
 
-import com.model.modelsForCreationCommands.AseLoadThresholdUiSpeech;
-import com.model.modelsForCreationCommands.util.CreationCommand;
-import com.utils.Patterns;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

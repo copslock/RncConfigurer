@@ -1,19 +1,11 @@
 package com;
 
-import com.model.modelsForCreationCommands.util.CreationCommand;
-import com.model.modelsForCreationCommands.util.CreationCommandFabric;
-import com.service.StructureWithModels;
-import com.utils.Patterns;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Replacevalues {

@@ -2,7 +2,6 @@ package com.service;
 
 import com.dao.RncRepository;
 import com.model.Rnc;
-import com.utils.SshUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class RncParseAndSave {

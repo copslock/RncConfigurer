@@ -1,11 +1,12 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.model.modelsForCreationCommands.util.VariableExtractor;
-import com.service.StructureWithModels;
 import com.utils.Patterns;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
 
 public class AichTransmissionTiming implements CreationCommand {
 
@@ -235,7 +236,7 @@ public class AichTransmissionTiming implements CreationCommand {
 //    values.put("subChannelNo", subChannelNo);
 //    values.put("userLabel", (userLabel == null ? "" : userLabel));
 
-    values = StructureWithModels.createMapProperties(source);
+    values = ModelUtils.createMapProperties(source);
 
     return values == null ? Collections.emptyMap() : values;
   }
