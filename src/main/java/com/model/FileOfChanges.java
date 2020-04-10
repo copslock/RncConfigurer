@@ -1,17 +1,8 @@
 package com.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-@Entity
-public class Rnc {
+public class FileOfChanges {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
-  private long table_id;
   private String Rehom_Order;
   private String BSC;
   private String Site;
@@ -23,12 +14,16 @@ public class Rnc {
   private String New_Bsc;
   private String New_LAC;
   private String New_Ci;
+  private String New_Ura;
+  private String New_RBSID_1;
+  private String New_RBSID_2;
 
-  public Rnc() {
+  public FileOfChanges() {
   }
 
-  public Rnc(long table_id, String rehom_Order, String BSC, String site, String cell, String LON, String LAT, String LAC, String CI, String new_Bsc, String new_LAC, String new_Ci) {
-    this.table_id = table_id;
+  public FileOfChanges(long table_id, String rehom_Order, String BSC, String site,
+                       String cell, String LON, String LAT, String LAC, String CI,
+                       String new_Bsc, String new_LAC, String new_Ci, String new_Ura, String new_RBSID_1, String new_RBSID_2) {
     this.Rehom_Order = rehom_Order;
     this.BSC = BSC;
     this.Site = site;
@@ -40,22 +35,27 @@ public class Rnc {
     this.New_Bsc = new_Bsc;
     this.New_LAC = new_LAC;
     this.New_Ci = new_Ci;
+    this.New_Ura = new_Ura;
+    this.New_RBSID_1 = new_RBSID_1;
+    this.New_RBSID_2 = new_RBSID_2;
   }
 
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public long getTable_id() {
-    return table_id;
-  }
-
-  public void setTable_id(long table_id) {
-    this.table_id = table_id;
+  public FileOfChanges(String entity) {
+    String[] split = entity.split(",");
+    this.Rehom_Order = split[0];
+    this.BSC = split[1];
+    this.Site = split[2];
+    this.Cell = split[3];
+    this.LON = split[4];
+    this.LAT = split[5];
+    this.LAC = split[6];
+    this.CI = split[7];
+    this.New_Bsc = split[8];
+    this.New_LAC = split[9];
+    this.New_Ci = split[10];
+    this.New_Ura = split[11];
+    this.New_RBSID_1 = split[12];
+    this.New_RBSID_2 = split[13];
   }
 
   public String getRehom_Order() {
@@ -146,11 +146,33 @@ public class Rnc {
     New_Ci = new_Ci;
   }
 
+  public String getNew_Ura() {
+    return New_Ura;
+  }
+
+  public void setNew_Ura(String new_Ura) {
+    New_Ura = new_Ura;
+  }
+
+  public String getNew_RBSID_1() {
+    return New_RBSID_1;
+  }
+
+  public void setNew_RBSID_1(String new_RBSID_1) {
+    New_RBSID_1 = new_RBSID_1;
+  }
+
+  public String getNew_RBSID_2() {
+    return New_RBSID_2;
+  }
+
+  public void setNew_RBSID_2(String new_RBSID_2) {
+    New_RBSID_2 = new_RBSID_2;
+  }
+
   @Override
   public String toString() {
     return "Rnc{" +
-        "id=" + id +
-        ", table_id=" + table_id +
         ", Rehom_Order='" + Rehom_Order + '\'' +
         ", BSC='" + BSC + '\'' +
         ", Site='" + Site + '\'' +
@@ -162,6 +184,9 @@ public class Rnc {
         ", New_Bsc='" + New_Bsc + '\'' +
         ", New_LAC='" + New_LAC + '\'' +
         ", New_Ci='" + New_Ci + '\'' +
+        ", New_Ura='" + New_Ura + '\'' +
+        ", New_RSBSD_1='" + New_RBSID_1 + '\'' +
+        ", New_RSBSD_2='" + New_RBSID_2 + '\'' +
         '}';
   }
 }

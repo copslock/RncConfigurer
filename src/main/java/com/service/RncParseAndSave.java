@@ -1,20 +1,18 @@
 package com.service;
 
-import com.dao.RncRepository;
-import com.model.Rnc;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+//import com.dao.RncRepository;
+import com.model.FileOfChanges;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-@Service
+//@Service
 public class RncParseAndSave {
 
-  @Autowired
-  RncRepository repository;
+//  @Autowired
+//  RncRepository repository;
 
   public boolean parseAndSave(String filename) {
 
@@ -38,9 +36,10 @@ public class RncParseAndSave {
        }
        String[] split = string.split(",");
 
-       Rnc rnc = new Rnc(id++, split[0], split[1], split[2], split[3], split[4], split[5], split[6], split[7], split[8], split[9], split[10]);
+       FileOfChanges rnc = new FileOfChanges(id++, split[0], split[1], split[2], split[3], split[4],
+               split[5], split[6], split[7], split[8], split[9], split[10], split[11], split[12], split[13]);
 
-       repository.save(rnc);
+//       repository.save(rnc);
      }
 
    } catch (IOException e) {

@@ -13,4 +13,8 @@ public interface CreationCommand {
   Map<String, String> getValues();
 
   Patterns getType();
+
+  default String getIubLink() {
+    return "";
+  }
 }

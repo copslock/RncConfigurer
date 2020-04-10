@@ -185,6 +185,7 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
    */
 
   private String name;
+  private String iubLink;
   private AbsPrioCellResBean absPrioCellRes;
   private AdmBlockRedirectionBean admBlockRedirection;
   private int administrativeState;
@@ -362,6 +363,7 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
   public AseLoadThresholdUiSpeech(String[] source) throws IOException {
     this.source = source;
     name = source[0];
+    iubLink = source[0].split(",")[1];
     absPrioCellRes = source[1].split("\\s").length == 2 ? new AbsPrioCellResBean(source[1].split("\\s")[1].split(",")) : null;
     accessClassNBarred = source[2].split("\\s").length == 2 ? new ObjectMapper().readValue("["+source[2].split("\\s")[1]+"]", List.class) : null;
     accessClassesBarredCs = source[3].split("\\s").length == 2 ? new ObjectMapper().readValue("["+source[3].split("\\s")[1]+"]", List.class) : null;
@@ -533,12 +535,22 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     utranCellPosition = source[169].split("\\s").length == 2 ? source[169].split("\\s")[1] : null;
   }
 
+  @Override
   public String getName() {
     return name;
   }
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Override
+  public String getIubLink() {
+    return iubLink;
+  }
+
+  public void setIubLink(String iubLink) {
+    this.iubLink = iubLink;
   }
 
   public AbsPrioCellResBean getAbsPrioCellRes() {

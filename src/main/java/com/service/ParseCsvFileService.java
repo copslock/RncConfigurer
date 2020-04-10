@@ -1,6 +1,9 @@
 package com.service;
 
+import com.model.FileOfChanges;
+import com.model.RncModification;
 import com.opencsv.CSVReader;
+import com.utils.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -9,7 +12,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ParseCsvFileService {
@@ -51,10 +56,10 @@ public class ParseCsvFileService {
     List<Map<String, String>> lines = new ArrayList<>();
     String csvFile;
     int id = 1;
-    if(null == fileName || fileName.isEmpty() || isValidateFileName(fileName)) {
-      csvFile = "/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources//RncMaximoTable1.csv";
+    if(null == fileName || fileName.isEmpty() || !isValidateFileName(fileName)) {
+      csvFile = Constants.TEST_FILE_OF_CHANGES1;
     } else {
-      csvFile = "/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/" + fileName;
+      csvFile = fileName;
     }
 
     CSVReader reader = null;
@@ -68,7 +73,7 @@ public class ParseCsvFileService {
       while ((line = reader.readNext()) != null) {
         Map<String, String> values = new TreeMap<>();
         if(line.length > 0) {
-          for (int i = 0; i < headers.size(); i++) {
+          for (int i = 0; i < line.length; i++) {
             values.put(headers.get(i), line[i]);
           }
         }
@@ -83,6 +88,37 @@ public class ParseCsvFileService {
     }
 
     return  lines;
+  }
+
+  public List<RncModification> getAllFileChanges(String fileName) {
+    List<RncModification> modifications = new ArrayList<>();
+    List<FileOfChanges> lines = new ArrayList<>();
+
+    try {
+
+      List<String> strings = Files.readAllLines(Paths.get(fileName));
+      strings.remove(0);
+      Set<String> rncNames = strings.stream().map(e -> e.split(",")[2]).collect(Collectors.toSet());
+
+      for (String rncName : rncNames) {
+
+        for (String string : strings) {
+          if(string.contains(rncName)) {
+            lines.add(new FileOfChanges(string));
+          }
+        }
+
+        RncModification rncModification = new RncModification(lines);
+        modifications.add(rncModification);
+        lines.clear();
+      }
+
+
+    } catch (IOException e) {
+      LOG.error("something went wrong ", e);
+    }
+
+    return modifications;
   }
 
   public Set<String> checkedFields(String ... columns) {
@@ -102,8 +138,8 @@ public class ParseCsvFileService {
 
   private boolean isValidateFileName(String file) {
 
-    if(Files.exists(new File("/home/atian/Documents/uploads/" + file).toPath())) {
-      return false;
+    if(new File(file).exists()) {
+      return true;
     }
 
     return false;

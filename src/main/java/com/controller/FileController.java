@@ -1,21 +1,19 @@
 package com.controller;
 
-import com.dao.RncListRepository;
-import com.dao.RncRepository;
-import com.model.Rnc;
-import com.model.RncList;
+//import com.dao.RncListRepository;
+//import com.dao.RncRepository;
 import com.model.UploadFileResponse;
 import com.model.modelsForCreationCommands.util.CreationCommand;
 import com.service.FileStorageService;
 import com.service.ParseCsvFileService;
 import com.service.RncParseAndSave;
-import com.service.StructureWithModels;
+import com.service.CreationCommandsOperationService;
+import com.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", exposedHeaders = "Content-Disposition")
@@ -41,24 +36,24 @@ public class FileController {
   private FileStorageService fileStorageService;
   private ParseCsvFileService parseCsvFile;
   private RncParseAndSave rncParseAndSave;
-  private RncRepository entityRepository;
-  private RncListRepository rncRepo;
-  private StructureWithModels parser;
+//  private RncRepository entityRepository;
+//  private RncListRepository rncRepo;
+  private CreationCommandsOperationService parser;
 
   @Autowired
   public FileController(
-      FileStorageService fileStorageService,
-      ParseCsvFileService parseCsvFile,
-      RncParseAndSave rncParseAndSave,
-      RncRepository entityRepository,
-      RncListRepository rncRepo,
-      StructureWithModels parser
+          FileStorageService fileStorageService,
+          ParseCsvFileService parseCsvFile,
+//      RncParseAndSave rncParseAndSave,
+//      RncRepository entityRepository,
+//      RncListRepository rncRepo,
+          CreationCommandsOperationService parser
   ) {
     this.fileStorageService = fileStorageService;
     this.parseCsvFile = parseCsvFile;
-    this.rncParseAndSave = rncParseAndSave;
-    this.entityRepository = entityRepository;
-    this.rncRepo = rncRepo;
+//    this.rncParseAndSave = rncParseAndSave;
+//    this.entityRepository = entityRepository;
+//    this.rncRepo = rncRepo;
     this.parser = parser;
   }
 
@@ -72,11 +67,13 @@ public class FileController {
         .path(fileName)
         .toUriString();
 
-    rncParseAndSave.parseAndSave(fileName);
-    Map<String,List<String>> validation = fileStorageService.checkRncExisting(fileName);
+//    rncParseAndSave.parseAndSave(fileName);
+//    Map<String,List<String>> validation = fileStorageService.checkRncExisting(fileName);
 
+//    return new UploadFileResponse(fileName, fileDownloadUri,
+//        file.getContentType(), file.getSize(), validation);
     return new UploadFileResponse(fileName, fileDownloadUri,
-        file.getContentType(), file.getSize(), validation);
+        file.getContentType(), file.getSize(), Collections.emptyMap());
   }
 
   @GetMapping("/fileMap")
@@ -134,35 +131,35 @@ public class FileController {
     return parseCsvFile.readMapCsv(id);
   }
 
-  @PostMapping(path="/repo/add")
-  public @ResponseBody String addNewUser (@RequestBody Rnc entity) {
+//  @PostMapping(path="/repo/add")
+//  public @ResponseBody String addNewUser (@RequestBody Rnc entity) {
+//
+//    entityRepository.save(entity);
+//    return "Saved";
+//  }
 
-    entityRepository.save(entity);
-    return "Saved";
-  }
+//  @GetMapping(path="/repo/all")
+//  public @ResponseBody Iterable<Rnc> getAllUsers() {
+//
+//    return entityRepository.findAll();
+//  }
 
-  @GetMapping(path="/repo/all")
-  public @ResponseBody Iterable<Rnc> getAllUsers() {
+//  @PostMapping("/repo/save")
+//  public HttpStatus addNewRnc(@RequestBody RncList rnc) {
+//
+//    rncRepo.save(rnc);
+//
+//    return HttpStatus.OK;
+//  }
 
-    return entityRepository.findAll();
-  }
-
-  @PostMapping("/repo/save")
-  public HttpStatus addNewRnc(@RequestBody RncList rnc) {
-
-    rncRepo.save(rnc);
-
-    return HttpStatus.OK;
-  }
-
-  @GetMapping("/repo/check/{id}")
-  public boolean checkRnc(@PathVariable("id") int id) {
-    if(rncRepo.existsById(id)) {
-      return true;
-    }
-
-    return false;
-  }
+//  @GetMapping("/repo/check/{id}")
+//  public boolean checkRnc(@PathVariable("id") int id) {
+//    if(rncRepo.existsById(id)) {
+//      return true;
+//    }
+//
+//    return false;
+//  }
 
   @GetMapping("/modifyFile/{filename}")
   public List<List<Map<String, String>>> preformModification(@PathVariable("filename") String fileOfChanges) {
@@ -171,7 +168,7 @@ public class FileController {
 
     List<List<Map<String, String>>> listChangesAndListResults = new ArrayList<>();
 
-    List<CreationCommand> creationCommands = parser.performModification(fileOfChanges);
+    List<CreationCommand> creationCommands = parser.performModification(fileOfChanges, Constants.TEST_FILE_OF_COMMANDS1);
     List<CreationCommand> creationCommandsBefore = parser.prepareObjectsToChange(parser.extractCreationCommands("/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/undo_KIER7_191118-105157.mos"), parser.extractRehomeInformation("RncMaximoTable1.csv"));
 
     List<Map<String, String>> valuesBefore = new ArrayList<>();

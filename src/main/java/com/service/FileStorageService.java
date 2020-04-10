@@ -1,6 +1,6 @@
 package com.service;
 
-import com.dao.RncListRepository;
+//import com.dao.RncListRepository;
 import com.exceptions.FileStorageException;
 import com.exceptions.MyFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,8 @@ import java.util.*;
 @Service
 public class FileStorageService {
 
-  @Autowired
-  private RncListRepository rncRepository;
+//  @Autowired
+//  private RncListRepository rncRepository;
 
   @Autowired
   private ParseCsvFileService service;
@@ -45,24 +45,24 @@ public class FileStorageService {
     }
   }
 
-  public Map<String,List<String>> checkRncExisting(String fileName) {
-    Set<String> rncNames = service.checkedFields(fileName, "BSC", "New BSC");
-    Map<String,List<String>> notFinedRnc = new HashMap<>();
-    notFinedRnc.put("rnc", new ArrayList<>());
-
-    for (String rncName : rncNames) {
-      if(rncRepository.findByName(rncName).isEmpty()) {
-        notFinedRnc.get("rnc").add(rncName);
-      }
-    }
-
-    if(!notFinedRnc.get("rnc").isEmpty()) {
-      notFinedRnc.put("isValid", Arrays.asList("false"));
-      return  notFinedRnc;
-    }
-    notFinedRnc.put("isValid", Arrays.asList("true"));
-    return  notFinedRnc;
-  }
+//  public Map<String,List<String>> checkRncExisting(String fileName) {
+//    Set<String> rncNames = service.checkedFields(fileName, "BSC", "New BSC");
+//    Map<String,List<String>> notFinedRnc = new HashMap<>();
+//    notFinedRnc.put("rnc", new ArrayList<>());
+//
+//    for (String rncName : rncNames) {
+//      if(rncRepository.findByName(rncName).isEmpty()) {
+//        notFinedRnc.get("rnc").add(rncName);
+//      }
+//    }
+//
+//    if(!notFinedRnc.get("rnc").isEmpty()) {
+//      notFinedRnc.put("isValid", Arrays.asList("false"));
+//      return  notFinedRnc;
+//    }
+//    notFinedRnc.put("isValid", Arrays.asList("true"));
+//    return  notFinedRnc;
+//  }
 
   public String storeFile(MultipartFile file) {
     // Normalize file name

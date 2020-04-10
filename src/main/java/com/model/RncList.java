@@ -1,12 +1,12 @@
 package com.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+//import javax.persistence.Entity;
+//import javax.persistence.Id;
 
-@Entity
+//@Entity
 public class RncList {
 
-  @Id
+//  @Id
   private int rncId;
   private String name;
   private String ntp17;

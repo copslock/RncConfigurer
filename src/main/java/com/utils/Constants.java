@@ -1,5 +1,7 @@
 package com.utils;
 
+import java.util.Objects;
+
 public class Constants {
     public static final String configString = "=================================================================================================================\n" +
             "119458                               RncFunction=1,UtranCell=CK2019A\n" +
@@ -91,4 +93,37 @@ public class Constants {
         "userPlaneTransportOption             Struct{2}\n" +
         " >>> 1.atm = 0 (FALSE)\n" +
         " >>> 2.ipv4 = 1 (TRUE)";
+
+    public static final ClassLoader classLoader = Constants.class.getClassLoader();
+
+    public static final String OLD_ORIGINAL_FILE_OF_COMMANDS = Objects.requireNonNull(classLoader.getResource("undo_KIER7_200126-183751.mos")).getFile();
+
+    public static final String ORIGINAL_FILE_OF_COMMANDS = Objects.requireNonNull(classLoader.getResource("undo_KIER7_191118-105157.mos")).getFile();
+    public static final String FILE_OF_COMMANDS_WITH_MARKERS = Objects.requireNonNull(classLoader.getResource("undo_KIER7_200126-183751_div.mos")).getFile();
+
+    public static final String TEST_FILE_OF_COMMANDS1 = Objects.requireNonNull(classLoader.getResource("undo_KIER7_200126-183751.mos")).getFile();
+    public static final String TEST_FILE_OF_COMMANDS2 = Objects.requireNonNull(classLoader.getResource("undo_KIER7_200226-150547.mos")).getFile();
+    public static final String TEST_FILE_OF_COMMANDS3 = Objects.requireNonNull(classLoader.getResource("undo_KIER7_200226-152555.mos")).getFile();
+
+    public static final String TEST_FILE_OF_COMMANDS4 = Objects.requireNonNull(classLoader.getResource("undo_KIER3_200409-161332.mos")).getFile();
+    public static final String TEST_FILE_OF_COMMANDS5 = Objects.requireNonNull(classLoader.getResource("undo_KIER3_200409-162849.mos")).getFile();
+
+    public static final String TEST_FILE_OF_CHANGES1 = Objects.requireNonNull(classLoader.getResource("RncMaximoTable1.csv")).getFile();
+    public static final String TEST_FILE_OF_CHANGES2 = Objects.requireNonNull(classLoader.getResource("RncMaximoTable2.csv")).getFile();
+    public static final String TEST_FILE_OF_CHANGES3 = Objects.requireNonNull(classLoader.getResource("RncMaximoTable3.csv")).getFile();
+
+    public static final String RESULT_FILES = "src/main/resources/resultFiles/";
+    public static final String UTRAN_REl = "utran_rel.mos";
+    public static final String GSM_REL = "gsm_rel.mos";
+    public static final String EUTRAN = "Eutran_rel.mos";
+    public static final String IUB_CELL = "iub_cell.mos";
+
+    public static final String SITES_NEIGHBORS_FILE = "src/main/resources/resultFiles/";
+    public static final String SITES_NEIGHBORS = "sites_neighbors.mos";
+    public static final String SITES_AND_NEIGHBORS_FILE = "src/main/resources/resultFiles/";
+    public static final String SITES_AND_NEIGHBORS = "sites_and_neighbors.mos";
+    public static final String LAC_RAC_URA = "LAC_RAC_URA.txt";
+
+    public static final String CREATION_COMMANDS_DIRECTORY = "src/main/resources/rncCreationCommands/";
+    public static final String FILES_OF_CHANGES_DIRECTORY = "src/main/resources/rncCreationCommands/";
 }

@@ -46,6 +46,7 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
    */
 
   private String name;
+  private String iubLink;
   private int administrativeState;
   private String atmUserPlaneTermSubrackRef;
   private ControlPlaneTransportOptionBean controlPlaneTransportOption;
@@ -84,6 +85,7 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
   public AtmUserPlaneTermSubrackRef(String[] source) throws IOException {
     this.source = source;
     name = source[i++];
+    iubLink = source[0].split(",")[1];
     administrativeState = VariableExtractor.extractInteger(source[i++]);
     atmUserPlaneTermSubrackRef = VariableExtractor.extractString(source[i++]);
     controlPlaneTransportOption = source[i].split("\\s").length == 2 ? new ControlPlaneTransportOptionBean(source[i++].split("\\s")[1].split(",")) : null;
@@ -121,6 +123,15 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Override
+  public String getIubLink() {
+    return iubLink;
+  }
+
+  public void setIubLink(String iubLink) {
+    this.iubLink = iubLink;
   }
 
   public int getAdministrativeState() {

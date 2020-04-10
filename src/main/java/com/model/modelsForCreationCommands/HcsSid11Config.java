@@ -42,7 +42,7 @@ public class HcsSid11Config implements CreationCommand {
     qOffset1sn = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
     qOffset2sn = source[5].split("\\s").length == 2 ? Integer.parseInt(source[5].split("\\s")[1]) : null;
     selectionPriority = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
-    utranCellRef = source[7].split("\\s").length == 2 ? new UtranCellRefBean(source[7].split("\\s")[1].split("=")[1]) : null;
+    utranCellRef = source[7].split("\\s").length == 2 ? new UtranCellRefBean(source[7].split("\\s")[1].split("=")) : null;
   }
 
   public String getName() {
@@ -193,7 +193,7 @@ public class HcsSid11Config implements CreationCommand {
 
     @Override
     public String toString() {
-      return "hcsPrio=" + hcsPrio + ",qHcs=" + qHcs + ",penaltyTime=" + penaltyTime + ",temporaryOffset1=" + temporaryOffset1 + ",temporaryOffset2=" + temporaryOffset2;
+      return "hcsPrio=" + hcsPrio + ",qHcs=" + qHcs + ",penaltyTime=" + penaltyTime + ",temporaryOffset2=" + temporaryOffset2 + ",temporaryOffset1=" + temporaryOffset1;
     }
   }
 
@@ -202,13 +202,21 @@ public class HcsSid11Config implements CreationCommand {
      * UtranCell : CK0001K
      */
 
+    private String prefix;
     private String UtranCell;
 
     public UtranCellRefBean() {
     }
 
-    public UtranCellRefBean(String source) {
-      UtranCell = source;
+    public UtranCellRefBean(String[] source) {
+      if(source[0].contains("IurLink")) {
+        prefix = "IurLink=";
+        UtranCell = source[1] + "=" + source[2];
+      } else {
+        prefix = "UtranCell=";
+        UtranCell = source[1];
+      }
+
     }
 
     public String getUtranCell() {
@@ -221,7 +229,7 @@ public class HcsSid11Config implements CreationCommand {
 
     @Override
     public String toString() {
-      return "UtranCell=" + UtranCell;
+      return prefix + UtranCell;
     }
   }
 

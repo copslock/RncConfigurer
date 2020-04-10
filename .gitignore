@@ -4,3 +4,8 @@ build
 out
 ssh.properties
 resultFiles
+filesOfChanges
+rncCreationCommands
+oldFiles
+*.mos
+*.csv

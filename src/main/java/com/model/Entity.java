@@ -1,14 +1,14 @@
 package com.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
+//import javax.persistence.Id;
 
-@javax.persistence.Entity
+//@javax.persistence.Entity
 public class Entity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+//  @Id
+//  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
   private String name;
