@@ -2,13 +2,13 @@ package com.controller;
 
 //import com.dao.RncListRepository;
 //import com.dao.RncRepository;
-import com.model.UploadFileResponse;
-import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.responses.Response;
+import com.responses.UploadFileException;
+import com.responses.UploadFileResponse;
 import com.service.FileStorageService;
 import com.service.ParseCsvFileService;
 import com.service.RncParseAndSave;
 import com.service.CreationCommandsOperationService;
-import com.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", exposedHeaders = "Content-Disposition")
+@CrossOrigin(origins = "http://localhost:4200", exposedHeaders = "Content-Disposition")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/rnc-maximo-table")
 public class FileController {
 
   private static final Logger logger = LoggerFactory.getLogger(FileController.class);
@@ -36,55 +36,46 @@ public class FileController {
   private FileStorageService fileStorageService;
   private ParseCsvFileService parseCsvFile;
   private RncParseAndSave rncParseAndSave;
-//  private RncRepository entityRepository;
-//  private RncListRepository rncRepo;
   private CreationCommandsOperationService parser;
 
   @Autowired
   public FileController(
           FileStorageService fileStorageService,
           ParseCsvFileService parseCsvFile,
-//      RncParseAndSave rncParseAndSave,
-//      RncRepository entityRepository,
-//      RncListRepository rncRepo,
           CreationCommandsOperationService parser
   ) {
     this.fileStorageService = fileStorageService;
     this.parseCsvFile = parseCsvFile;
-//    this.rncParseAndSave = rncParseAndSave;
-//    this.entityRepository = entityRepository;
-//    this.rncRepo = rncRepo;
     this.parser = parser;
   }
 
-  @PostMapping("/uploadFile")
-  public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
+  @PostMapping("/upload")
+  public Response uploadRncMaximoTable(@RequestParam("file") MultipartFile file) {
+    if(!fileStorageService.validateFile(file)) {
+      return new UploadFileException("validation is unsuccessfully");
+    }
+
     String fileName = fileStorageService.storeFile(file);
 
     FileController.lastFileName = fileName;
     String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-        .path("/downloadFile/")
+        .path("/fileOfChanges/")
         .path(fileName)
         .toUriString();
 
-//    rncParseAndSave.parseAndSave(fileName);
-//    Map<String,List<String>> validation = fileStorageService.checkRncExisting(fileName);
-
-//    return new UploadFileResponse(fileName, fileDownloadUri,
-//        file.getContentType(), file.getSize(), validation);
     return new UploadFileResponse(fileName, fileDownloadUri,
         file.getContentType(), file.getSize(), Collections.emptyMap());
   }
 
-  @GetMapping("/fileMap")
-  public List<Map<String, String>> getFileMapName() {
+  @GetMapping("/{id}")
+  public List<Map<String, String>> getRncMaximoTable(@PathVariable("id") String id) {
     return parseCsvFile.readMapCsv(FileController.lastFileName);
   }
 
   @PostMapping(path = "/uploadMultipleFiles")
-  public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+  public List<Response> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
     return Arrays.stream(files)
-        .map(this::uploadFile)
+        .map(this::uploadRncMaximoTable)
         .collect(Collectors.toList());
   }
 
@@ -94,11 +85,11 @@ public class FileController {
     Resource resource = fileStorageService.loadFileAsResource(fileName);
 
     String contentType = null;
-    try {
-      contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-    } catch (IOException ex) {
-      logger.info("Could not determine file type.");
-    }
+//    try {
+//      contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+//    } catch (IOException ex) {
+//      logger.info("Could not determine file type.");
+//    }
 
     if(contentType == null) {
       contentType = "application/octet-stream";
@@ -110,20 +101,11 @@ public class FileController {
         .body(resource);
   }
 
-  @GetMapping("/downloadStrings")
-  public List<List<String>> downloadcsv() {
-    return parseCsvFile.readCsv(null);
-  }
 
   @GetMapping("/fileNames")
   public List<String> getFileNames() {
-    List<String> fileNames = Arrays.asList("RncMaximoTable.csv", "RncMaximoTable1.csv", "RncMaximoTable2.csv");
+    List<String> fileNames = Arrays.asList("RncMaximoTable.csv", "filesOfChanges/RncMaximoTable1.csv", "RncMaximoTable2.csv");
     return fileNames;
-  }
-
-  @GetMapping("/file/{id}")
-  public List<List<String>> getFileNames(@PathVariable String id) {
-    return parseCsvFile.readCsv(id);
   }
 
   @GetMapping("/fileMap/{id}")
@@ -161,6 +143,8 @@ public class FileController {
 //    return false;
 //  }
 
+  /*
+  // TODO its code is important
   @GetMapping("/modifyFile/{filename}")
   public List<List<Map<String, String>>> preformModification(@PathVariable("filename") String fileOfChanges) {
 
@@ -168,11 +152,7 @@ public class FileController {
 
     List<List<Map<String, String>>> listChangesAndListResults = new ArrayList<>();
 
-    List<CreationCommand> creationCommands = parser.performModification(fileOfChanges, Constants.TEST_FILE_OF_COMMANDS1);
-    List<CreationCommand> creationCommandsBefore = parser.prepareObjectsToChange(parser.extractCreationCommands("/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/undo_KIER7_191118-105157.mos"), parser.extractRehomeInformation("RncMaximoTable1.csv"));
-
-    List<Map<String, String>> valuesBefore = new ArrayList<>();
-    List<Map<String, String>> valuesAfter = new ArrayList<>();
+    parser.execute(fileOfChanges);
 
     for (CreationCommand creationCommand : creationCommands) {
       valuesAfter.add(creationCommand.getValues());
@@ -187,5 +167,5 @@ public class FileController {
 
     return listChangesAndListResults;
   }
-
+   */
 }

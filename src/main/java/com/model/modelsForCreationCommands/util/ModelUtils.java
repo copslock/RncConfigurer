@@ -74,12 +74,23 @@ public class ModelUtils {
 
   public static String extractSiteName(String fileName) {
 
-    List<CreationCommand> creationCommands = extractCreationCommands(fileName);
+    String[] split = new String[0];
+    try {
+      split = Files.readAllLines(new File(fileName).toPath()).stream()
+              .filter(e -> !e.contains("gs+") && !e.contains("gs-"))
+              .map(e -> e.isEmpty() ? "&" : e + "\n")
+              .collect(Collectors.joining())
+              .split("&");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
-    AtmUserPlaneTermSubrackRef atmUserPlaneTermSubrackRef = Objects.requireNonNull(creationCommands).stream().filter(e -> e instanceof AtmUserPlaneTermSubrackRef).map(e -> (AtmUserPlaneTermSubrackRef) e).findFirst().get();
-
-    String name = atmUserPlaneTermSubrackRef.getName().split("[=,_]")[3];
-
+    String name = "";
+    if(split[2].contains("eNodeBId")) {
+      name = split[2].split("[=,_]")[7].split("[\nL]")[0];
+    } else {
+      name = split[3].split("[=,_]")[3];
+    }
     return name;
   }
 
@@ -87,14 +98,32 @@ public class ModelUtils {
     return changeCommands.stream().map(e -> e.get("Site")).collect(Collectors.toList());
   }
 
-  public static List<String> getCreationCommandsFiles() {
+  public static Map<String, List<String>> getCreationCommandsFiles() {
+
+    Map<String, List<String>> nameAndFiles = new TreeMap<>();
+
     File creationCommandsDir = new File(Constants.CREATION_COMMANDS_DIRECTORY);
 
     if(creationCommandsDir.exists() && creationCommandsDir.list() != null && creationCommandsDir.list().length != 0) {
-      return Arrays.stream(creationCommandsDir.list()).collect(Collectors.toList());
+
+      String[] list = creationCommandsDir.list();
+
+      for (String s : list) {
+        String s1 = extractSiteName(Constants.CREATION_COMMANDS_DIRECTORY + s);
+
+        if(nameAndFiles.containsKey(s1)) {
+          nameAndFiles.get(s1).add(s);
+        } else {
+          List<String> fileNames = new ArrayList<>();
+          fileNames.add(s);
+          nameAndFiles.put(s1, fileNames);
+        }
+      }
+
+      return nameAndFiles;
     }
 
-    return Collections.emptyList();
+    return Collections.emptyMap();
   }
 
   public static List<CreationCommand> extractCreationCommands(String fileOfCreationCommands) {

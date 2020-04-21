@@ -230,6 +230,6 @@ public class CodeThresholdPdu656 implements CreationCommand {
         "numHsPdschCodes " + numHsPdschCodes + "\n" +
         "numHsScchCodes " + numHsScchCodes + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

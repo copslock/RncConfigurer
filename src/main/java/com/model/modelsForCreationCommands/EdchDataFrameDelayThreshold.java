@@ -74,6 +74,6 @@ public class EdchDataFrameDelayThreshold implements CreationCommand {
     return "crn " + name + "\n" +
         "edchDataFrameDelayThreshold " + edchDataFrameDelayThreshold + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

@@ -40,6 +40,7 @@ public class LdLset implements CreationCommand {
         sb.append(lsLset + "\n");
       }
     }
+    sb.append("\n");
 
     return ld + "\n" +
         sb.toString();

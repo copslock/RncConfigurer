@@ -134,6 +134,6 @@ public class MaxFach1Power implements CreationCommand {
         "pOffset3Fach " + pOffset3Fach + "\n" +
         "sccpchOffset " + sccpchOffset + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

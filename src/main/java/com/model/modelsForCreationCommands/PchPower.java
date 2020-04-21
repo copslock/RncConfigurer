@@ -110,6 +110,6 @@ public class PchPower implements CreationCommand {
         "pichPower " + pichPower + "\n" +
         "sccpchOffset " + sccpchOffset + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

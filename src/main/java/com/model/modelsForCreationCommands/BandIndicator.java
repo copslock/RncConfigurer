@@ -174,6 +174,6 @@ public class BandIndicator implements CreationCommand {
         "ncc " + ncc + "\n" +
         "qRxLevMin " + qRxLevMin + "\n" +
         "userLabel " + userLabel +  "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

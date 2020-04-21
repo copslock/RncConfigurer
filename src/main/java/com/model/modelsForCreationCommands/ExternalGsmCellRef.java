@@ -140,6 +140,6 @@ public class ExternalGsmCellRef implements CreationCommand {
         "mobilityRelationType " + mobilityRelationType + "\n" +
         "qOffset1sn " + qOffset1sn + "\n" +
         "selectionPriority " + selectionPriority + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

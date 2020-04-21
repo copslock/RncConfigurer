@@ -495,7 +495,7 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
   @Override
   public String toString() {
     return "crn " + name + "\n" +
-        "administrativeState " + administrativeState + "\n" +
+        "administrativeState 0" + "\n" +
         "atmUserPlaneTermSubrackRef " + (atmUserPlaneTermSubrackRef == null ? "" : atmUserPlaneTermSubrackRef) + "\n" +
         "controlPlaneTransportOption " + controlPlaneTransportOption + "\n" +
         "dlHwAdm " + dlHwAdm + "\n" +
@@ -510,7 +510,7 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
         "remoteSctpPortNbapC " + remoteSctpPortNbapC + "\n" +
         "remoteSctpPortNbapD " + remoteSctpPortNbapD + "\n" +
         "rncModuleAllocWeight " + rncModuleAllocWeight + "\n" +
-        "rncModulePreferredRef " + (rncModulePreferredRef == null ? "" : rncModulePreferredRef) + "\n" +
+//        "rncModulePreferredRef " + (rncModulePreferredRef == null ? "" : rncModulePreferredRef) + "\n" +
         "softCongThreshGbrBwDl " + softCongThreshGbrBwDl + "\n" +
         "softCongThreshGbrBwUl " + softCongThreshGbrBwUl + "\n" +
         "spare " + spare + "\n" +
@@ -524,6 +524,6 @@ public class AtmUserPlaneTermSubrackRef implements CreationCommand {
         "userPlaneGbrAdmMarginUl " + userPlaneGbrAdmMarginUl + "\n" +
         "userPlaneIpResourceRef " + userPlaneIpResourceRef + "\n" +
         "userPlaneTransportOption " + userPlaneTransportOption + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

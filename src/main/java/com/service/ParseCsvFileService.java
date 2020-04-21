@@ -77,7 +77,7 @@ public class ParseCsvFileService {
             values.put(headers.get(i), line[i]);
           }
         }
-        values.put("id", ""+id++);
+//        values.put("id", ""+id++);
         if(!values.isEmpty()) {
           lines.add(values);
         }
@@ -92,25 +92,23 @@ public class ParseCsvFileService {
 
   public List<RncModification> getAllFileChanges(String fileName) {
     List<RncModification> modifications = new ArrayList<>();
-    List<FileOfChanges> lines = new ArrayList<>();
 
     try {
-
       List<String> strings = Files.readAllLines(Paths.get(fileName));
       strings.remove(0);
       Set<String> rncNames = strings.stream().map(e -> e.split(",")[2]).collect(Collectors.toSet());
 
       for (String rncName : rncNames) {
+        List<FileOfChanges> lines = new ArrayList<>();
 
         for (String string : strings) {
-          if(string.contains(rncName)) {
+          if(string.split(",")[2].equals(rncName)) {
             lines.add(new FileOfChanges(string));
           }
         }
 
         RncModification rncModification = new RncModification(lines);
         modifications.add(rncModification);
-        lines.clear();
       }
 
 

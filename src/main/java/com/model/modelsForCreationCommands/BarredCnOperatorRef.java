@@ -258,6 +258,6 @@ public class BarredCnOperatorRef implements CreationCommand {
         "threshLow " + threshLow + "\n" +
         "threshLow2 " + threshLow2 + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

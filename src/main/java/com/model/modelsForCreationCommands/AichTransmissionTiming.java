@@ -265,7 +265,7 @@ public class AichTransmissionTiming implements CreationCommand {
         "spreadingFactor " + spreadingFactor + "\n" +
         "subChannelNo " + subChannelNo + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 
 

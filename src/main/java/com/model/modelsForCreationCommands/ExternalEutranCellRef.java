@@ -137,6 +137,6 @@ public class ExternalEutranCellRef implements CreationCommand {
         "coSited " + coSited + "\n" +
         "externalEutranCellRef " + externalEutranCellRef + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

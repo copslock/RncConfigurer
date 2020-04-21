@@ -34,12 +34,11 @@ public class LacRacUra implements CreationCommand {
 
         @Override
         public String toString() {
-            return "=================================lac============================" + "\n" +
-                    "crn RncFunction=1,LocationArea=" + lac + "\n" +
+            return "crn RncFunction=1,LocationArea=" + lac + "\n" +
                     "lac " + lac + "\n" +
                     "t3212 40"+ '\n' +
-                    "end" + "\n" +
-                    "================================================================" + "\n";
+                    "end" + "\n\n";
+
         }
     }
 
@@ -60,11 +59,9 @@ public class LacRacUra implements CreationCommand {
 
         @Override
         public String toString() {
-            return "=================================rac============================" + "\n" +
-                    "crn LocationArea=" + lac +",RoutingArea=2" + "\n" +
+            return "crn LocationArea=" + lac +",RoutingArea=2" + "\n" +
                     "rac 2" + "\n" +
-                    "end" + "\n" +
-                    "================================================================" + "\n";
+                    "end" + "\n\n";
         }
     }
 
@@ -85,11 +82,9 @@ public class LacRacUra implements CreationCommand {
 
         @Override
         public String toString() {
-            return "=================================ura============================" + "\n" +
-                    "crn RncFunction=1,Ura=" + uraIdentity + "\n" +
-                    "ura " + uraIdentity + "\n" +
-                    "end" + "\n" +
-                    "================================================================" + "\n";
+            return "crn RncFunction=1,Ura=" + uraIdentity + "\n" +
+                    "uraIdentity " + uraIdentity + "\n" +
+                    "end" + "\n\n";
         }
     }
 

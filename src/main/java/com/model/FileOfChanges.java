@@ -55,7 +55,7 @@ public class FileOfChanges {
     this.New_Ci = split[10];
     this.New_Ura = split[11];
     this.New_RBSID_1 = split[12];
-    this.New_RBSID_2 = split[13];
+    this.New_RBSID_2 = split.length > 13 ? split[13] : "";
   }
 
   public String getRehom_Order() {

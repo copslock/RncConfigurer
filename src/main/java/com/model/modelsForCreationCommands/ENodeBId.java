@@ -111,6 +111,6 @@ public class ENodeBId implements CreationCommand {
         "physicalCellIdentity " + physicalCellIdentity + "\n" +
         "tac " + tac + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

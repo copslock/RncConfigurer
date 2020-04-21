@@ -199,6 +199,6 @@ public class HsPathLossTreshold implements CreationCommand {
         "hsPathlossThreshold " + hsPathlossThreshold + "\n" +
         "relationCapability " + relationCapability + "\n" +
         "utranCellRef " + utranCellRef + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

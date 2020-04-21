@@ -15,6 +15,8 @@ public class Sac implements CreationCommand {
    */
 
   private String name;
+  private String locationArea;
+  private String serviceArea;
   private int sac;
   private String userLabel;
   private String[] source;
@@ -25,6 +27,8 @@ public class Sac implements CreationCommand {
   public Sac(String[] source) {
     this.source = source;
     name = source[0];
+    locationArea = source[0].split(",|=")[3];
+    serviceArea = source[0].split(",|=")[5];
     sac = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
     userLabel = source[2].split("\\s").length == 2 ? source[2].split("\\s")[1] : null;
   }
@@ -65,6 +69,22 @@ public class Sac implements CreationCommand {
     return values;
   }
 
+  public String getLocationArea() {
+    return locationArea;
+  }
+
+  public void setLocationArea(String locationArea) {
+    this.locationArea = locationArea;
+  }
+
+  public String getServiceArea() {
+    return serviceArea;
+  }
+
+  public void setServiceArea(String serviceArea) {
+    this.serviceArea = serviceArea;
+  }
+
   @Override
   public Patterns getType() {
     return Patterns.SAC;
@@ -72,9 +92,9 @@ public class Sac implements CreationCommand {
 
   @Override
   public String toString() {
-    return "crn " + name + "\n" +
+    return "crn " + name.split(",")[0] + ",LocationArea=" + locationArea + ",ServiceArea=" + sac + "\n" +
         "sac " + sac + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

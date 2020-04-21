@@ -36,7 +36,7 @@ public class HcsSid11Config implements CreationCommand {
   public HcsSid11Config(String[] source) {
     this.source = source;
     name = source[0];
-    hcsSib11Config = source[1].split("\\s").length == 2 ? new HcsSib11ConfigBean(source[1].split("\\s")[1].split(",")) : null;
+    hcsSib11Config = source[1].split("\\s").length == 2 ? new HcsSib11ConfigBean(source[1]) : null;
     loadSharingCandidate = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
     mobilityRelationType = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
     qOffset1sn = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
@@ -139,16 +139,18 @@ public class HcsSid11Config implements CreationCommand {
     private int penaltyTime;
     private int temporaryOffset1;
     private int temporaryOffset2;
+    private String allRow;
 
     public HcsSib11ConfigBean() {
     }
 
-    public HcsSib11ConfigBean(String[] source) {
-      hcsPrio = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
-      qHcs = source[0].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
-      penaltyTime = source[0].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
-      temporaryOffset1 = source[0].split("=").length == 2 ? Integer.parseInt(source[3].split("=")[1]) : null;
-      temporaryOffset2 = source[0].split("=").length == 2 ? Integer.parseInt(source[4].split("=")[1]) : null;
+    public HcsSib11ConfigBean(String source) {
+//      hcsPrio = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
+//      qHcs = source[0].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
+//      penaltyTime = source[0].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
+//      temporaryOffset1 = source[0].split("=").length == 2 ? Integer.parseInt(source[3].split("=")[1]) : null;
+//      temporaryOffset2 = source[0].split("=").length == 2 ? Integer.parseInt(source[4].split("=")[1]) : null;
+      allRow = source;
     }
 
     public int getHcsPrio() {
@@ -193,7 +195,7 @@ public class HcsSid11Config implements CreationCommand {
 
     @Override
     public String toString() {
-      return "hcsPrio=" + hcsPrio + ",qHcs=" + qHcs + ",penaltyTime=" + penaltyTime + ",temporaryOffset2=" + temporaryOffset2 + ",temporaryOffset1=" + temporaryOffset1;
+      return allRow;
     }
   }
 
@@ -236,13 +238,13 @@ public class HcsSid11Config implements CreationCommand {
   @Override
   public String toString() {
     return "crn " + name + "\n" +
-        "hcsSib11Config " + hcsSib11Config + "\n" +
+        hcsSib11Config + "\n" +
         "loadSharingCandidate " + loadSharingCandidate + "\n" +
         "mobilityRelationType " + mobilityRelationType + "\n" +
         "qOffset1sn " + qOffset1sn + "\n" +
         "qOffset2sn " + qOffset2sn + "\n" +
         "selectionPriority " + selectionPriority + "\n" +
         "utranCellRef " + utranCellRef + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

@@ -3145,7 +3145,7 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
         "accessClassesBarredCs " + (accessClassesBarredCs.toString().replaceAll("[\\[\\]\\s]", "")) + "\n" +
         "accessClassesBarredPs " + (accessClassesBarredPs.toString().replaceAll("[\\[\\]\\s]", "")) + "\n" +
         "admBlockRedirection " + admBlockRedirection + "\n" +
-        "administrativeState " + administrativeState + "\n" +
+        "administrativeState 0" + "\n" +
         "agpsEnabled " + agpsEnabled + "\n" +
         "amrNbSelector " + amrNbSelector + "\n" +
         "amrWbRateDlMax " + amrWbRateDlMax + "\n" +
@@ -3309,6 +3309,6 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
         "usedFreqThresh2dRscp " + usedFreqThresh2dRscp + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
         "utranCellPosition " + (utranCellPosition == null ? "" : utranCellPosition) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }

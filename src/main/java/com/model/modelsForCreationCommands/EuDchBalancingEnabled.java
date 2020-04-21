@@ -230,6 +230,6 @@ public class EuDchBalancingEnabled implements CreationCommand {
         "releaseAseUlNg " + releaseAseUlNg + "\n" +
         "threshEulTti2Ecno " + threshEulTti2Ecno + "\n" +
         "userLabel " + (userLabel == null ? "" : userLabel) + "\n" +
-        "end\n";
+        "end\n\n";
   }
 }
