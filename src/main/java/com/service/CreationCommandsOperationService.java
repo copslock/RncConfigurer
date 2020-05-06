@@ -8,7 +8,6 @@ import com.model.modelsForCreationCommands.Header;
 import com.model.modelsForCreationCommands.util.CreationCommand;
 import com.model.modelsForCreationCommands.util.CreationCommandFabric;
 import com.model.modelsForCreationCommands.util.ModelUtils;
-import com.model.rncInformationTypes.*;
 import com.utils.Patterns;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
@@ -21,9 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
@@ -68,7 +64,8 @@ public class CreationCommandsOperationService {
 
       parser.placeCommandsBySeparatedFiles(updatedCreationCommands);
       parser.createLacRacUra(changeCommand);
-      parser.writeNeighbors();
+      parser.write2GNeighbors();
+      parser.write3GNeighbors();
     }
 
   }
@@ -92,7 +89,7 @@ public class CreationCommandsOperationService {
 
       parser.placeCommandsBySeparatedFiles(updatedCreationCommands);
       parser.createLacRacUra(changeCommand);
-      parser.writeNeighbors();
+      parser.write2GNeighbors();
     }
 
   }
@@ -103,14 +100,14 @@ public class CreationCommandsOperationService {
     try (OutputStream lacRacUraOutputStream = Files.newOutputStream(Paths.get(pathToSite + LAC_RAC_URA), StandardOpenOption.APPEND);) {
       new File(pathToSite + LAC_RAC_URA).createNewFile();
 
-      writeToFile(lacRacUra, pathToSite + LAC_RAC_URA, lacRacUraOutputStream);
+      writeToFile(lacRacUra,  lacRacUraOutputStream);
     } catch (IOException e) {
       LOG.error("can't create file LacRacUra, because of %s", e);
     }
 
   }
 
-  public void writeNeighbors() {
+  public void write2GNeighbors() {
     Set<String> neighbors = new TreeSet<>();
     List<String> siteAndNeighbors = new ArrayList<>();
     try {
@@ -120,18 +117,48 @@ public class CreationCommandsOperationService {
       for (String string : strings) {
         if(string.contains("GsmRelation")) {
           String site = string.split("[,=]")[3];
-          String neighbor = string.split("[,=]")[5];
+          String neighbor = string.split("[,=_]").length == 6 ? string.split("[,=_]")[5] : string.split("[,=_]")[6];
           neighbors.add(neighbor);
           siteAndNeighbors.add(site+" "+neighbor);
         }
       }
 
       for (String neighbor : neighbors) {
-        Files.write(Paths.get(pathToSite + SITES_NEIGHBORS), (neighbor+"\n").getBytes(), StandardOpenOption.APPEND);
+        Files.write(Paths.get(pathToSite + SITES_NEIGHBORS_2G), (neighbor+"\n").getBytes(), StandardOpenOption.APPEND);
       }
 
       for (String siteAndNeighbor : siteAndNeighbors) {
-        Files.write(Paths.get(pathToSite + SITES_AND_NEIGHBORS), (siteAndNeighbor+"\n").getBytes(), StandardOpenOption.APPEND);
+        Files.write(Paths.get(pathToSite + SITES_AND_NEIGHBORS_2G), (siteAndNeighbor+"\n").getBytes(), StandardOpenOption.APPEND);
+      }
+
+    } catch (IOException e) {
+      LOG.error("can't write to file, " + e);
+    }
+
+  }
+
+  public void write3GNeighbors() {
+    Set<String> neighbors = new TreeSet<>();
+    List<String> siteAndNeighbors = new ArrayList<>();
+    try {
+      Path path = Paths.get(pathToSite + UTRAN_REl);
+      List<String> strings = Files.readAllLines(path);
+
+      for (String string : strings) {
+        if(string.contains("UtranRelation")) {
+          String site = string.split("[,=]")[3];
+          String neighbor = string.split("[,=_]").length == 6 ? string.split("[,=_]")[5] : string.split("[,=_]")[6];
+          neighbors.add(neighbor);
+          siteAndNeighbors.add(site+" "+neighbor);
+        }
+      }
+
+      for (String neighbor : neighbors) {
+        Files.write(Paths.get(pathToSite + SITES_NEIGHBORS_3G), (neighbor+"\n").getBytes(), StandardOpenOption.APPEND);
+      }
+
+      for (String siteAndNeighbor : siteAndNeighbors) {
+        Files.write(Paths.get(pathToSite + SITES_AND_NEIGHBORS_3G), (siteAndNeighbor+"\n").getBytes(), StandardOpenOption.APPEND);
       }
 
     } catch (IOException e) {
@@ -152,22 +179,22 @@ public class CreationCommandsOperationService {
 
       for (CreationCommand creationCommand : creationCommands) {
         if (creationCommand instanceof HcsSid11Config || creationCommand instanceof HsPathLossTreshold) {
-          writeToFile(creationCommand, pathToSite + UTRAN_REl, utranRel);
+          writeToFile(creationCommand,  utranRel);
           continue;
         }
 
         if (creationCommand instanceof ExternalGsmCellRef || creationCommand instanceof BandIndicator) {
-          writeToFile(creationCommand, pathToSite + GSM_REL, gsmRel);
+          writeToFile(creationCommand,  gsmRel);
           continue;
         }
 
         if (creationCommand instanceof BarredCnOperatorRef || creationCommand instanceof ExternalEutranCellRef || creationCommand instanceof ENodeBId) {
-          writeToFile(creationCommand, pathToSite + EUTRAN, eutran);
+          writeToFile(creationCommand,  eutran);
           continue;
         }
 
         if (!(creationCommand instanceof Header)) {
-          writeToFile(creationCommand, pathToSite + IUB_CELL, iubCell);
+          writeToFile(creationCommand,  iubCell);
           continue;
         }
 
@@ -235,20 +262,36 @@ public class CreationCommandsOperationService {
         Files.createFile(Paths.get(pathToSite + LAC_RAC_URA));
       }
 
-      if (new File(pathToSite + SITES_NEIGHBORS).exists()) {
-        Path path = Paths.get(pathToSite + SITES_NEIGHBORS);
+      if (new File(pathToSite + SITES_NEIGHBORS_2G).exists()) {
+        Path path = Paths.get(pathToSite + SITES_NEIGHBORS_2G);
         Files.delete(path);
         Files.createFile(path);
       } else {
-        Files.createFile(Paths.get(pathToSite + SITES_NEIGHBORS));
+        Files.createFile(Paths.get(pathToSite + SITES_NEIGHBORS_2G));
       }
 
-      if (new File(pathToSite + SITES_AND_NEIGHBORS).exists()) {
-        Path path = Paths.get(pathToSite + SITES_AND_NEIGHBORS);
+      if (new File(pathToSite + SITES_AND_NEIGHBORS_2G).exists()) {
+        Path path = Paths.get(pathToSite + SITES_AND_NEIGHBORS_2G);
         Files.delete(path);
         Files.createFile(path);
       } else {
-        Files.createFile(Paths.get(pathToSite + SITES_AND_NEIGHBORS));
+        Files.createFile(Paths.get(pathToSite + SITES_AND_NEIGHBORS_2G));
+      }
+
+      if (new File(pathToSite + SITES_NEIGHBORS_3G).exists()) {
+        Path path = Paths.get(pathToSite + SITES_NEIGHBORS_3G);
+        Files.delete(path);
+        Files.createFile(path);
+      } else {
+        Files.createFile(Paths.get(pathToSite + SITES_NEIGHBORS_3G));
+      }
+
+      if (new File(pathToSite + SITES_AND_NEIGHBORS_3G).exists()) {
+        Path path = Paths.get(pathToSite + SITES_AND_NEIGHBORS_3G);
+        Files.delete(path);
+        Files.createFile(path);
+      } else {
+        Files.createFile(Paths.get(pathToSite + SITES_AND_NEIGHBORS_3G));
       }
 
     } catch (IOException e) {
@@ -257,10 +300,9 @@ public class CreationCommandsOperationService {
 
   }
 
-  private void writeToFile(CreationCommand creationCommand, String fileName, OutputStream outputStream) {
+  private void writeToFile(CreationCommand creationCommand, OutputStream outputStream) {
 
     try {
-//      Files.write(Paths.get(fileName), creationCommand.toString().getBytes(), StandardOpenOption.APPEND);
 
       byte[] bytes = creationCommand.toString().getBytes();
       int len = bytes.length;

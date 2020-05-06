@@ -1,26 +1,22 @@
 package com;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-import com.sun.xml.internal.ws.client.BindingProviderProperties;
-import ukr.astelit.cim.CustomerAccount;
-import ukr.astelit.cim.CustomerPayment;
-import ukr.astelit.cim.Money;
-import ukr.astelit.fm.*;
-import ukr.astelit.tm.fm.ws.soap.ChainOperateResponse;
-import ukr.astelit.tm.fm.ws.soap.FinancialManagement;
-import ukr.astelit.tm.fm.ws.soap.FinancialManagement_Service;
-import ukr.astelit.tm.fm.ws.soap.FinancialTransactionRequest;
+import com.client.FinancialManagementServicePort;
+import ukr.astelit.cim.model.customeracc.CustomerAccount;
+import ukr.astelit.cim.model.payment.CustomerPayment;
+import ukr.astelit.cim.model.payment.Money;
+import ukr.astelit.tm.fm.exchange.request.FinancialTransactionRequest;
+import ukr.astelit.tm.fm.ws.soap.FinancialManagementService;
+import ukr.astelit.tm.ws.commons.response.chain.ChainOperateResponse;
 
-import javax.xml.ws.BindingProvider;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class ClientTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
 /*
-
         URL url = FinancialManagementService.class.getResource("/META-INF/FinancialManagement.wsdl");
         QName qname = new QName("astelit.ukr:fm", "FinancialManagement");
         Service service = Service.create(url, qname);
@@ -87,13 +83,14 @@ public class ClientTest {
         System.out.println(generalOperateResult.getTransactionId());
 */
 
+/*
         FinancialManagement_Service management = new FinancialManagement_Service();
         FinancialManagement financialManagementPort = management.getFinancialManagementPort();
 
         BindingProvider bindingProvider = (BindingProvider) financialManagementPort;
         Map<String, Object> requestContext = bindingProvider.getRequestContext();
 
-        String endpointAddress = "http://dev-test-tm-fm-1.dev.ict:8080/" + "astelit-fm-ws/fm-services/v2/fm";
+        String endpointAddress = "http://dev-test-tm-fm-1.dev.ict:8080/astelit-fm-ws/fm-services/v2/fm";
 
         requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpointAddress);
         requestContext.put(BindingProvider.USERNAME_PROPERTY, "iguana");
@@ -123,6 +120,37 @@ public class ClientTest {
         ChainOperateResponse chainOperateResponse = financialManagementPort.doPayment(request);
 
         System.out.println(chainOperateResponse.getTransactionId());
+*/
+
+        FinancialManagementServicePort service = new FinancialManagementServicePort("http://dev-test-tm-fm-1.dev.ict:8080");
+
+        FinancialManagementService service1 = service.getService();
+
+        service.setUserNameProperty("iguana");
+        service.setPasswordProperty("iguana");
+
+        FinancialTransactionRequest request = new FinancialTransactionRequest();
+        request.setChannel("A");
+        request.setProfileId("payment");
+
+        CustomerPayment payment = new CustomerPayment();
+        payment.setId("Z3xEP0");
+
+        Money money = new Money();
+        money.setAmount(new BigDecimal(1));
+        payment.setAmount(new Money());
+
+        payment.setPaymentDate(new Date());
+
+        List<CustomerAccount> paymentReceivedFor = payment.getPaymentReceivedFor();
+
+        CustomerAccount account = new CustomerAccount();
+
+        request.setCustomerPayment(payment);
+
+        ChainOperateResponse chainOperateResponse = service1.doPayment(request);
+
+        System.out.println(chainOperateResponse);
 
     }
 

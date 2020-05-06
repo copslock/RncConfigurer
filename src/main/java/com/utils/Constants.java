@@ -29,10 +29,12 @@ public class Constants {
     public static final String IUB_CELL = "1_iub_cell.mos";
 
     public static final String SITES_NEIGHBORS_FILE = "src/main/resources/resultFiles/";
-    public static final String SITES_NEIGHBORS = "6_sites_neighbors.mos";
+    public static final String SITES_NEIGHBORS_2G = "6_sites_neighbors_2G.mos";
+    public static final String SITES_NEIGHBORS_3G = "8_sites_neighbors_3G.mos";
     public static final String SITES_AND_NEIGHBORS_FILE = "src/main/resources/resultFiles/";
-    public static final String SITES_AND_NEIGHBORS = "5_sites_and_neighbors.mos";
-    public static final String LAC_RAC_URA = "7_LAC_RAC_URA.txt";
+    public static final String SITES_AND_NEIGHBORS_2G = "5_sites_and_neighbors_2G.mos";
+    public static final String SITES_AND_NEIGHBORS_3G = "9_sites_and_neighbors_3G.mos";
+    public static final String LAC_RAC_URA = "7_LAC_RAC_URA.mos";
 
     public static final String CREATION_COMMANDS_DIRECTORY = "src/main/resources/rncCreationCommands/";
     public static final String FILES_OF_CHANGES_DIRECTORY = "src/main/resources/rncCreationCommands/";
