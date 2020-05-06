@@ -102,7 +102,7 @@ public class CreationCommandsOperationService {
 
       writeToFile(lacRacUra,  lacRacUraOutputStream);
     } catch (IOException e) {
-      LOG.error("can't create file LacRacUra, because of %s", e);
+      LOG.error("can't create file LacRacUra, because of {}", e);
     }
 
   }
