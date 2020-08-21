@@ -2,6 +2,7 @@ package com.controller;
 
 //import com.dao.RncListRepository;
 //import com.dao.RncRepository;
+import com.google.gson.JsonObject;
 import com.responses.Response;
 import com.responses.UploadFileException;
 import com.responses.UploadFileResponse;
@@ -12,8 +13,11 @@ import com.service.CreationCommandsOperationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +25,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200", exposedHeaders = "Content-Disposition")
+@CrossOrigin(origins = "http://localhost:4201", exposedHeaders = "Content-Disposition")
 @RestController
-@RequestMapping("/api/v1/rnc-maximo-table")
+@RequestMapping("/api/v1/rnc")
 public class FileController {
 
   private static final Logger logger = LoggerFactory.getLogger(FileController.class);
@@ -49,6 +53,11 @@ public class FileController {
     this.parser = parser;
   }
 
+  @RequestMapping("/user")
+  public Principal user(Principal user) {
+    return user;
+  }
+
   @PostMapping("/upload")
   public Response uploadRncMaximoTable(@RequestParam("file") MultipartFile file) {
     if(!fileStorageService.validateFile(file)) {
@@ -67,9 +76,9 @@ public class FileController {
         file.getContentType(), file.getSize(), Collections.emptyMap());
   }
 
-  @GetMapping("/{id}")
-  public List<Map<String, String>> getRncMaximoTable(@PathVariable("id") String id) {
-    return parseCsvFile.readMapCsv(FileController.lastFileName);
+  @PostMapping(value = "/login", produces = "application/json")
+  public String isLogin() {
+    return "{\"name\": \"aa\"}";
   }
 
   @PostMapping(path = "/uploadMultipleFiles")
@@ -102,9 +111,9 @@ public class FileController {
   }
 
 
-  @GetMapping("/fileNames")
+  @GetMapping(value = "/fileNames", produces = "application/json")
   public List<String> getFileNames() {
-    List<String> fileNames = Arrays.asList("RncMaximoTable.csv", "filesOfChanges/RncMaximoTable1.csv", "RncMaximoTable2.csv");
+    List<String> fileNames = Arrays.asList("RncMaximoTable.csv", "oldFileOfChanges/RncMaximoTable1.csv", "RncMaximoTable2.csv");
     return fileNames;
   }
 

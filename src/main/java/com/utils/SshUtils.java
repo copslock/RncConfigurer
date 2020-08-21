@@ -1,90 +1,196 @@
 package com.utils;
 
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
+import com.jcraft.jsch.*;
+import com.service.CreationCommandsOperationService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.swing.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class SshUtils {
 
-  private static final String file = "/home/atian/Documents/RehomeMN/rehomingTool/undo_KIER7_191118-105157.log";
-  private static final String file2 = "src/main/resources/RncString.txt";
+    private static final Logger LOG = LogManager.getLogger(CreationCommandsOperationService.class);
 
-  public static List<String> generateTestData(String command, String host) {
-    List<String> lines = new ArrayList<>();
-    Runtime runtime = Runtime.getRuntime();
+    public static void main(String[] args) throws Exception {
+        long start = System.nanoTime();
 
-    try {
-      Process p = runtime.exec("cat " + file);
+        connectSsh3();
 
-      BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        long end = System.nanoTime();
 
-      while (reader.ready()) {
-        String s = reader.readLine();
-
-        if(!s.isEmpty()) {
-          lines.add(s);
-        }
-      }
-    } catch (IOException e) {
-      System.out.println("some IOException");
+        LOG.debug("time of execution = " + (end-start) + " nanoseconds");
     }
 
-    return lines;
-  }
+    public static List<String> connectSsh3() throws Exception {
+        List<String> files = new ArrayList<>();
 
-  static List<String> getLinesFromRemoteHost(String connectingHost, List<String> commandToExecute, String some) {
-    String defaultProperties = "/home/atian/Documents/arturProjects/RncConfigurerParser/src/main/resources/ssh.properties";
-    List<String> lines = new ArrayList<>();
-    JSch jsch = new JSch();
-    Properties props = new Properties();
-    try {
-      InputStream is = new FileInputStream(defaultProperties);
-      props.load(is);
+        JSch jsch = new JSch();
+        String user = "dpleskac";            //CHANGE ME
+        String host = "10.4.164.21"; //CHANGE ME
+        String passwd = "Oles73Oles73";      //CHANGE ME
+        int port = 22;
+        Session session = jsch.getSession(user, host, port);
+        session.setPassword(passwd);
 
-      Session session;
+        session.setConfig("StrictHostKeyChecking", "no");
 
+        session.connect();
 
-      session = jsch.getSession(props.getProperty("ssh.login"), connectingHost, 22);
-      session.setConfig("StrictHostKeyChecking", "no");
+        Channel channel = session.openChannel("shell");
 
-      session.setPassword(props.getProperty("ssh.password"));
-      session.connect();
+        OutputStream ops = channel.getOutputStream();
 
-      ChannelExec channelExec = (ChannelExec) session.openChannel("exec");
+        String utf8 = StandardCharsets.UTF_8.name();
 
-      channelExec.setCommand("ls /opt/");
-      channelExec.connect();
+        PrintStream ps = new PrintStream(ops, true, utf8);
 
-      InputStream in = channelExec.getInputStream();
-      BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-      String line;
-      while (reader.ready()) {
-        String s = reader.readLine();
+        channel.connect();
+        InputStream input = channel.getInputStream();
 
-        if(!s.isEmpty()) {
-          lines.add(s);
+        //commands
+        ps.println("amos KITR1");
+        LOG.info("amos KITR1");
+
+        printResult(input, "KITR1");
+
+        ps.println("LT ALL");
+        LOG.info("LT ALL");
+
+        printResult(input, "Total:");
+
+        ps.println("us+");
+        LOG.info("us+");
+
+        printResult(input, "Starting the simulated undo mode");
+
+        ps.println("us?");
+        LOG.info("us?");
+
+        printResult(input, "Simulated Undo Mode is active");
+
+        agreeWithConditions(ps, channel.getInputStream(), new StringBuilder("rdel iublink=KITI01"));
+
+        ps.println("us-");
+        LOG.info("us-");
+
+        final List<String> strings = printResult(channel.getInputStream(), "To undo, execute command: run /ericsson/log/amos/moshell_logfiles/dpleskac/logs_moshell/undo/");
+
+        if(!strings.isEmpty()) {
+            final String pathToFile = extractPathToFiles(strings.get(0).split("\\s"));
+            System.out.println(pathToFile);
+            files.add(pathToFile);
         }
-      }
 
-      int exitStatus = channelExec.getExitStatus();
-      if (exitStatus > 0) {
-        System.out.println("Remote script exec error! " + exitStatus);
-      }
-      //Disconnect the Session
-      session.disconnect();
-    } catch (JSchException e) {
-      System.out.println("JSchException was throwed ");
-    } catch (IOException e) {
-      System.out.println("IOException was throwed ");
+        ps.println("us+");
+        LOG.info("us+");
+
+        printResult(input, "Starting the simulated undo mode", 3000);
+
+        ps.println("us?");
+        LOG.info("us?");
+
+        printResult(input, "Simulated Undo Mode is active");
+
+        agreeWithConditions(ps, channel.getInputStream(), new StringBuilder("rdel ExternalEutranCell=KITI01"));
+
+        ps.println("us-");
+        LOG.info("us-");
+
+        final List<String> pathToFile = printResult(channel.getInputStream(), "To undo, execute command: run /ericsson/log/amos/moshell_logfiles/dpleskac/logs_moshell/undo/");
+
+        if(!pathToFile.isEmpty()) {
+            final String file = extractPathToFiles(pathToFile.get(0).split("\\s"));
+            System.out.println(file);
+            files.add(file);
+        }
+
+        ps.close();
+
+        channel.disconnect();
+        session.disconnect();
+
+        return files;
     }
 
-    return lines;
-  }
+    static List<String> printResult(InputStream input, String comparingString) throws IOException, InterruptedException {
+        Thread.sleep(1000);
+        List<String> commands = new ArrayList<>();
+
+        while (input.available() > 0) {
+            Thread.sleep(100);
+            byte[] bytes = new byte[1024];
+            int i = input.read(bytes, 0, 1024);
+            if (i < 0) break;
+
+            commands.add(new String(bytes, 0, i));
+        }
+
+        if(!commands.isEmpty()) {
+            final Optional<String> s = commands.stream().filter(e -> e.contains(comparingString)).findAny();
+            if(!s.isPresent()) {
+                LOG.error("comparing string doesn't found, something went wrong");
+
+                // TODO disconnect from server or perform command again
+            } else {
+                LOG.info(commands);
+            }
+        }
+
+        LOG.info(commands);
+
+        return commands;
+    }
+
+    public static List<String> printResult(InputStream input, String comparingString, int waitTime) throws IOException, InterruptedException {
+        Thread.sleep(waitTime);
+
+        return printResult(input, comparingString);
+    }
+
+    static String extractPathToFiles(String[] commands) {
+
+        final String pathToCreationCommands = Arrays.stream(commands)
+                .filter(el -> el.contains(".mos"))
+                .filter(el -> !el.contains("del"))
+                .findFirst().get();
+
+        return pathToCreationCommands;
+    }
+
+    static void agreeWithConditions(PrintStream printStream, InputStream inputStream, StringBuilder sb) throws IOException, InterruptedException {
+        String checkPhrase = "Are you Sure [y/n]";
+
+        for (;;) {
+            printStream.println(sb.toString());
+
+            final List<String> strings = SshUtils.printResult(inputStream, checkPhrase);
+
+            final long count = strings.stream().filter(e -> e.contains(checkPhrase)).count();
+
+            if(count == 0) {
+                return;
+            }
+
+            boolean contains = false;
+
+            for (int i = 1; i < 3; i++) {
+                contains = strings.get(strings.size() - i).contains(checkPhrase);
+                if(contains) break;
+            }
+
+            if(contains) {
+                sb.append("\ny");
+            } else {
+                LOG.info("did strings read completely? {}", strings.get(strings.size()-1).contains("Total"));
+                printStream.println("\n");
+                return;
+            }
+        }
+
+
+    }
 
 }

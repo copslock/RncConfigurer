@@ -11,7 +11,6 @@ import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +22,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.Logger;
 
 import static com.utils.Constants.*;
 
@@ -52,7 +52,7 @@ public class CreationCommandsOperationService {
 
     CreationCommandsOperationService parser = new CreationCommandsOperationService();
 
-    List<RncModification> modifications = extractAllRehomeInformation(TEST_FILE_OF_CHANGES1);
+    List<RncModification> modifications = extractAllRehomeInformation(TEST_FILE_OF_CHANGES4);
 
     for (RncModification changeCommand : modifications) {
       String site = changeCommand.getModifications().get(0).getSite();
@@ -147,7 +147,12 @@ public class CreationCommandsOperationService {
       for (String string : strings) {
         if(string.contains("UtranRelation")) {
           String site = string.split("[,=]")[3];
-          String neighbor = string.split("[,=_]").length == 6 ? string.split("[,=_]")[5] : string.split("[,=_]")[6];
+          String neighbor = "";
+          if (string.contains("Femto_cell4")) {
+            neighbor = string.split("[,=]")[5];
+          } else {
+            neighbor = string.split("[,=_]").length == 6 ? string.split("[,=_]")[5] : string.split("[,=_]")[6];
+          }
           neighbors.add(neighbor);
           siteAndNeighbors.add(site+" "+neighbor);
         }
@@ -219,80 +224,82 @@ public class CreationCommandsOperationService {
     try {
 
       if (!new File(pathToSite).exists()) {
-        new File(pathToSite).mkdir();
+        new File(pathToSite).mkdirs();
+      }
+
+      if(!new File(CREATION_COMMANDS_DIRECTORY).exists()) {
+        new File(CREATION_COMMANDS_DIRECTORY).mkdir();
+      }
+
+      if(!new File(FILES_OF_CHANGES_DIRECTORY).exists()) {
+        new File(FILES_OF_CHANGES_DIRECTORY).mkdir();
+      }
+
+      if(!new File(OLD_COMMANDS_DIRECTORY).exists()) {
+        new File(OLD_COMMANDS_DIRECTORY).mkdir();
       }
 
       if (new File(pathToSite + IUB_CELL).exists()) {
         Path path = Paths.get(pathToSite + IUB_CELL);
         Files.delete(path);
-        Files.createFile(Paths.get(pathToSite + IUB_CELL));
-      } else {
-        Files.createFile(Paths.get(pathToSite + IUB_CELL));
       }
+      Files.createFile(Paths.get(pathToSite + IUB_CELL));
 
       if (new File(pathToSite + GSM_REL).exists()) {
         Path path = Paths.get(pathToSite + GSM_REL);
         Files.delete(path);
-        Files.createFile(path);
-      } else {
-        Files.createFile(Paths.get(pathToSite + GSM_REL));
       }
+      Files.createFile(Paths.get(pathToSite + GSM_REL));
+
 
       if (new File(pathToSite + UTRAN_REl).exists()) {
         Path path = Paths.get(pathToSite + UTRAN_REl);
         Files.delete(path);
-        Files.createFile(path);
-      } else {
-        Files.createFile(Paths.get(pathToSite + UTRAN_REl));
       }
+      Files.createFile(Paths.get(pathToSite + UTRAN_REl));
+
 
       if (new File(pathToSite + EUTRAN).exists()) {
         Path path = Paths.get(pathToSite + EUTRAN);
         Files.delete(path);
-        Files.createFile(path);
-      } else {
-        Files.createFile(Paths.get(pathToSite + EUTRAN));
       }
+      Files.createFile(Paths.get(pathToSite + EUTRAN));
+
 
       if (new File(pathToSite + LAC_RAC_URA).exists()) {
         Path path = Paths.get(pathToSite + LAC_RAC_URA);
         Files.delete(path);
-        Files.createFile(path);
-      } else {
-        Files.createFile(Paths.get(pathToSite + LAC_RAC_URA));
       }
+      Files.createFile(Paths.get(pathToSite + LAC_RAC_URA));
+
 
       if (new File(pathToSite + SITES_NEIGHBORS_2G).exists()) {
         Path path = Paths.get(pathToSite + SITES_NEIGHBORS_2G);
         Files.delete(path);
-        Files.createFile(path);
-      } else {
-        Files.createFile(Paths.get(pathToSite + SITES_NEIGHBORS_2G));
       }
+      Files.createFile(Paths.get(pathToSite + SITES_NEIGHBORS_2G));
+
 
       if (new File(pathToSite + SITES_AND_NEIGHBORS_2G).exists()) {
         Path path = Paths.get(pathToSite + SITES_AND_NEIGHBORS_2G);
         Files.delete(path);
-        Files.createFile(path);
-      } else {
-        Files.createFile(Paths.get(pathToSite + SITES_AND_NEIGHBORS_2G));
       }
+      Files.createFile(Paths.get(pathToSite + SITES_AND_NEIGHBORS_2G));
+
 
       if (new File(pathToSite + SITES_NEIGHBORS_3G).exists()) {
         Path path = Paths.get(pathToSite + SITES_NEIGHBORS_3G);
         Files.delete(path);
-        Files.createFile(path);
-      } else {
-        Files.createFile(Paths.get(pathToSite + SITES_NEIGHBORS_3G));
       }
+      Files.createFile(Paths.get(pathToSite + SITES_NEIGHBORS_3G));
+
 
       if (new File(pathToSite + SITES_AND_NEIGHBORS_3G).exists()) {
         Path path = Paths.get(pathToSite + SITES_AND_NEIGHBORS_3G);
         Files.delete(path);
-        Files.createFile(path);
-      } else {
-        Files.createFile(Paths.get(pathToSite + SITES_AND_NEIGHBORS_3G));
       }
+      Files.createFile(Paths.get(pathToSite + SITES_AND_NEIGHBORS_3G));
+
 
     } catch (IOException e) {
       LOG.error("can't delete file", e);
