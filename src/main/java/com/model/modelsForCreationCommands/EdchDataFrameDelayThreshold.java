@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -25,8 +26,8 @@ public class EdchDataFrameDelayThreshold implements CreationCommand {
   public EdchDataFrameDelayThreshold(String[] source) {
     this.source = source;
     name = source[0];
-    edchDataFrameDelayThreshold = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
-    userLabel = source[2].split("\\s").length == 2 ? source[2].split("\\s")[1] : null;
+    edchDataFrameDelayThreshold = FieldExtractor.getFieldIntPrimitive(source, "edchDataFrameDelayThreshold");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   public String getName() {

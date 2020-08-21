@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -35,13 +36,13 @@ public class MaxFach1Power implements CreationCommand {
   public MaxFach1Power(String[] source) {
     this.source = source;
     name = source[0];
-    administrativeState = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
-    maxFach1Power = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
-    maxFach2Power = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
-    pOffset1Fach = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
-    pOffset3Fach = source[5].split("\\s").length == 2 ? Integer.parseInt(source[5].split("\\s")[1]) : null;
-    sccpchOffset = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
-    userLabel = source[7].split("\\s").length == 2 ? source[7].split("\\s")[1] : null;
+    administrativeState = FieldExtractor.getFieldIntPrimitive(source, "administrativeState");
+    maxFach1Power = FieldExtractor.getFieldIntPrimitive(source, "maxFach1Power");
+    maxFach2Power = FieldExtractor.getFieldIntPrimitive(source, "maxFach2Power");
+    pOffset1Fach = FieldExtractor.getFieldIntPrimitive(source, "pOffset1Fach");
+    pOffset3Fach = FieldExtractor.getFieldIntPrimitive(source, "pOffset3Fach");
+    sccpchOffset = FieldExtractor.getFieldIntPrimitive(source, "sccpchOffset");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   public String getName() {

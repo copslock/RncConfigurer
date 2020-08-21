@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -30,10 +31,10 @@ public class ExternalGsmCellRef implements CreationCommand {
   public ExternalGsmCellRef(String[] source) {
     this.source = source;
     name =source[0];
-    externalGsmCellRef = new ExternalGsmCellRefBean(source[1].split("\\s").length == 2 ? source[1].split("\\s")[1].split(",") : null);
-    mobilityRelationType =source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
-    qOffset1sn =source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
-    selectionPriority =source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
+    externalGsmCellRef = (ExternalGsmCellRefBean)FieldExtractor.getFieldObject(ExternalGsmCellRefBean.class, source, "externalGsmCellRef");
+    mobilityRelationType = FieldExtractor.getFieldIntPrimitive(source, "mobilityRelationType");
+    qOffset1sn = FieldExtractor.getFieldIntPrimitive(source, "qOffset1sn");
+    selectionPriority = FieldExtractor.getFieldIntPrimitive(source, "selectionPriority");
   }
 
   public String getName() {
@@ -104,8 +105,9 @@ public class ExternalGsmCellRef implements CreationCommand {
     public ExternalGsmCellRefBean() {
     }
 
-    public ExternalGsmCellRefBean(String[] source) {
-      if(null != source) {
+    public ExternalGsmCellRefBean(String src) {
+      final String[] source = src.split(",");
+      if(source.length != 0) {
         ExternalGsmNetwork = source[0].split("=").length == 2 ? source[0].split("=")[1] : null;
         ExternalGsmCell = source[1].split("=").length == 2 ? source[1].split("=")[1] : null;
       }

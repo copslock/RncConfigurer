@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -31,11 +32,12 @@ public class HsPathLossTreshold implements CreationCommand {
   public HsPathLossTreshold(String[] source) {
     this.source = source;
     name = source[0];
-    coverageIndicator = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
-    hsIflsDownswitch = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
-    hsPathlossThreshold = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
-    relationCapability = source[4].split("\\s").length == 2 ? new RelationCapabilityBean(source[4].split("\\s")[1].split(",")) : null;
-    utranCellRef = source[5].split("\\s").length == 2 ? new UtranCellRefBean(source[5].split("\\s")[1].split("=")[1]) : null;
+    coverageIndicator = FieldExtractor.getFieldIntPrimitive(source, "coverageIndicator");
+    hsIflsDownswitch = FieldExtractor.getFieldIntPrimitive(source, "hsIflsDownswitch");
+    hsPathlossThreshold = FieldExtractor.getFieldIntPrimitive(source, "hsPathlossThreshold");
+    relationCapability = (RelationCapabilityBean)FieldExtractor.getFieldObject(RelationCapabilityBean.class, source, "relationCapability");
+    utranCellRef = (UtranCellRefBean)FieldExtractor.getFieldObject(UtranCellRefBean.class, source, "utranCellRef");
+
   }
 
   public String getName() {
@@ -118,7 +120,8 @@ public class HsPathLossTreshold implements CreationCommand {
     public RelationCapabilityBean() {
     }
 
-    public RelationCapabilityBean(String[] source) {
+    public RelationCapabilityBean(String src) {
+      final String[] source = src.split(",");
       dchLoadSharing = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       hsCellSelection = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       hsLoadSharing = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;

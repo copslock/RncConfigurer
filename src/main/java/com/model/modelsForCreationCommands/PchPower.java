@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -31,11 +32,11 @@ public class PchPower implements CreationCommand {
   public PchPower(String[] source) {
     this.source = source;
     name = source[0];
-    administrativeState = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
-    pchPower = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
-    pichPower = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
-    sccpchOffset = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
-    userLabel = source[5].split("\\s").length == 2 ? source[5].split("\\s")[1] : null;
+    administrativeState = FieldExtractor.getFieldIntPrimitive(source, "administrativeState");
+    pchPower = FieldExtractor.getFieldIntPrimitive(source, "pchPower");
+    pichPower = FieldExtractor.getFieldIntPrimitive(source, "pichPower");
+    sccpchOffset = FieldExtractor.getFieldIntPrimitive(source, "sccpchOffset");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   public String getName() {

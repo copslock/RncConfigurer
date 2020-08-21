@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -32,11 +33,11 @@ public class ENodeBId implements CreationCommand {
   public ENodeBId(String[] values) {
     this.source = values;
     name = values[0];
-    cellId = values[1].split("\\s").length == 2 ? Integer.parseInt(values[1].split("\\s")[1]) : null;
-    eNodeBId = values[2].split("\\s").length == 2 ? Integer.parseInt(values[2].split("\\s")[1]) : null;
-    physicalCellIdentity = values[3].split("\\s").length == 2 ? Integer.parseInt(values[3].split("\\s")[1]) : null;
-    tac = values[4].split("\\s").length == 2 ? Integer.parseInt(values[4].split("\\s")[1]) : null;
-    userLabel = values[5].split("\\s").length == 2 ? values[5].split("\\s")[1] : null;
+    cellId = FieldExtractor.getFieldIntPrimitive(source, "cellId");
+    eNodeBId = FieldExtractor.getFieldIntPrimitive(source, "eNodeBId");
+    physicalCellIdentity = FieldExtractor.getFieldIntPrimitive(source, "physicalCellIdentity");
+    tac = FieldExtractor.getFieldIntPrimitive(source, "tac");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   public String getName() {

@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -36,13 +37,13 @@ public class HcsSid11Config implements CreationCommand {
   public HcsSid11Config(String[] source) {
     this.source = source;
     name = source[0];
-    hcsSib11Config = source[1].split("\\s").length == 2 ? new HcsSib11ConfigBean(source[1]) : null;
-    loadSharingCandidate = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
-    mobilityRelationType = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
-    qOffset1sn = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
-    qOffset2sn = source[5].split("\\s").length == 2 ? Integer.parseInt(source[5].split("\\s")[1]) : null;
-    selectionPriority = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
-    utranCellRef = source[7].split("\\s").length == 2 ? new UtranCellRefBean(source[7].split("\\s")[1].split("=")) : null;
+    hcsSib11Config = (HcsSib11ConfigBean)FieldExtractor.getFieldObject(HcsSib11ConfigBean.class, source, "hcsSib11Config");
+    loadSharingCandidate = FieldExtractor.getFieldIntPrimitive(source, "loadSharingCandidate");
+    mobilityRelationType = FieldExtractor.getFieldIntPrimitive(source, "mobilityRelationType");
+    qOffset1sn = FieldExtractor.getFieldIntPrimitive(source, "qOffset1sn");
+    qOffset2sn = FieldExtractor.getFieldIntPrimitive(source, "qOffset2sn");
+    selectionPriority = FieldExtractor.getFieldIntPrimitive(source, "selectionPriority");
+    utranCellRef = (UtranCellRefBean)FieldExtractor.getFieldObject(UtranCellRefBean.class, source, "utranCellRef");
   }
 
   public String getName() {
@@ -210,10 +211,11 @@ public class HcsSid11Config implements CreationCommand {
     public UtranCellRefBean() {
     }
 
-    public UtranCellRefBean(String[] source) {
+    public UtranCellRefBean(String src) {
+      final String[] source = src.split(",");
       if(source[0].contains("IurLink")) {
         prefix = "IurLink=";
-        UtranCell = source[1] + "=" + source[2];
+        UtranCell = source[0].split("=")[1] + "," + source[1];
       } else {
         prefix = "UtranCell=";
         UtranCell = source[1];

@@ -2,6 +2,7 @@ package com.model.modelsForCreationCommands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.utils.Patterns;
 
 import java.io.IOException;
@@ -355,184 +356,180 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
   private List<Integer> accessClassesBarredCs;
   private List<Integer> accessClassesBarredPs;
   private List<Integer> spareA;
-  private String[] source;
 
   public AseLoadThresholdUiSpeech() {
   }
 
   public AseLoadThresholdUiSpeech(String[] source) throws IOException {
-    this.source = source;
     name = source[0];
     iubLink = source[0].split(",")[1];
-    absPrioCellRes = source[1].split("\\s").length == 2 ? new AbsPrioCellResBean(source[1].split("\\s")[1].split(",")) : null;
-    accessClassNBarred = source[2].split("\\s").length == 2 ? new ObjectMapper().readValue("["+source[2].split("\\s")[1]+"]", List.class) : null;
-    accessClassesBarredCs = source[3].split("\\s").length == 2 ? new ObjectMapper().readValue("["+source[3].split("\\s")[1]+"]", List.class) : null;
-    accessClassesBarredPs = source[4].split("\\s").length == 2 ? new ObjectMapper().readValue("["+source[4].split("\\s")[1]+"]", List.class) : null;
-    admBlockRedirection = source[5].split("\\s").length == 2 ? new AdmBlockRedirectionBean(source[5].split("\\s")[1].split(",")) : null;
-    administrativeState = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
-    agpsEnabled = source[7].split("\\s").length == 2 ? Integer.parseInt(source[7].split("\\s")[1]) : null;
-    amrNbSelector = source[8].split("\\s").length == 2 ? Integer.parseInt(source[8].split("\\s")[1]) : null;
-    amrWbRateDlMax = source[9].split("\\s").length == 2 ? Integer.parseInt(source[9].split("\\s")[1]) : null;
-    amrWbRateUlMax = source[10].split("\\s").length == 2 ? Integer.parseInt(source[10].split("\\s")[1]) : null;
-    anrIafUtranCellConfig = source[11].split("\\s").length == 2 ? new AnrIafUtranCellConfigBean(source[11].split("\\s")[1].split(",")) : null;
-    anrIefUtranCellConfig = source[12].split("\\s").length == 2 ? new AnrIefUtranCellConfigBean(source[12].split("\\s")[1].split(",")) : null;
-    antennaPosition = source[13].split("\\s").length == 2 ? new AntennaPositionBean(source[13].split("\\s")[1].split(",")) : null;
-    aseDlAdm = source[14].split("\\s").length == 2 ? Integer.parseInt(source[14].split("\\s")[1]) : null;
-    aseLoadThresholdUlSpeech = source[15].split("\\s").length == 2 ? new AseLoadThresholdUlSpeechBean(source[15].split("\\s")[1].split(",")) : null;
-    aseUlAdm = source[16].split("\\s").length == 2 ? Integer.parseInt(source[16].split("\\s")[1]) : null;
-    autoAcbEnabled = source[17].split("\\s").length == 2 ? Integer.parseInt(source[17].split("\\s")[1]) : null;
-    autoAcbMaxPsClassesToBar = source[18].split("\\s").length == 2 ? Integer.parseInt(source[18].split("\\s")[1]) : null;
-    autoAcbMinRcssrInput = source[19].split("\\s").length == 2 ? Integer.parseInt(source[19].split("\\s")[1]) : null;
-    autoAcbRcssrThresh = source[20].split("\\s").length == 2 ? Integer.parseInt(source[20].split("\\s")[1]) : null;
-    autoAcbRcssrWeight = source[21].split("\\s").length == 2 ? Integer.parseInt(source[21].split("\\s")[1]) : null;
-    autoAcbRtwpThresh = source[22].split("\\s").length == 2 ? Integer.parseInt(source[22].split("\\s")[1]) : null;
-    autoAcbRtwpWeight = source[23].split("\\s").length == 2 ? Integer.parseInt(source[23].split("\\s")[1]) : null;
-    bchPower = source[24].split("\\s").length == 2 ? Integer.parseInt(source[24].split("\\s")[1]) : null;
-    cId = source[25].split("\\s").length == 2 ? Integer.parseInt(source[25].split("\\s")[1]) : null;
-    cbsSchedulePeriodLength = source[26].split("\\s").length == 2 ? Integer.parseInt(source[26].split("\\s")[1]) : null;
-    cellBroadcastSac = source[27].split("\\s").length == 2 ? Integer.parseInt(source[27].split("\\s")[1]) : null;
-    cellReserved = source[28].split("\\s").length == 2 ? Integer.parseInt(source[28].split("\\s")[1]) : null;
-    cellUpdateConfirmCsInitRepeat = source[29].split("\\s").length == 2 ? Integer.parseInt(source[29].split("\\s")[1]) : null;
-    cellUpdateConfirmPsInitRepeat = source[30].split("\\s").length == 2 ? Integer.parseInt(source[30].split("\\s")[1]) : null;
-    codeLoadThresholdDlSf128 = source[31].split("\\s").length == 2 ? Integer.parseInt(source[31].split("\\s")[1]) : null;
-    compModeAdm = source[32].split("\\s").length == 2 ? Integer.parseInt(source[32].split("\\s")[1]) : null;
-    ctchAdmMargin = source[33].split("\\s").length == 2 ? Integer.parseInt(source[33].split("\\s")[1]) : null;
-    ctchOccasionPeriod = source[34].split("\\s").length == 2 ? Integer.parseInt(source[34].split("\\s")[1]) : null;
-    cyclicAcb = source[35].split("\\s").length == 2 ? new CyclicAcbBean(source[35].split("\\s")[1].split(",")) : null;
-    cyclicAcbCs = source[36].split("\\s").length == 2 ? new CyclicAcbCsBean(source[36].split("\\s")[1].split(",")) : null;
-    cyclicAcbPs = source[37].split("\\s").length == 2 ? new CyclicAcbPsBean(source[37].split("\\s")[1].split(",")) : null;
-    dchIflsMarginCode = source[38].split("\\s").length == 2 ? Integer.parseInt(source[38].split("\\s")[1]) : null;
-    dchIflsMarginPower = source[39].split("\\s").length == 2 ? Integer.parseInt(source[39].split("\\s")[1]) : null;
-    dchIflsThreshCode = source[40].split("\\s").length == 2 ? Integer.parseInt(source[40].split("\\s")[1]) : null;
-    dchIflsThreshPower = source[41].split("\\s").length == 2 ? Integer.parseInt(source[41].split("\\s")[1]) : null;
-    directedRetryTarget = source[42].split("\\s").length == 2 ? source[42].split("\\s")[1] : null;
-    dlCodeAdm = source[43].split("\\s").length == 2 ? Integer.parseInt(source[43].split("\\s")[1]) : null;
-    dlCodeOffloadLimit = source[44].split("\\s").length == 2 ? Integer.parseInt(source[44].split("\\s")[1]) : null;
-    dlCodePowerCmEnabled = source[45].split("\\s").length == 2 ? Integer.parseInt(source[45].split("\\s")[1]) : null;
-    dlPowerOffloadLimit = source[46].split("\\s").length == 2 ? Integer.parseInt(source[46].split("\\s")[1]) : null;
-    dmcrEnabled = source[47].split("\\s").length == 2 ? Integer.parseInt(source[47].split("\\s")[1]) : null;
-    dnclEnabled = source[48].split("\\s").length == 2 ? Integer.parseInt(source[48].split("\\s")[1]) : null;
-    downswitchTimer = source[49].split("\\s").length == 2 ? Integer.parseInt(source[49].split("\\s")[1]) : null;
-    eulMcServingCellUsersAdmTti2 = source[50].split("\\s").length == 2 ? Integer.parseInt(source[50].split("\\s")[1]) : null;
-    eulNonServingCellUsersAdm = source[51].split("\\s").length == 2 ? Integer.parseInt(source[51].split("\\s")[1]) : null;
-    eulServingCellUsersAdm = source[52].split("\\s").length == 2 ? Integer.parseInt(source[52].split("\\s")[1]) : null;
-    eulServingCellUsersAdmTti2 = source[53].split("\\s").length == 2 ? Integer.parseInt(source[53].split("\\s")[1]) : null;
-    fachMeasOccaCycLenCoeff = source[54].split("\\s").length == 2 ? Integer.parseInt(source[54].split("\\s")[1]) : null;
-    ganHoEnabled = source[55].split("\\s").length == 2 ? Integer.parseInt(source[55].split("\\s")[1]) : null;
-    hardIfhoCorr = source[56].split("\\s").length == 2 ? Integer.parseInt(source[56].split("\\s")[1]) : null;
-    hcsSib3Config = source[57].split("\\s").length == 2 ? new HcsSib3ConfigBean(source[57].split("\\s")[1].split(",")) : null;
-    hcsUsage = source[58].split("\\s").length == 2 ? new HcsUsageBean(source[58].split("\\s")[1].split(",")) : null;
-    hoType = source[59].split("\\s").length == 2 ? Integer.parseInt(source[59].split("\\s")[1]) : null;
-    hsIflsDownswitchTrigg = source[60].split("\\s").length == 2 ? new HsIflsDownswitchTriggBean(source[60].split("\\s")[1].split(",")) : null;
-    hsIflsHighLoadThresh = source[61].split("\\s").length == 2 ? Integer.parseInt(source[61].split("\\s")[1]) : null;
-    hsIflsMarginUsers = source[62].split("\\s").length == 2 ? Integer.parseInt(source[62].split("\\s")[1]) : null;
-    hsIflsPowerLoadThresh = source[63].split("\\s").length == 2 ? Integer.parseInt(source[63].split("\\s")[1]) : null;
-    hsIflsRedirectLoadLimit = source[64].split("\\s").length == 2 ? Integer.parseInt(source[64].split("\\s")[1]) : null;
-    hsIflsSpeechMultiRabTrigg = source[65].split("\\s").length == 2 ? Integer.parseInt(source[65].split("\\s")[1]) : null;
-    hsIflsThreshUsers = source[66].split("\\s").length == 2 ? Integer.parseInt(source[66].split("\\s")[1]) : null;
-    hsIflsTrigger = source[67].split("\\s").length == 2 ? new HsIflsTriggerBean(source[67].split("\\s")[1].split(",")) : null;
-    hsdpaUsersAdm = source[68].split("\\s").length == 2 ? Integer.parseInt(source[68].split("\\s")[1]) : null;
-    hsdpaUsersOffloadLimit = source[69].split("\\s").length == 2 ? Integer.parseInt(source[69].split("\\s")[1]) : null;
-    hsdschInactivityTimer = source[70].split("\\s").length == 2 ? Integer.parseInt(source[70].split("\\s")[1]) : null;
-    hsdschInactivityTimerCpc = source[71].split("\\s").length == 2 ? Integer.parseInt(source[71].split("\\s")[1]) : null;
-    iFCong = source[72].split("\\s").length == 2 ? Integer.parseInt(source[72].split("\\s")[1]) : null;
-    iFHyst = source[73].split("\\s").length == 2 ? Integer.parseInt(source[73].split("\\s")[1]) : null;
-    ifIratHoPsIntHsEnabled = source[74].split("\\s").length == 2 ? Integer.parseInt(source[74].split("\\s")[1]) : null;
-    iflsCpichEcnoThresh = source[75].split("\\s").length == 2 ? Integer.parseInt(source[75].split("\\s")[1]) : null;
-    iflsMode = source[76].split("\\s").length == 2 ? Integer.parseInt(source[76].split("\\s")[1]) : null;
-    iflsRedirectUarfcn = source[77].split("\\s").length == 2 ? Integer.parseInt(source[77].split("\\s")[1]) : null;
-    inactivityTimeMultiPsInteractive = source[78].split("\\s").length == 2 ? Integer.parseInt(source[78].split("\\s")[1]) : null;
-    inactivityTimer = source[79].split("\\s").length == 2 ? Integer.parseInt(source[79].split("\\s")[1]) : null;
-    inactivityTimerEnhUeDrx = source[80].split("\\s").length == 2 ? Integer.parseInt(source[80].split("\\s")[1]) : null;
-    inactivityTimerPch = source[81].split("\\s").length == 2 ? Integer.parseInt(source[81].split("\\s")[1]) : null;
-    individualOffset = source[82].split("\\s").length == 2 ? Integer.parseInt(source[82].split("\\s")[1]) : null;
-    interFreqFddMeasIndicator = source[83].split("\\s").length == 2 ? Integer.parseInt(source[83].split("\\s")[1]) : null;
-    interPwrMax = source[84].split("\\s").length == 2 ? Integer.parseInt(source[84].split("\\s")[1]) : null;
-    interRate = source[85].split("\\s").length == 2 ? Integer.parseInt(source[85].split("\\s")[1]) : null;
-    iubLinkRef = source[86].split("\\s").length == 2 ? new IubLinkRefBean(source[86].split("\\s")[1].split("=")) : null;
-    loadBasedHoSupport = source[87].split("\\s").length == 2 ? Integer.parseInt(source[87].split("\\s")[1]) : null;
-    loadBasedHoType = source[88].split("\\s").length == 2 ? Integer.parseInt(source[88].split("\\s")[1]) : null;
-    loadSharingGsmFraction = source[89].split("\\s").length == 2 ? Integer.parseInt(source[89].split("\\s")[1]) : null;
-    loadSharingGsmThreshold = source[90].split("\\s").length == 2 ? Integer.parseInt(source[90].split("\\s")[1]) : null;
-    loadSharingMargin = source[91].split("\\s").length == 2 ? Integer.parseInt(source[91].split("\\s")[1]) : null;
-    localCellId = source[92].split("\\s").length == 2 ? Integer.parseInt(source[92].split("\\s")[1]) : null;
-    locationAreaRef = source[93].split("\\s").length == 2 ? new LocationAreaRefBean(source[93].split("\\s")[1].split("=")) : null;
-    lteMeasEnabled = source[94].split("\\s").length == 2 ? Integer.parseInt(source[94].split("\\s")[1]) : null;
-    maxPwrMax = source[95].split("\\s").length == 2 ? Integer.parseInt(source[95].split("\\s")[1]) : null;
-    maxRate = source[96].split("\\s").length == 2 ? Integer.parseInt(source[96].split("\\s")[1]) : null;
-    maxTxPowerUl = source[97].split("\\s").length == 2 ? Integer.parseInt(source[97].split("\\s")[1]) : null;
-    maximumTransmissionPower = source[98].split("\\s").length == 2 ? Integer.parseInt(source[98].split("\\s")[1]) : null;
-    minPwrMax = source[99].split("\\s").length == 2 ? Integer.parseInt(source[99].split("\\s")[1]) : null;
-    minPwrRl = source[100].split("\\s").length == 2 ? Integer.parseInt(source[100].split("\\s")[1]) : null;
-    minimumRate = source[101].split("\\s").length == 2 ? Integer.parseInt(source[101].split("\\s")[1]) : null;
-    mocnCellProfileRef = source[102].split("\\s").length == 2 ? new MocnCellProfileRefBean(source[102].split("\\s")[1].split("=")) : null;
-    nOutSyncInd = source[103].split("\\s").length == 2 ? Integer.parseInt(source[103].split("\\s")[1]) : null;
-    pagingPermAccessCtrl = source[104].split("\\s").length >= 2 ? new PagingPermAccessCtrlBean(source[104].substring(source[104].indexOf(" ")).split(",")) : null;
-    pathlossThreshold = source[105].split("\\s").length == 2 ? Integer.parseInt(source[105].split("\\s")[1]) : null;
-    primaryCpichPower = source[106].split("\\s").length == 2 ? Integer.parseInt(source[106].split("\\s")[1]) : null;
-    primarySchPower = source[107].split("\\s").length == 2 ? Integer.parseInt(source[107].split("\\s")[1]) : null;
-    primaryScramblingCode = source[108].split("\\s").length == 2 ? Integer.parseInt(source[108].split("\\s")[1]) : null;
-    primaryTpsCell = source[109].split("\\s").length == 2 ? Integer.parseInt(source[109].split("\\s")[1]) : null;
-    psHoToLteEnabled = source[110].split("\\s").length == 2 ? Integer.parseInt(source[110].split("\\s")[1]) : null;
-    pwrAdm = source[111].split("\\s").length == 2 ? Integer.parseInt(source[111].split("\\s")[1]) : null;
-    pwrLoadThresholdDlSpeech = source[112].split("\\s").length == 2 ? new PwrLoadThresholdDlSpeechBean(source[112].split("\\s")[1].split(",")) : null;
-    qHyst1 = source[113].split("\\s").length == 2 ? Integer.parseInt(source[113].split("\\s")[1]) : null;
-    qHyst2 = source[114].split("\\s").length == 2 ? Integer.parseInt(source[114].split("\\s")[1]) : null;
-    qQualMin = source[115].split("\\s").length == 2 ? Integer.parseInt(source[115].split("\\s")[1]) : null;
-    qRxLevMin = source[116].split("\\s").length == 2 ? Integer.parseInt(source[116].split("\\s")[1]) : null;
-    qualMeasQuantity = source[117].split("\\s").length == 2 ? Integer.parseInt(source[117].split("\\s")[1]) : null;
-    rachOverloadProtect = source[118].split("\\s").length == 2 ? Integer.parseInt(source[118].split("\\s")[1]) : null;
-    rateSelectionPsInteractive = source[119].split("\\s").length == 2 ? new RateSelectionPsInteractiveBean(source[119].split("\\s")[1].split(",")) : null;
-    redirectUarfcn = source[120].split("\\s").length == 2 ? Integer.parseInt(source[120].split("\\s")[1]) : null;
-    releaseRedirect = source[121].split("\\s").length == 2 ? Integer.parseInt(source[121].split("\\s")[1]) : null;
-    releaseRedirectEutraTriggers = source[122].split("\\s").length == 2 ? new ReleaseRedirectEutraTriggersBean(source[122].split("\\s")[1].split(",")) : null;
-    releaseRedirectHsIfls = source[123].split("\\s").length == 2 ? Integer.parseInt(source[123].split("\\s")[1]) : null;
-    reportingRange1a = source[124].split("\\s").length == 2 ? Integer.parseInt(source[124].split("\\s")[1]) : null;
-    reportingRange1b = source[125].split("\\s").length == 2 ? Integer.parseInt(source[125].split("\\s")[1]) : null;
-    rlFailureT = source[126].split("\\s").length == 2 ? Integer.parseInt(source[126].split("\\s")[1]) : null;
-    routingAreaRef = source[127].split("\\s").length == 2 ? new RoutingAreaRefBean(source[127].split("\\s")[1].split(",")) : null;
-    rrcLcEnabled = source[128].split("\\s").length == 2 ? Integer.parseInt(source[128].split("\\s")[1]) : null;
-    rwrEutraCc = source[129].split("\\s").length == 2 ? Integer.parseInt(source[129].split("\\s")[1]) : null;
-    sHcsRat = source[130].split("\\s").length == 2 ? Integer.parseInt(source[130].split("\\s")[1]) : null;
-    sInterSearch = source[131].split("\\s").length == 2 ? Integer.parseInt(source[131].split("\\s")[1]) : null;
-    sIntraSearch = source[132].split("\\s").length == 2 ? Integer.parseInt(source[132].split("\\s")[1]) : null;
-    sRatSearch = source[133].split("\\s").length == 2 ? Integer.parseInt(source[133].split("\\s")[1]) : null;
-    secondaryCpichPower = source[134].split("\\s").length == 2 ? Integer.parseInt(source[134].split("\\s")[1]) : null;
-    secondarySchPower = source[135].split("\\s").length == 2 ? Integer.parseInt(source[135].split("\\s")[1]) : null;
-    servDiffRrcAdmHighPrioProfile = source[136].split("\\s").length == 2 ? Integer.parseInt(source[136].split("\\s")[1]) : null;
-    serviceAreaRef = source[137].split("\\s").length == 2 ? new ServiceAreaRefBean(source[137].split("\\s")[1].split(",")) : null;
-    serviceRestrictions = source[138].split("\\s").length == 2 ? new ServiceRestrictionsBean(source[138].split("\\s")[1].split("=")) : null;
-    sf128Adm = source[139].split("\\s").length == 2 ? Integer.parseInt(source[139].split("\\s")[1]) : null;
-    sf16Adm = source[140].split("\\s").length == 2 ? Integer.parseInt(source[140].split("\\s")[1]) : null;
-    sf16AdmUl = source[141].split("\\s").length == 2 ? Integer.parseInt(source[141].split("\\s")[1]) : null;
-    sf16gAdm = source[142].split("\\s").length == 2 ? Integer.parseInt(source[142].split("\\s")[1]) : null;
-    sf32Adm = source[143].split("\\s").length == 2 ? Integer.parseInt(source[143].split("\\s")[1]) : null;
-    sf4AdmUl = source[144].split("\\s").length == 2 ? Integer.parseInt(source[144].split("\\s")[1]) : null;
-    sf64AdmUl = source[145].split("\\s").length == 2 ? Integer.parseInt(source[145].split("\\s")[1]) : null;
-    sf8Adm = source[146].split("\\s").length == 2 ? Integer.parseInt(source[146].split("\\s")[1]) : null;
-    sf8AdmUl = source[147].split("\\s").length == 2 ? Integer.parseInt(source[147].split("\\s")[1]) : null;
-    sf8gAdmUl = source[148].split("\\s").length == 2 ? Integer.parseInt(source[148].split("\\s")[1]) : null;
-    sib11UtranCellConfig = source[149].split("\\s").length == 2 ? new Sib11UtranCellConfigBean(source[149].split("\\s")[1].split(",")) : null;
-    sib1PlmnScopeValueTag = source[150].split("\\s").length == 2 ? Integer.parseInt(source[150].split("\\s")[1]) : null;
-    spare = source[151].split("\\s").length == 2 ? Integer.parseInt(source[151].split("\\s")[1]) : null;
-    spareA = source[152].split("\\s").length == 2 ? new ObjectMapper().readValue("["+source[152].split("\\s")[1]+"]", List.class) : null;
-    srbAdmExempt = source[153].split("\\s").length == 2 ? Integer.parseInt(source[153].split("\\s")[1]) : null;
-    standAloneSrbSelector = source[154].split("\\s").length == 2 ? Integer.parseInt(source[154].split("\\s")[1]) : null;
-    tCell = source[155].split("\\s").length == 2 ? Integer.parseInt(source[155].split("\\s")[1]) : null;
-    timeToTrigger1a = source[156].split("\\s").length == 2 ? Integer.parseInt(source[156].split("\\s")[1]) : null;
-    timeToTrigger1b = source[157].split("\\s").length == 2 ? Integer.parseInt(source[157].split("\\s")[1]) : null;
-    tpsCellThresholds = source[158].split("\\s").length == 2 ? new TpsCellThresholdsBean(source[158].split("\\s")[1].split(",")) : null;
-    tpsPeriodsRef = source[159].split("\\s").length == 2 ? source[159].split("\\s")[1] : null;
-    transmissionScheme = source[160].split("\\s").length == 2 ? Integer.parseInt(source[160].split("\\s")[1]) : null;
-    treSelection = source[161].split("\\s").length == 2 ? Integer.parseInt(source[161].split("\\s")[1]) : null;
-    uarfcnDl = source[162].split("\\s").length == 2 ? Integer.parseInt(source[162].split("\\s")[1]) : null;
-    uarfcnUl = source[163].split("\\s").length == 2 ? Integer.parseInt(source[163].split("\\s")[1]) : null;
-    updateLocator = source[164].split("\\s").length == 2 ? Integer.parseInt(source[164].split("\\s")[1]) : null;
-    uraRef = source[165].split("\\s").length == 2 ? new UraRefBean(source[165].split("\\s")[1].split(",")) : null;
-    usedFreqThresh2dEcno = source[166].split("\\s").length == 2 ? Integer.parseInt(source[166].split("\\s")[1]) : null;
-    usedFreqThresh2dRscp = source[167].split("\\s").length == 2 ? Integer.parseInt(source[167].split("\\s")[1]) : null;
-    userLabel = source[168].split("\\s").length == 2 ? source[168].split("\\s")[1] : null;
-    utranCellPosition = source[169].split("\\s").length == 2 ? source[169].split("\\s")[1] : null;
+    absPrioCellRes = (AbsPrioCellResBean)FieldExtractor.getFieldObject(AbsPrioCellResBean.class, source, "absPrioCellRes");
+    accessClassNBarred = FieldExtractor.getFieldList(source, "accessClassNBarred");
+    admBlockRedirection = (AdmBlockRedirectionBean)FieldExtractor.getFieldObject(AdmBlockRedirectionBean.class, source, "admBlockRedirection");
+    administrativeState = FieldExtractor.getFieldIntPrimitive(source, "administrativeState");
+    agpsEnabled = FieldExtractor.getFieldIntPrimitive(source, "agpsEnabled");
+    amrNbSelector = FieldExtractor.getFieldIntPrimitive(source, "amrNbSelector");
+    amrWbRateDlMax = FieldExtractor.getFieldIntPrimitive(source, "amrWbRateDlMax");
+    amrWbRateUlMax = FieldExtractor.getFieldIntPrimitive(source, "amrWbRateUlMax");
+    anrIafUtranCellConfig = (AnrIafUtranCellConfigBean)FieldExtractor.getFieldObject(AnrIafUtranCellConfigBean.class, source, "anrIafUtranCellConfig");
+    anrIefUtranCellConfig = (AnrIefUtranCellConfigBean)FieldExtractor.getFieldObject(AnrIefUtranCellConfigBean.class, source, "anrIefUtranCellConfig");
+    antennaPosition = (AntennaPositionBean)FieldExtractor.getFieldObject(AntennaPositionBean.class, source, "antennaPosition");
+    aseDlAdm = FieldExtractor.getFieldIntPrimitive(source, "aseDlAdm");
+    aseLoadThresholdUlSpeech = (AseLoadThresholdUlSpeechBean)FieldExtractor.getFieldObject(AseLoadThresholdUlSpeechBean.class, source, "aseLoadThresholdUlSpeech");
+    aseUlAdm = FieldExtractor.getFieldIntPrimitive(source, "aseUlAdm");
+    autoAcbEnabled = FieldExtractor.getFieldIntPrimitive(source, "autoAcbEnabled");
+    autoAcbMaxPsClassesToBar = FieldExtractor.getFieldIntPrimitive(source, "autoAcbMaxPsClassesToBar");
+    autoAcbMinRcssrInput = FieldExtractor.getFieldIntPrimitive(source, "autoAcbMinRcssrInput");
+    autoAcbRcssrThresh = FieldExtractor.getFieldIntPrimitive(source, "autoAcbRcssrThresh");
+    autoAcbRcssrWeight = FieldExtractor.getFieldIntPrimitive(source, "autoAcbRcssrWeight");
+    autoAcbRtwpThresh = FieldExtractor.getFieldIntPrimitive(source, "autoAcbRtwpThresh");
+    autoAcbRtwpWeight = FieldExtractor.getFieldIntPrimitive(source, "autoAcbRtwpWeight");
+    bchPower = FieldExtractor.getFieldIntPrimitive(source, "bchPower");
+    cId = FieldExtractor.getFieldIntPrimitive(source, "cId");
+    cbsSchedulePeriodLength = FieldExtractor.getFieldIntPrimitive(source, "cbsSchedulePeriodLength");
+    cellBroadcastSac = FieldExtractor.getFieldIntPrimitive(source, "cellBroadcastSac");
+    cellReserved = FieldExtractor.getFieldIntPrimitive(source, "cellReserved");
+    cellUpdateConfirmCsInitRepeat = FieldExtractor.getFieldIntPrimitive(source, "cellUpdateConfirmCsInitRepeat");
+    cellUpdateConfirmPsInitRepeat = FieldExtractor.getFieldIntPrimitive(source, "cellUpdateConfirmPsInitRepeat");
+    codeLoadThresholdDlSf128 = FieldExtractor.getFieldIntPrimitive(source, "codeLoadThresholdDlSf128");
+    compModeAdm = FieldExtractor.getFieldIntPrimitive(source, "compModeAdm");
+    ctchAdmMargin = FieldExtractor.getFieldIntPrimitive(source, "ctchAdmMargin");
+    ctchOccasionPeriod = FieldExtractor.getFieldIntPrimitive(source, "ctchOccasionPeriod");
+    cyclicAcb = (CyclicAcbBean)FieldExtractor.getFieldObject(CyclicAcbBean.class, source, "cyclicAcb");
+    cyclicAcbCs = (CyclicAcbCsBean)FieldExtractor.getFieldObject(CyclicAcbCsBean.class, source, "cyclicAcbCs");
+    cyclicAcbPs = (CyclicAcbPsBean)FieldExtractor.getFieldObject(CyclicAcbPsBean.class, source, "cyclicAcbPs");
+    dchIflsMarginCode = FieldExtractor.getFieldIntPrimitive(source, "dchIflsMarginCode");
+    dchIflsMarginPower = FieldExtractor.getFieldIntPrimitive(source, "dchIflsMarginPower");
+    dchIflsThreshCode = FieldExtractor.getFieldIntPrimitive(source, "dchIflsThreshCode");
+    dchIflsThreshPower = FieldExtractor.getFieldIntPrimitive(source, "dchIflsThreshPower");
+    directedRetryTarget = FieldExtractor.getFieldString(source, "directedRetryTarget");
+    dlCodeAdm = FieldExtractor.getFieldIntPrimitive(source, "dlCodeAdm");
+    dlCodeOffloadLimit = FieldExtractor.getFieldIntPrimitive(source, "dlCodeOffloadLimit");
+    dlCodePowerCmEnabled = FieldExtractor.getFieldIntPrimitive(source, "dlCodePowerCmEnabled");
+    dlPowerOffloadLimit = FieldExtractor.getFieldIntPrimitive(source, "dlPowerOffloadLimit");
+    dmcrEnabled = FieldExtractor.getFieldIntPrimitive(source, "dmcrEnabled");
+    dnclEnabled = FieldExtractor.getFieldIntPrimitive(source, "dnclEnabled");
+    downswitchTimer = FieldExtractor.getFieldIntPrimitive(source, "downswitchTimer");
+    eulMcServingCellUsersAdmTti2 = FieldExtractor.getFieldIntPrimitive(source, "eulMcServingCellUsersAdmTti2");
+    eulNonServingCellUsersAdm = FieldExtractor.getFieldIntPrimitive(source, "eulNonServingCellUsersAdm");
+    eulServingCellUsersAdm = FieldExtractor.getFieldIntPrimitive(source, "eulServingCellUsersAdm");
+    eulServingCellUsersAdmTti2 = FieldExtractor.getFieldIntPrimitive(source, "eulServingCellUsersAdmTti2");
+    fachMeasOccaCycLenCoeff = FieldExtractor.getFieldIntPrimitive(source, "fachMeasOccaCycLenCoeff");
+    ganHoEnabled = FieldExtractor.getFieldIntPrimitive(source, "ganHoEnabled");
+    hardIfhoCorr = FieldExtractor.getFieldIntPrimitive(source, "hardIfhoCorr");
+    hcsSib3Config = (HcsSib3ConfigBean)FieldExtractor.getFieldObject(HcsSib3ConfigBean.class, source, "hcsSib3Config");
+    hcsUsage = (HcsUsageBean)FieldExtractor.getFieldObject(HcsUsageBean.class, source, "hcsUsage");
+    hoType = FieldExtractor.getFieldIntPrimitive(source, "hoType");
+    hsIflsDownswitchTrigg = (HsIflsDownswitchTriggBean)FieldExtractor.getFieldObject(HsIflsDownswitchTriggBean.class, source, "hsIflsDownswitchTrigg");
+    hsIflsHighLoadThresh = FieldExtractor.getFieldIntPrimitive(source, "hsIflsHighLoadThresh");
+    hsIflsMarginUsers = FieldExtractor.getFieldIntPrimitive(source, "hsIflsMarginUsers");
+    hsIflsPowerLoadThresh = FieldExtractor.getFieldIntPrimitive(source, "hsIflsPowerLoadThresh");
+    hsIflsRedirectLoadLimit = FieldExtractor.getFieldIntPrimitive(source, "hsIflsRedirectLoadLimit");
+    hsIflsSpeechMultiRabTrigg = FieldExtractor.getFieldIntPrimitive(source, "hsIflsSpeechMultiRabTrigg");
+    hsIflsThreshUsers = FieldExtractor.getFieldIntPrimitive(source, "hsIflsThreshUsers");
+    hsIflsTrigger = (HsIflsTriggerBean)FieldExtractor.getFieldObject(HsIflsTriggerBean.class, source, "hsIflsTrigger");
+    hsdpaUsersAdm = FieldExtractor.getFieldIntPrimitive(source, "hsdpaUsersAdm");
+    hsdpaUsersOffloadLimit = FieldExtractor.getFieldIntPrimitive(source, "hsdpaUsersOffloadLimit");
+    hsdschInactivityTimer = FieldExtractor.getFieldIntPrimitive(source, "hsdschInactivityTimer");
+    hsdschInactivityTimerCpc = FieldExtractor.getFieldIntPrimitive(source, "hsdschInactivityTimerCpc");
+    iFCong = FieldExtractor.getFieldIntPrimitive(source, "iFCong");
+    iFHyst = FieldExtractor.getFieldIntPrimitive(source, "iFHyst");
+    ifIratHoPsIntHsEnabled = FieldExtractor.getFieldIntPrimitive(source, "ifIratHoPsIntHsEnabled");
+    iflsCpichEcnoThresh = FieldExtractor.getFieldIntPrimitive(source, "iflsCpichEcnoThresh");
+    iflsMode = FieldExtractor.getFieldIntPrimitive(source, "iflsMode");
+    iflsRedirectUarfcn = FieldExtractor.getFieldIntPrimitive(source, "iflsRedirectUarfcn");
+    inactivityTimeMultiPsInteractive = FieldExtractor.getFieldIntPrimitive(source, "inactivityTimeMultiPsInteractive");
+    inactivityTimer = FieldExtractor.getFieldIntPrimitive(source, "inactivityTimer");
+    inactivityTimerEnhUeDrx = FieldExtractor.getFieldIntPrimitive(source, "inactivityTimerEnhUeDrx");
+    inactivityTimerPch = FieldExtractor.getFieldIntPrimitive(source, "inactivityTimerPch");
+    individualOffset = FieldExtractor.getFieldIntPrimitive(source, "individualOffset");
+    interFreqFddMeasIndicator = FieldExtractor.getFieldIntPrimitive(source, "interFreqFddMeasIndicator");
+    interPwrMax = FieldExtractor.getFieldIntPrimitive(source, "interPwrMax");
+    interRate = FieldExtractor.getFieldIntPrimitive(source, "interRate");
+    iubLinkRef = (IubLinkRefBean)FieldExtractor.getFieldObject(IubLinkRefBean.class, source, "iubLinkRef");
+    loadBasedHoSupport = FieldExtractor.getFieldIntPrimitive(source, "loadBasedHoSupport");
+    loadBasedHoType = FieldExtractor.getFieldIntPrimitive(source, "loadBasedHoType");
+    loadSharingGsmFraction = FieldExtractor.getFieldIntPrimitive(source, "loadSharingGsmFraction");
+    loadSharingGsmThreshold = FieldExtractor.getFieldIntPrimitive(source, "loadSharingGsmThreshold");
+    loadSharingMargin = FieldExtractor.getFieldIntPrimitive(source, "loadSharingMargin");
+    localCellId = FieldExtractor.getFieldIntPrimitive(source, "localCellId");
+    locationAreaRef = (LocationAreaRefBean)FieldExtractor.getFieldObject(LocationAreaRefBean.class, source, "locationAreaRef");
+    lteMeasEnabled = FieldExtractor.getFieldIntPrimitive(source, "lteMeasEnabled");
+    maxPwrMax = FieldExtractor.getFieldIntPrimitive(source, "maxPwrMax");
+    maxRate = FieldExtractor.getFieldIntPrimitive(source, "maxRate");
+    maxTxPowerUl = FieldExtractor.getFieldIntPrimitive(source, "maxTxPowerUl");
+    maximumTransmissionPower = FieldExtractor.getFieldIntPrimitive(source, "maximumTransmissionPower");
+    minPwrMax = FieldExtractor.getFieldIntPrimitive(source, "minPwrMax");
+    minPwrRl = FieldExtractor.getFieldIntPrimitive(source, "minPwrRl");
+    minimumRate = FieldExtractor.getFieldIntPrimitive(source, "minimumRate");
+    mocnCellProfileRef = (MocnCellProfileRefBean)FieldExtractor.getFieldObject(MocnCellProfileRefBean.class, source, "mocnCellProfileRef");
+    nOutSyncInd = FieldExtractor.getFieldIntPrimitive(source, "nOutSyncInd");
+    pagingPermAccessCtrl = (PagingPermAccessCtrlBean)FieldExtractor.getSpecificFieldObject(PagingPermAccessCtrlBean.class, source, "pagingPermAccessCtrl");
+    pathlossThreshold = FieldExtractor.getFieldIntPrimitive(source, "pathlossThreshold");
+    primaryCpichPower = FieldExtractor.getFieldIntPrimitive(source, "primaryCpichPower");
+    primarySchPower = FieldExtractor.getFieldIntPrimitive(source, "primarySchPower");
+    primaryScramblingCode = FieldExtractor.getFieldIntPrimitive(source, "primaryScramblingCode");
+    primaryTpsCell = FieldExtractor.getFieldIntPrimitive(source, "primaryTpsCell");
+    psHoToLteEnabled = FieldExtractor.getFieldIntPrimitive(source, "psHoToLteEnabled");
+    pwrAdm = FieldExtractor.getFieldIntPrimitive(source, "pwrAdm");
+    pwrLoadThresholdDlSpeech = (PwrLoadThresholdDlSpeechBean)FieldExtractor.getFieldObject(PwrLoadThresholdDlSpeechBean.class, source, "pwrLoadThresholdDlSpeech");
+    qHyst1 = FieldExtractor.getFieldIntPrimitive(source, "qHyst1");
+    qHyst2 = FieldExtractor.getFieldIntPrimitive(source, "qHyst2");
+    qQualMin = FieldExtractor.getFieldIntPrimitive(source, "qQualMin");
+    qRxLevMin = FieldExtractor.getFieldIntPrimitive(source, "qRxLevMin");
+    qualMeasQuantity = FieldExtractor.getFieldIntPrimitive(source, "qualMeasQuantity");
+    rachOverloadProtect = FieldExtractor.getFieldIntPrimitive(source, "rachOverloadProtect");
+    rateSelectionPsInteractive = (RateSelectionPsInteractiveBean)FieldExtractor.getFieldObject(RateSelectionPsInteractiveBean.class, source, "rateSelectionPsInteractive");
+    redirectUarfcn = FieldExtractor.getFieldIntPrimitive(source, "redirectUarfcn");
+    releaseRedirect = FieldExtractor.getFieldIntPrimitive(source, "releaseRedirect");
+    releaseRedirectEutraTriggers = (ReleaseRedirectEutraTriggersBean)FieldExtractor.getFieldObject(ReleaseRedirectEutraTriggersBean.class, source, "releaseRedirectEutraTriggers");
+    releaseRedirectHsIfls = FieldExtractor.getFieldIntPrimitive(source, "releaseRedirectHsIfls");
+    reportingRange1a = FieldExtractor.getFieldIntPrimitive(source, "reportingRange1a");
+    reportingRange1b = FieldExtractor.getFieldIntPrimitive(source, "reportingRange1b");
+    rlFailureT = FieldExtractor.getFieldIntPrimitive(source, "rlFailureT");
+    routingAreaRef = (RoutingAreaRefBean)FieldExtractor.getFieldObject(RoutingAreaRefBean.class, source, "routingAreaRef");
+    rrcLcEnabled = FieldExtractor.getFieldIntPrimitive(source, "rrcLcEnabled");
+    rwrEutraCc = FieldExtractor.getFieldIntPrimitive(source, "rwrEutraCc");
+    sHcsRat = FieldExtractor.getFieldIntPrimitive(source, "sHcsRat");
+    sInterSearch = FieldExtractor.getFieldIntPrimitive(source, "sInterSearch");
+    sIntraSearch = FieldExtractor.getFieldIntPrimitive(source, "sIntraSearch");
+    sRatSearch = FieldExtractor.getFieldIntPrimitive(source, "sRatSearch");
+    secondaryCpichPower = FieldExtractor.getFieldIntPrimitive(source, "secondaryCpichPower");
+    secondarySchPower = FieldExtractor.getFieldIntPrimitive(source, "secondarySchPower");
+    servDiffRrcAdmHighPrioProfile = FieldExtractor.getFieldIntPrimitive(source, "servDiffRrcAdmHighPrioProfile");
+    serviceAreaRef = (ServiceAreaRefBean)FieldExtractor.getFieldObject(ServiceAreaRefBean.class, source, "serviceAreaRef");
+    serviceRestrictions = (ServiceRestrictionsBean)FieldExtractor.getFieldObject(ServiceRestrictionsBean.class, source, "serviceRestrictions");
+    sf128Adm = FieldExtractor.getFieldIntPrimitive(source, "sf128Adm");
+    sf16Adm = FieldExtractor.getFieldIntPrimitive(source, "sf16Adm");
+    sf16AdmUl = FieldExtractor.getFieldIntPrimitive(source, "sf16AdmUl");
+    sf16gAdm = FieldExtractor.getFieldIntPrimitive(source, "sf16gAdm");
+    sf32Adm = FieldExtractor.getFieldIntPrimitive(source, "sf32Adm");
+    sf4AdmUl = FieldExtractor.getFieldIntPrimitive(source, "sf4AdmUl");
+    sf64AdmUl = FieldExtractor.getFieldIntPrimitive(source, "sf64AdmUl");
+    sf8Adm = FieldExtractor.getFieldIntPrimitive(source, "sf8Adm");
+    sf8AdmUl = FieldExtractor.getFieldIntPrimitive(source, "sf8AdmUl");
+    sf8gAdmUl = FieldExtractor.getFieldIntPrimitive(source, "sf8gAdmUl");
+    sib11UtranCellConfig = (Sib11UtranCellConfigBean)FieldExtractor.getFieldObject(Sib11UtranCellConfigBean.class, source, "sib11UtranCellConfig");
+    sib1PlmnScopeValueTag = FieldExtractor.getFieldIntPrimitive(source, "sib1PlmnScopeValueTag");
+    spare = FieldExtractor.getFieldIntPrimitive(source, "spare");
+    spareA = FieldExtractor.getFieldList(source, "spareA");
+    srbAdmExempt = FieldExtractor.getFieldIntPrimitive(source, "srbAdmExempt");
+    standAloneSrbSelector = FieldExtractor.getFieldIntPrimitive(source, "standAloneSrbSelector");
+    tCell = FieldExtractor.getFieldIntPrimitive(source, "tCell");
+    timeToTrigger1a = FieldExtractor.getFieldIntPrimitive(source, "timeToTrigger1a");
+    timeToTrigger1b = FieldExtractor.getFieldIntPrimitive(source, "timeToTrigger1b");
+    tpsCellThresholds = (TpsCellThresholdsBean)FieldExtractor.getFieldObject(TpsCellThresholdsBean.class, source, "tpsCellThresholds");
+    tpsPeriodsRef = FieldExtractor.getFieldString(source, "tpsPeriodsRef");
+    transmissionScheme = FieldExtractor.getFieldIntPrimitive(source, "transmissionScheme");
+    treSelection = FieldExtractor.getFieldIntPrimitive(source, "treSelection");
+    uarfcnDl = FieldExtractor.getFieldIntPrimitive(source, "uarfcnDl");
+    uarfcnUl = FieldExtractor.getFieldIntPrimitive(source, "uarfcnUl");
+    updateLocator = FieldExtractor.getFieldIntPrimitive(source, "updateLocator");
+    uraRef = (UraRefBean)FieldExtractor.getFieldObject(UraRefBean.class, source, "uraRef");
+    usedFreqThresh2dEcno = FieldExtractor.getFieldIntPrimitive(source, "usedFreqThresh2dEcno");
+    usedFreqThresh2dRscp = FieldExtractor.getFieldIntPrimitive(source, "usedFreqThresh2dRscp");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
+    utranCellPosition = FieldExtractor.getFieldString(source, "utranCellPosition");
   }
 
   @Override
@@ -1942,16 +1939,16 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     private int threshServingLow;
     private int measIndFach;
 
-    public AbsPrioCellResBean() {
-    }
-
-    public AbsPrioCellResBean(String[] source) {
+    public AbsPrioCellResBean(String src) {
+      final String[] source = src.split(",");
       cellReselectionPriority = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       sPrioritySearch1 = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       sPrioritySearch2 = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
       threshServingLow = source[3].split("=").length == 2 ? Integer.parseInt(source[3].split("=")[1]) : null;
       measIndFach = source[4].split("=").length == 2 ? Integer.parseInt(source[4].split("=")[1]) : null;
     }
+
+    public AbsPrioCellResBean() {}
 
     public int getCellReselectionPriority() {
       return cellReselectionPriority;
@@ -2017,7 +2014,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public AdmBlockRedirectionBean() {
     }
 
-    public AdmBlockRedirectionBean(String[] source) {
+    public AdmBlockRedirectionBean(String src) {
+      final String[] source = src.split(",");
       gsmRrc = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       rrc = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       speech = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2071,7 +2069,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public AnrIafUtranCellConfigBean() {
     }
 
-    public AnrIafUtranCellConfigBean(String[] source) {
+    public AnrIafUtranCellConfigBean(String src) {
+      final String[] source = src.split(",");
       anrEnabled = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       relationAddEnabled = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       relationRemoveEnabled = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2131,7 +2130,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public AnrIefUtranCellConfigBean() {
     }
 
-    public AnrIefUtranCellConfigBean(String[] source) {
+    public AnrIefUtranCellConfigBean(String src) {
+      final String[] source = src.split(",");
       anrEnabled = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       sib11IefAnclEnabled = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -2173,7 +2173,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public AntennaPositionBean() {
     }
 
-    public AntennaPositionBean(String[] source) {
+    public AntennaPositionBean(String src) {
+      final String[] source = src.split(",");
       latitudeSign = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       latitude = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       longitude = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2225,7 +2226,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public AseLoadThresholdUlSpeechBean() {
     }
 
-    public AseLoadThresholdUlSpeechBean(String[] source) {
+    public AseLoadThresholdUlSpeechBean(String src) {
+      final String[] source = src.split(",");
       amr12200 = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       amr7950 = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       amr5900 = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2275,7 +2277,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public CyclicAcbBean() {
     }
 
-    public CyclicAcbBean(String[] source) {
+    public CyclicAcbBean(String src) {
+      final String[] source = src.split(",");
       acbEnabled = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       rotationGroupSize = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -2314,7 +2317,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
 
     public CyclicAcbCsBean() {
     }
-    public CyclicAcbCsBean(String[] source) {
+    public CyclicAcbCsBean(String src) {
+      final String[] source = src.split(",");
       acbEnabled = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       rotationGroupSize = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -2354,7 +2358,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public CyclicAcbPsBean() {
     }
 
-    public CyclicAcbPsBean(String[] source) {
+    public CyclicAcbPsBean(String src) {
+      final String[] source = src.split(",");
       acbEnabled = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       rotationGroupSize = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -2396,7 +2401,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public HcsSib3ConfigBean() {
     }
 
-    public HcsSib3ConfigBean(String[] source) {
+    public HcsSib3ConfigBean(String src) {
+      final String[] source = src.split(",");
       hcsPrio = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       qHcs = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       sSearchHcs = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2446,7 +2452,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public HcsUsageBean() {
     }
 
-    public HcsUsageBean(String[] source) {
+    public HcsUsageBean(String src) {
+      final String[] source = src.split(",");
       idleMode = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       connectedMode = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -2489,7 +2496,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public HsIflsDownswitchTriggBean() {
     }
 
-    public HsIflsDownswitchTriggBean(String[] source) {
+    public HsIflsDownswitchTriggBean(String src) {
+      final String[] source = src.split(",");
       toFach = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       toUra = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       fastDormancy = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2540,7 +2548,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public HsIflsTriggerBean() {
     }
 
-    public HsIflsTriggerBean(String[] source) {
+    public HsIflsTriggerBean(String src) {
+      final String[] source = src.split(",");
       fromFach = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       fromUra = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -2579,8 +2588,9 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public IubLinkRefBean() {
     }
 
-    public IubLinkRefBean(String[] source) {
-      IubLink = source[1];
+    public IubLinkRefBean(String src) {
+      final String[] source = src.split(",");
+      IubLink = source[0].split("=")[1];
     }
 
     public String getIubLink() {
@@ -2608,8 +2618,9 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public LocationAreaRefBean() {
     }
 
-    public LocationAreaRefBean(String[] source) {
-      LocationArea = Integer.parseInt(source[1]);
+    public LocationAreaRefBean(String src) {
+      final String[] source = src.split(",");
+      LocationArea = Integer.parseInt(source[0].split("=")[1]);
     }
 
     public int getLocationArea() {
@@ -2636,8 +2647,9 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public MocnCellProfileRefBean() {
     }
 
-    public MocnCellProfileRefBean(String[] source) {
-      MocnCellProfile = source[1];
+    public MocnCellProfileRefBean(String src) {
+      final String[] source = src.split(",");
+      MocnCellProfile = source[0].split("=")[1];
     }
 
     public String getMocnCellProfile() {
@@ -2722,7 +2734,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public PwrLoadThresholdDlSpeechBean() {
     }
 
-    public PwrLoadThresholdDlSpeechBean(String[] source) {
+    public PwrLoadThresholdDlSpeechBean(String src) {
+      final String[] source = src.split(",");
       amr12200 = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       amr7950 = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       amr5900 = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2774,7 +2787,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public RateSelectionPsInteractiveBean() {
     }
 
-    public RateSelectionPsInteractiveBean(String[] source) {
+    public RateSelectionPsInteractiveBean(String src) {
+      final String[] source = src.split(",");
       channelType = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       ulPrefRate = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       dlPrefRate = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2832,7 +2846,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public ReleaseRedirectEutraTriggersBean() {
     }
 
-    public ReleaseRedirectEutraTriggersBean(String[] source) {
+    public ReleaseRedirectEutraTriggersBean(String src) {
+      final String[] source = src.split(",");
       csFallbackCsRelease = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       csFallbackDchToFach = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       dchToFach = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -2912,7 +2927,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public RoutingAreaRefBean() {
     }
 
-    public RoutingAreaRefBean(String[] source) {
+    public RoutingAreaRefBean(String src) {
+      final String[] source = src.split(",");
       LocationArea = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       RoutingArea = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -2952,7 +2968,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public ServiceAreaRefBean() {
     }
 
-    public ServiceAreaRefBean(String[] source) {
+    public ServiceAreaRefBean(String src) {
+      final String[] source = src.split(",");
       LocationArea = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       ServiceArea = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -2987,8 +3004,9 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
 
     private int csVideoCalls;
 
-    public ServiceRestrictionsBean(String[] source) {
-      csVideoCalls = source[1] != null ? Integer.parseInt(source[1]) : null;
+    public ServiceRestrictionsBean(String src) {
+      final String[] source = src.split("=");
+      csVideoCalls = Integer.parseInt(source[1]);
     }
 
     public int getCsVideoCalls() {
@@ -3017,7 +3035,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public Sib11UtranCellConfigBean() {
     }
 
-    public Sib11UtranCellConfigBean(String[] source) {
+    public Sib11UtranCellConfigBean(String src) {
+      final String[] source = src.split(",");
       minGsmRelationsInSib11 = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       minIefRelationsInSib11 = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -3059,7 +3078,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public TpsCellThresholdsBean() {
     }
 
-    public TpsCellThresholdsBean(String[] source) {
+    public TpsCellThresholdsBean(String src) {
+      final String[] source = src.split(",");
       tpsCellThreshEnabled = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       tpsLockThreshold = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
       tpsUnlockThreshold = source[2].split("=").length == 2 ? Integer.parseInt(source[2].split("=")[1]) : null;
@@ -3109,7 +3129,8 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
     public UraRefBean() {
     }
 
-    public UraRefBean(String[] source) {
+    public UraRefBean(String src) {
+      final String[] source = src.split(",");
       RncFunction = source[0].split("=").length == 2 ? Integer.parseInt(source[0].split("=")[1]) : null;
       Ura = source[1].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }
@@ -3141,9 +3162,9 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
   public String toString() {
     return "crn " + name + "\n" +
         "absPrioCellRes " + absPrioCellRes + "\n" +
-        "accessClassNBarred " + (accessClassNBarred.toString().replaceAll("[\\[\\]\\s]", "")) + "\n" +
-        "accessClassesBarredCs " + (accessClassesBarredCs.toString().replaceAll("[\\[\\]\\s]", "")) + "\n" +
-        "accessClassesBarredPs " + (accessClassesBarredPs.toString().replaceAll("[\\[\\]\\s]", "")) + "\n" +
+        "accessClassNBarred " + (null != accessClassNBarred ?  (accessClassNBarred.toString().replaceAll("[\\[\\]\\s]", "")) : null) + "\n" +
+        "accessClassesBarredCs " + (null != accessClassesBarredCs ? (accessClassesBarredCs.toString().replaceAll("[\\[\\]\\s]", "")) : null) + "\n" +
+        "accessClassesBarredPs " + (null != accessClassesBarredPs ? (accessClassesBarredPs.toString().replaceAll("[\\[\\]\\s]", "")) : null) + "\n" +
         "admBlockRedirection " + admBlockRedirection + "\n" +
         "administrativeState 0" + "\n" +
         "agpsEnabled " + agpsEnabled + "\n" +
@@ -3291,7 +3312,7 @@ public class AseLoadThresholdUiSpeech implements CreationCommand {
         "sib11UtranCellConfig " + sib11UtranCellConfig + "\n" +
         "sib1PlmnScopeValueTag " + sib1PlmnScopeValueTag + "\n" +
         "spare " + spare + "\n" +
-        "spareA " + (spareA.toString().replaceAll("[\\[\\]\\s]", "")) + "\n" +
+        "spareA " + (null != spareA ? (spareA.toString().replaceAll("[\\[\\]\\s]", "")) : null) + "\n" +
         "srbAdmExempt " + srbAdmExempt + "\n" +
         "standAloneSrbSelector " + standAloneSrbSelector + "\n" +
         "tCell " + tCell + "\n" +

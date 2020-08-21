@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.model.modelsForCreationCommands.util.VariableExtractor;
 import com.utils.Patterns;
@@ -56,23 +57,23 @@ public class AichTransmissionTiming implements CreationCommand {
 
   public AichTransmissionTiming(String[] source) {
     this.source = source;
-    name = source[i++];
-    administrativeState = VariableExtractor.extractInteger(source[i++]);
-    aichPower = VariableExtractor.extractInteger(source[i++]);
-    aichTransmissionTiming = VariableExtractor.extractInteger(source[i++]);
-    constantValueCprach = VariableExtractor.extractInteger(source[i++]);
-    increasedRachCoverageEnabled = VariableExtractor.extractInteger(source[i++]);
-    maxPreambleCycle = VariableExtractor.extractInteger(source[i++]);
-    nb01Max = VariableExtractor.extractInteger(source[i++]);
-    nb01Min = VariableExtractor.extractInteger(source[i++]);
-    powerOffsetP0 = VariableExtractor.extractInteger(source[i++]);
-    powerOffsetPpm = VariableExtractor.extractInteger(source[i++]);
-    preambleRetransMax = VariableExtractor.extractInteger(source[i++]);
-    preambleSignatures = VariableExtractor.extractInteger(source[i++]);
-    scramblingCodeWordNo = VariableExtractor.extractInteger(source[i++]);
-    spreadingFactor = VariableExtractor.extractInteger(source[i++]);
-    subChannelNo = VariableExtractor.extractInteger(source[i++]);
-    userLabel = VariableExtractor.extractString(source[i++]);
+    name = source[0];
+    administrativeState = FieldExtractor.getFieldIntPrimitive(source, "administrativeState");
+    aichPower = FieldExtractor.getFieldIntPrimitive(source, "aichPower");
+    aichTransmissionTiming = FieldExtractor.getFieldIntPrimitive(source, "aichTransmissionTiming");
+    constantValueCprach = FieldExtractor.getFieldIntPrimitive(source, "constantValueCprach");
+    increasedRachCoverageEnabled = FieldExtractor.getFieldIntPrimitive(source, "increasedRachCoverageEnabled");
+    maxPreambleCycle = FieldExtractor.getFieldIntPrimitive(source, "maxPreambleCycle");
+    nb01Max = FieldExtractor.getFieldIntPrimitive(source, "nb01Max");
+    nb01Min = FieldExtractor.getFieldIntPrimitive(source, "nb01Min");
+    powerOffsetP0 = FieldExtractor.getFieldIntPrimitive(source, "powerOffsetP0");
+    powerOffsetPpm = FieldExtractor.getFieldIntPrimitive(source, "powerOffsetPpm");
+    preambleRetransMax = FieldExtractor.getFieldIntPrimitive(source, "preambleRetransMax");
+    preambleSignatures = FieldExtractor.getFieldIntPrimitive(source, "preambleSignatures");
+    scramblingCodeWordNo = FieldExtractor.getFieldIntPrimitive(source, "scramblingCodeWordNo");
+    spreadingFactor = FieldExtractor.getFieldIntPrimitive(source, "spreadingFactor");
+    subChannelNo = FieldExtractor.getFieldIntPrimitive(source, "subChannelNo");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   public String getName() {

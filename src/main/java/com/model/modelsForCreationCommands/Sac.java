@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -29,8 +30,8 @@ public class Sac implements CreationCommand {
     name = source[0];
     locationArea = source[0].split(",|=")[3];
     serviceArea = source[0].split(",|=")[5];
-    sac = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
-    userLabel = source[2].split("\\s").length == 2 ? source[2].split("\\s")[1] : null;
+    sac = FieldExtractor.getFieldIntPrimitive(source, "sac");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
 

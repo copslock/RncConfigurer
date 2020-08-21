@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -51,21 +52,21 @@ public class CodeThresholdPdu656 implements CreationCommand {
   public CodeThresholdPdu656(String[] source) {
     this.source = source;
     name = source[0];
-    administrativeState = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
-    codeThresholdPdu656 = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
-    cqiFeedbackCycle = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
-    deltaAck1 = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
-    deltaAck2 = source[5].split("\\s").length == 2 ? Integer.parseInt(source[5].split("\\s")[1]) : null;
-    deltaCqi1 = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
-    deltaCqi2 = source[7].split("\\s").length == 2 ? Integer.parseInt(source[7].split("\\s")[1]) : null;
-    deltaNack1 = source[8].split("\\s").length == 2 ? Integer.parseInt(source[8].split("\\s")[1]) : null;
-    deltaNack2 = source[9].split("\\s").length == 2 ? Integer.parseInt(source[9].split("\\s")[1]) : null;
-    hsMeasurementPowerOffset = source[10].split("\\s").length == 2 ? Integer.parseInt(source[10].split("\\s")[1]) : null;
-    initialAckNackRepetitionFactor = source[11].split("\\s").length == 2 ? Integer.parseInt(source[11].split("\\s")[1]) : null;
-    initialCqiRepetitionFactor = source[12].split("\\s").length == 2 ? Integer.parseInt(source[12].split("\\s")[1]) : null;
-    numHsPdschCodes = source[13].split("\\s").length == 2 ? Integer.parseInt(source[13].split("\\s")[1]) : null;
-    numHsScchCodes = source[14].split("\\s").length == 2 ? Integer.parseInt(source[14].split("\\s")[1]) : null;
-    userLabel = source[15].split("\\s").length == 2 ? source[15].split("\\s")[1] : null;
+    administrativeState = FieldExtractor.getFieldIntPrimitive(source, "administrativeState");
+    codeThresholdPdu656 = FieldExtractor.getFieldIntPrimitive(source, "codeThresholdPdu656");
+    cqiFeedbackCycle = FieldExtractor.getFieldIntPrimitive(source, "cqiFeedbackCycle");
+    deltaAck1 = FieldExtractor.getFieldIntPrimitive(source, "deltaAck1");
+    deltaAck2 = FieldExtractor.getFieldIntPrimitive(source, "deltaAck2");
+    deltaCqi1 = FieldExtractor.getFieldIntPrimitive(source, "deltaCqi1");
+    deltaCqi2 = FieldExtractor.getFieldIntPrimitive(source, "deltaCqi2");
+    deltaNack1 = FieldExtractor.getFieldIntPrimitive(source, "deltaNack1");
+    deltaNack2 = FieldExtractor.getFieldIntPrimitive(source, "deltaNack2");
+    hsMeasurementPowerOffset = FieldExtractor.getFieldIntPrimitive(source, "hsMeasurementPowerOffset");
+    initialAckNackRepetitionFactor = FieldExtractor.getFieldIntPrimitive(source, "initialAckNackRepetitionFactor");
+    initialCqiRepetitionFactor = FieldExtractor.getFieldIntPrimitive(source, "initialCqiRepetitionFactor");
+    numHsPdschCodes = FieldExtractor.getFieldIntPrimitive(source, "numHsPdschCodes");
+    numHsScchCodes = FieldExtractor.getFieldIntPrimitive(source, "numHsScchCodes");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   public String getName() {

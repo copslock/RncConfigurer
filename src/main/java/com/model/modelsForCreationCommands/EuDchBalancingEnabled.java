@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -51,21 +52,21 @@ public class EuDchBalancingEnabled implements CreationCommand {
   public EuDchBalancingEnabled(String[] source) {
     this.source = source;
     name = source[0];
-    administrativeState = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
-    eulDchBalancingEnabled = source[2].split("\\s").length == 2 ? Integer.parseInt(source[2].split("\\s")[1]) : null;
-    eulDchBalancingLoad = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
-    eulDchBalancingOverload = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
-    eulDchBalancingReportPeriod = source[5].split("\\s").length == 2 ? Integer.parseInt(source[5].split("\\s")[1]) : null;
-    eulDchBalancingSuspendDownSw = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
-    eulDchBalancingTimerNg = source[7].split("\\s").length == 2 ? Integer.parseInt(source[7].split("\\s")[1]) : null;
-    eulLoadTriggeredSoftCong = source[8].split("\\s").length == 2 ? Integer.parseInt(source[8].split("\\s")[1]) : null;
-    eulMaxTargetRtwp = source[9].split("\\s").length == 2 ? Integer.parseInt(source[9].split("\\s")[1]) : null;
-    numEagchCodes = source[10].split("\\s").length == 2 ? Integer.parseInt(source[10].split("\\s")[1]) : null;
-    numEhichErgchCodes = source[11].split("\\s").length == 2 ? Integer.parseInt(source[11].split("\\s")[1]) : null;
-    pathlossThresholdEulTti2 = source[12].split("\\s").length == 2 ? Integer.parseInt(source[12].split("\\s")[1]) : null;
-    releaseAseUlNg = source[13].split("\\s").length == 2 ? Integer.parseInt(source[13].split("\\s")[1]) : null;
-    threshEulTti2Ecno = source[14].split("\\s").length == 2 ? Integer.parseInt(source[14].split("\\s")[1]) : null;
-    userLabel = source[15].split("\\s").length == 2 ? source[15].split("\\s")[1] : null;
+    administrativeState = FieldExtractor.getFieldIntPrimitive(source, "administrativeState");
+    eulDchBalancingEnabled = FieldExtractor.getFieldIntPrimitive(source, "eulDchBalancingEnabled");
+    eulDchBalancingLoad = FieldExtractor.getFieldIntPrimitive(source, "eulDchBalancingLoad");
+    eulDchBalancingOverload = FieldExtractor.getFieldIntPrimitive(source, "eulDchBalancingOverload");
+    eulDchBalancingReportPeriod = FieldExtractor.getFieldIntPrimitive(source, "eulDchBalancingReportPeriod");
+    eulDchBalancingSuspendDownSw = FieldExtractor.getFieldIntPrimitive(source, "eulDchBalancingSuspDownSw");
+    eulDchBalancingTimerNg = FieldExtractor.getFieldIntPrimitive(source, "eulDchBalancingTimerNg");
+    eulLoadTriggeredSoftCong = FieldExtractor.getFieldIntPrimitive(source, "eulLoadTriggeredSoftCong");
+    eulMaxTargetRtwp = FieldExtractor.getFieldIntPrimitive(source, "eulMaxTargetRtwp");
+    numEagchCodes = FieldExtractor.getFieldIntPrimitive(source, "numEagchCodes");
+    numEhichErgchCodes = FieldExtractor.getFieldIntPrimitive(source, "numEhichErgchCodes");
+    pathlossThresholdEulTti2 = FieldExtractor.getFieldIntPrimitive(source, "pathlossThresholdEulTti2");
+    releaseAseUlNg = FieldExtractor.getFieldIntPrimitive(source, "releaseAseUlNg");
+    threshEulTti2Ecno = FieldExtractor.getFieldIntPrimitive(source, "threshEulTti2Ecno");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   public String getName() {

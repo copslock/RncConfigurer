@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -28,9 +29,9 @@ public class ExternalEutranCellRef implements CreationCommand {
   public ExternalEutranCellRef(String[] source) {
     this.source = source;
     name = source[0];
-    coSited = source[1].split("\\s").length == 2 ? Integer.parseInt(source[1].split("\\s")[1]) : null;
-    externalEutranCellRef = source[2].split("\\s").length == 2 ? new ExternalEutranCellRefBean(source[2].split("\\s")[1].split(",")) : null;
-    userLabel = source[3].split("\\s").length == 2 ? source[3].split("\\s")[1] : null;
+    coSited = FieldExtractor.getFieldIntPrimitive(source, "coSited");
+    externalEutranCellRef = (ExternalEutranCellRefBean)FieldExtractor.getFieldObject(ExternalEutranCellRefBean.class, source, "externalEutranCellRef");
+    userLabel = FieldExtractor.getFieldString(source, "coSited");
   }
 
   public String getName() {

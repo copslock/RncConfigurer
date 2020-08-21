@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.utils.Patterns;
 
@@ -49,20 +50,20 @@ public class BarredCnOperatorRef implements CreationCommand {
   public BarredCnOperatorRef(String[] source) {
     this.source = source;
     name = source[0];
-    barredCnOperatorRef = source[1].split("\\s").length == 2 ? source[1].split("\\s")[1] : null;
-    blacklistedCell = source[2].split("\\s").length == 2 ? source[2].split("\\s")[1] : null;
-    cellReselectionPriority = source[3].split("\\s").length == 2 ? Integer.parseInt(source[3].split("\\s")[1]) : null;
-    coSitedCellAvailable = source[4].split("\\s").length == 2 ? Integer.parseInt(source[4].split("\\s")[1]) : null;
-    eutranFrequencyRef = source[5].split("\\s").length == 2 ? new EutranFrequencyRefBean(source[5].split("\\s")[1].split(",")) : null;
-    qQualMin = source[6].split("\\s").length == 2 ? Integer.parseInt(source[6].split("\\s")[1]) : null;
-    qRxLevMin = source[7].split("\\s").length == 2 ? Integer.parseInt(source[7].split("\\s")[1]) : null;
-    redirectionOrder = source[8].split("\\s").length == 2 ? Integer.parseInt(source[8].split("\\s")[1]) : null;
-    thresh2dRwr = source[9].split("\\s").length == 2 ? Integer.parseInt(source[9].split("\\s")[1]) : null;
-    threshHigh = source[10].split("\\s").length == 2 ? Integer.parseInt(source[10].split("\\s")[1]) : null;
-    threshHigh2 = source[11].split("\\s").length == 2 ? Integer.parseInt(source[11].split("\\s")[1]) : null;
-    threshLow = source[12].split("\\s").length == 2 ? Integer.parseInt(source[12].split("\\s")[1]) : null;
-    threshLow2 = source[13].split("\\s").length == 2 ? Integer.parseInt(source[13].split("\\s")[1]) : null;
-    userLabel = source[14].split("\\s").length == 2 ? source[14].split("\\s")[1] : null;
+    barredCnOperatorRef = FieldExtractor.getFieldString(source, "barredCnOperatorRef");
+    blacklistedCell = FieldExtractor.getFieldString(source, "blacklistedCell");
+    cellReselectionPriority = FieldExtractor.getFieldIntPrimitive(source, "cellReselectionPriority");
+    coSitedCellAvailable = FieldExtractor.getFieldIntPrimitive(source, "coSitedCellAvailable");
+    eutranFrequencyRef = (EutranFrequencyRefBean)FieldExtractor.getFieldObject(EutranFrequencyRefBean.class, source, "eutranFrequencyRef");
+    qQualMin = FieldExtractor.getFieldIntPrimitive(source, "qQualMin");
+    qRxLevMin = FieldExtractor.getFieldIntPrimitive(source, "qRxLevMin");
+    redirectionOrder = FieldExtractor.getFieldIntPrimitive(source, "redirectionOrder");
+    thresh2dRwr = FieldExtractor.getFieldIntPrimitive(source, "thresh2dRwr");
+    threshHigh = FieldExtractor.getFieldIntPrimitive(source, "threshHigh");
+    threshHigh2 = FieldExtractor.getFieldIntPrimitive(source, "threshHigh2");
+    threshLow = FieldExtractor.getFieldIntPrimitive(source, "threshLow");
+    threshLow2 = FieldExtractor.getFieldIntPrimitive(source, "threshLow2");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   @Override
@@ -214,7 +215,8 @@ public class BarredCnOperatorRef implements CreationCommand {
     public EutranFrequencyRefBean() {
     }
 
-    public EutranFrequencyRefBean(String[] source) {
+    public EutranFrequencyRefBean(String src) {
+      final String[] source = src.split(",");
       EutraNetwork = source[0].split("=").length == 2 ? source[0].split("=")[1] : null;
       EutranFrequency = source[0].split("=").length == 2 ? Integer.parseInt(source[1].split("=")[1]) : null;
     }

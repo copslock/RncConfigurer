@@ -1,6 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
+import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.model.modelsForCreationCommands.util.VariableExtractor;
 import com.utils.Patterns;
@@ -36,24 +37,23 @@ public class BandIndicator implements CreationCommand {
   private int qRxLevMin;
   private String userLabel;
   private String[] source;
-  private int i = 0;
 
   public BandIndicator() {
   }
 
   public BandIndicator(String[] source) {
     this.source = source;
-    name = source[i++];
-    bandIndicator = VariableExtractor.extractInteger(source[i++]);
-    bcc = VariableExtractor.extractInteger(source[i++]);
-    bcchFrequency = VariableExtractor.extractInteger(source[i++]);
-    cellIdentity = VariableExtractor.extractInteger(source[i++]);
-    individualOffset = VariableExtractor.extractInteger(source[i++]);
-    lac = VariableExtractor.extractInteger(source[i++]);
-    maxTxPowerUl = VariableExtractor.extractInteger(source[i++]);
-    ncc = VariableExtractor.extractInteger(source[i++]);
-    qRxLevMin = VariableExtractor.extractInteger(source[i++]);
-    userLabel = VariableExtractor.extractString(source[i++]);
+    name = source[0];
+    bandIndicator = FieldExtractor.getFieldIntPrimitive(source, "bandIndicator");
+    bcc = FieldExtractor.getFieldIntPrimitive(source, "bcc");
+    bcchFrequency = FieldExtractor.getFieldIntPrimitive(source, "bcchFrequency");
+    cellIdentity = FieldExtractor.getFieldIntPrimitive(source, "cellIdentity");
+    individualOffset = FieldExtractor.getFieldIntPrimitive(source, "individualOffset");
+    lac = FieldExtractor.getFieldIntPrimitive(source, "lac");
+    maxTxPowerUl = FieldExtractor.getFieldIntPrimitive(source, "maxTxPowerUl");
+    ncc = FieldExtractor.getFieldIntPrimitive(source, "ncc");
+    qRxLevMin = FieldExtractor.getFieldIntPrimitive(source, "qRxLevMin");
+    userLabel = FieldExtractor.getFieldString(source, "userLabel");
   }
 
   public String getName() {
