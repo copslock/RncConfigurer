@@ -14,3 +14,5 @@ node_modules
 out-tsc
 oldCommands
 dist
+.editorconfig
+karma.conf.js
