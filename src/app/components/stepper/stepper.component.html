@@ -1,0 +1,50 @@
+<mat-horizontal-stepper #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Upload file of changes</ng-template>
+      <!--      <mat-form-field>-->
+      <div>
+        <div id="file">
+          <mat-label>File</mat-label>
+        </div>
+        <div class="import">
+          <button id="import" mat-raised-button (click)="browse()">Import file</button>
+        </div>
+      </div>
+      <input type="file" name="photo" id="selectedFile" ng2FileSelect [uploader]="uploader"
+             (change)="uploader.uploadAll()" style="display: none;"/>
+      <!--      </mat-form-field>-->
+
+      <div *ngIf="isDivVisible" class="tableComponent">
+        <app-table-clone [dataSource]="dataSource"></app-table-clone>
+      </div>
+
+      <div>
+        <button id="firstStep" mat-stroked-button color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Download creation commands from terminal</ng-template>
+      <!--      <mat-form-field>-->
+      <!--        <mat-label>Address</mat-label>-->
+      <!--        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"-->
+      <!--               required>-->
+      <button id="download" mat-raised-button>download creation commands from terminal</button>
+      <!--      </mat-form-field>-->
+      <div>
+        <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+        <button mat-stroked-button color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Perform modification to terminal</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+      <button mat-stroked-button color="primary" (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
