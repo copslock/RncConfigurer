@@ -10,3 +10,7 @@ oldFiles
 *.mos
 *.csv
 src/test
+node_modules
+out-tsc
+oldCommands
+dist
