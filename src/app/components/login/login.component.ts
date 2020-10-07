@@ -25,11 +25,11 @@ export class LoginComponent implements OnInit {
     this.loginService.authenticate(this.username, this.password).subscribe(data => {
       // sessionStorage.setItem('username', this.username);
 
-      this.loginService.getToken().subscribe(data => {
-        sessionStorage.setItem("Token", data['token']);
-      }, error => {
-        console.log(error);
-      });
+      // this.loginService.getToken().subscribe(data => {
+      //   sessionStorage.setItem("Token", data['token']);
+      // }, error => {
+      //   console.log(error);
+      // });
 
       console.log('request was succesfully executed');
 

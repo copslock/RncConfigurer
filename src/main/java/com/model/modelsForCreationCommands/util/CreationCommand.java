@@ -1,6 +1,6 @@
 package com.model.modelsForCreationCommands.util;
 
-import com.utils.Patterns;
+import com.model.Patterns;
 
 import java.util.Map;
 

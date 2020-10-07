@@ -25,7 +25,7 @@ export interface PeriodicElement {
   NewCI: string;
 }
 
-const URL = 'http://localhost:4201/api/uploadFile';
+const URL = 'http://localhost:8089/api/uploadFile';
 
 @Component({
   selector: 'app-table',

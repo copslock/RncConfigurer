@@ -1,16 +1,14 @@
-package com.utils;
+package com.service;
 
 import com.jcraft.jsch.*;
-import com.service.CreationCommandsOperationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.swing.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class SshUtils {
+public class SshService {
 
     private static final Logger LOG = LogManager.getLogger(CreationCommandsOperationService.class);
 
@@ -120,7 +118,7 @@ public class SshUtils {
         List<String> commands = new ArrayList<>();
 
         while (input.available() > 0) {
-            Thread.sleep(100);
+            Thread.sleep(150);
             byte[] bytes = new byte[1024];
             int i = input.read(bytes, 0, 1024);
             if (i < 0) break;
@@ -166,7 +164,7 @@ public class SshUtils {
         for (;;) {
             printStream.println(sb.toString());
 
-            final List<String> strings = SshUtils.printResult(inputStream, checkPhrase);
+            final List<String> strings = SshService.printResult(inputStream, checkPhrase);
 
             final long count = strings.stream().filter(e -> e.contains(checkPhrase)).count();
 

@@ -1,10 +1,12 @@
 package com;
 
-import com.utils.FtpUtils;
-import com.utils.SshUtils;
+import com.service.FtpService;
+import com.service.SshService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 
+import java.io.File;
 import java.util.List;
 
 public class Test {
@@ -14,10 +16,12 @@ public class Test {
     public static void main(String[] args) throws Exception {
         long start = System.nanoTime();
 
-        final List<String> strings = SshUtils.connectSsh3();
+        FileUtils.cleanDirectory(new File("D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands"));
 
-        FtpUtils.connectViaFtp(strings.get(0), "D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands");
-        FtpUtils.connectViaFtp(strings.get(1), "D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands");
+        final List<String> strings = SshService.connectSsh3();
+
+        FtpService.connectViaFtp(strings.get(0), "D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands");
+        FtpService.connectViaFtp(strings.get(1), "D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands");
 
         long end = System.nanoTime();
 

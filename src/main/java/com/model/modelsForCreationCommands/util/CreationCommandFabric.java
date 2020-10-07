@@ -1,7 +1,7 @@
 package com.model.modelsForCreationCommands.util;
 
 import com.model.modelsForCreationCommands.*;
-import com.utils.Patterns;
+import com.model.Patterns;
 
 import java.io.IOException;
 

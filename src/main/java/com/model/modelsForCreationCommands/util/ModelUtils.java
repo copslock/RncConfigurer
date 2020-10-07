@@ -1,9 +1,7 @@
 package com.model.modelsForCreationCommands.util;
 
-import com.model.modelsForCreationCommands.AseLoadThresholdUiSpeech;
-import com.model.modelsForCreationCommands.AtmUserPlaneTermSubrackRef;
-import com.utils.Constants;
-import com.utils.Patterns;
+import com.model.Constants;
+import com.model.Patterns;
 
 import java.io.File;
 import java.io.IOException;
@@ -94,10 +92,6 @@ public class ModelUtils {
     return name;
   }
 
-  public static List<String> extractRncNames(List<Map<String, String>> changeCommands) {
-    return changeCommands.stream().map(e -> e.get("Site")).collect(Collectors.toList());
-  }
-
   public static Map<String, List<String>> getCreationCommandsFiles() {
 
     Map<String, List<String>> nameAndFiles = new TreeMap<>();
@@ -159,13 +153,5 @@ public class ModelUtils {
     }
     return creationCommands;
   }
-
-//  public static <N extends CreationCommand>List<N> getCreationCommandsByType() {
-//
-//    List<CreationCommand> creationCommands = extractCreationCommands(fileName);
-//
-//    creationCommands.stream().filter(e -> e instanceof N).collect(Collectors.toList());
-//
-//  }
 
 }

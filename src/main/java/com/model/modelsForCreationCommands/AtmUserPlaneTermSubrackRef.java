@@ -4,7 +4,7 @@ import com.model.modelsForCreationCommands.util.CreationCommand;
 import com.model.modelsForCreationCommands.util.FieldExtractor;
 import com.model.modelsForCreationCommands.util.ModelUtils;
 import com.model.modelsForCreationCommands.util.VariableExtractor;
-import com.utils.Patterns;
+import com.model.Patterns;
 
 import java.io.IOException;
 import java.util.List;

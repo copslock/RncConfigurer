@@ -38,9 +38,9 @@ public class FileStorageService {
 
   public FileStorageService() {
 
-    this.fileStorageLocation = Paths.get("src/main/resources/filesOfChanges/")
+    this.fileStorageLocation = Paths.get("filesOfChanges/")
         .toAbsolutePath().normalize();
-    this.oldFilesDirectory = Paths.get("src/main/resources/oldFiles/")
+    this.oldFilesDirectory = Paths.get("oldFiles/")
             .toAbsolutePath().normalize();
 
     try {
@@ -133,6 +133,21 @@ public class FileStorageService {
       }
     } catch (MalformedURLException ex) {
       throw new MyFileNotFoundException("File not found " + fileName, ex);
+    }
+  }
+
+  public Resource loadFilesAsResource() {
+    try {
+//      Path filePath = Paths.get("rncCreationCommands/").resolve("multiCompressed.zip").normalize();
+      Path filePath = Paths.get("rncCreationCommands/").resolve("multiCompressed.zip").normalize();
+      Resource resource = new UrlResource(filePath.toUri());
+      if (resource.exists()) {
+        return resource;
+      } else {
+        throw new MyFileNotFoundException("File not found rncCreationCommands/multiCompressed.zip");
+      }
+    } catch (MalformedURLException ex) {
+      throw new MyFileNotFoundException("File not found rncCreationCommands/multiCompressed.zip", ex);
     }
   }
 }

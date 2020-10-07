@@ -10,7 +10,7 @@ import {map} from 'rxjs/operators';
 })
 export class DownloadService {
 
-  public API = 'http://localhost:4201/api/v1/rnc-maximo-table/';
+  public API = 'http://localhost:8089/api/v1/rnc/';
 
   headers = {
     headers: new HttpHeaders({
@@ -27,7 +27,7 @@ export class DownloadService {
   }
 
   getFiles(): Observable<any> {
-    return this.http.get(this.API + 'fileNames');
+    return this.http.get(this.API + 'download/files', {responseType: 'blob', observe: 'response'});
   }
 
   getTable(filename: string): Observable<any> {
@@ -35,7 +35,7 @@ export class DownloadService {
   }
 
   getMapTable(filename: string): Observable<any> {
-    return this.http.get(this.API + filename);
+    return this.http.get(this.API + "fileMap/" + filename);
   }
 
   saveRnc(value) {

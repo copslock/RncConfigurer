@@ -7,15 +7,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Test {
   public static void main(String[] args) throws IOException {
 
-    String a = "Provider:Service";
-
-    String s = StringUtils.substringAfter(a, ":");
-    System.out.println(s);
-
+//    IntStream.range(1, 5).
 
   }
 }

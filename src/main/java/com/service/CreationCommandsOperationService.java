@@ -8,7 +8,7 @@ import com.model.modelsForCreationCommands.Header;
 import com.model.modelsForCreationCommands.util.CreationCommand;
 import com.model.modelsForCreationCommands.util.CreationCommandFabric;
 import com.model.modelsForCreationCommands.util.ModelUtils;
-import com.utils.Patterns;
+import com.model.Patterns;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.Logger;
 
-import static com.utils.Constants.*;
+import static com.model.Constants.*;
 
 @Service
 public class CreationCommandsOperationService {

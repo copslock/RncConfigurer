@@ -1,5 +1,6 @@
 package com.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.ldap.core.support.LdapContextSource;
@@ -15,27 +16,39 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-        .csrf().disable()
-        .antMatcher("/api/**")
-        .authorizeRequests()
-        .anyRequest()
-        .authenticated()
-        .and()
-        .formLogin()
-        .loginPage("/api/login")
-        .permitAll()
-        .successHandler(((request, response, authentication) -> HttpStatus.OK.value()))
-        .failureHandler((request, response, exception) -> response.setStatus(HttpStatus.UNAUTHORIZED.value()))
-        .and()
-        .logout()
-        .permitAll()
-        .logoutSuccessHandler(((request, response, authentication) -> HttpStatus.OK.value()));
+      .csrf().disable()
+      .cors()
+      .and()
+      .antMatcher("/api/**")
+      .authorizeRequests()
+      .antMatchers("/**").permitAll()
+      .anyRequest()
+      .authenticated()
+      .and()
+      .formLogin()
+      .loginPage("/api/login")
+      .permitAll()
+      .successHandler(((request, response, authentication) -> response.setStatus(HttpStatus.OK.value())))
+      .failureHandler((request, response, exception) -> response.setStatus(HttpStatus.UNAUTHORIZED.value()))
+      .and()
+      .logout()
+      .logoutUrl("/api/logout")
+      .deleteCookies("JSESSIONID")
+
+      .permitAll()
+      .logoutSuccessHandler(((request, response, authentication) -> response.setStatus(HttpStatus.OK.value())));
 
 
   }
@@ -52,10 +65,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     source.afterPropertiesSet();
 
     auth
-        .ldapAuthentication()
-        .userSearchFilter("(&(&(objectCategory=person)(objectClass=user))(sAMAccountName={0}))")
-        .groupSearchFilter("(&(objectCategory=group)(member={0}))")
-        .contextSource(source);
+      .ldapAuthentication()
+      .userSearchFilter("(&(&(objectCategory=person)(objectClass=user))(sAMAccountName={0}))")
+      .groupSearchFilter("(&(objectCategory=group)(member={0}))")
+      .contextSource(source);
   }
 
 //  @Bean
@@ -65,20 +78,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    return source;
 //  }
 
-//  @Bean
-//  public CorsConfigurationSource corsConfigurationSource() {
-//    CorsConfiguration configuration = new CorsConfiguration();
-//    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//
-//    configuration.setAllowCredentials(true);
-//    configuration.setAllowedOrigins(Collections.singletonList("*"));
-//    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-////    configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-//
-//    source.registerCorsConfiguration("/**", configuration);
-//
-//    return source;
-//  }
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+    configuration.setAllowCredentials(true);
+    configuration.setAllowedOrigins(Collections.singletonList("*"));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//    configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+    configuration.setAllowedHeaders(Collections.singletonList("*"));
+    configuration.setExposedHeaders(Arrays.asList("Content-Disposition"));
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+  }
 
 }
 

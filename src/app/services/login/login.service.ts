@@ -11,7 +11,7 @@ import {error} from "@angular/compiler/src/util";
 })
 export class LoginService {
 
-  API = 'http://localhost:4201/api/';
+  API = 'http://localhost:8089/api/';
 
   constructor(private httpClient: HttpClient, private router: Router, private cookieService: CookieService) { }
 
@@ -20,13 +20,10 @@ export class LoginService {
   headers = new HttpHeaders();
 
   authenticate(username, password) {
-    // this.form.delete('username');
-    // this.form.delete('password');
-    // this.form.append('username', username);
-    // this.form.append('password', password);
-
-    this.form.get('username');
-    this.form.get('password');
+    this.form.delete('username');
+    this.form.delete('password');
+    this.form.append('username', username);
+    this.form.append('password', password);
 
     this.headers.set('Content-Type', 'application/x-www-form-urlencoded');
     // this.headers.append('Cookie', this.cookieService.get('JSESSIONID'));
@@ -36,8 +33,8 @@ export class LoginService {
       map(
         userData => {
           sessionStorage.setItem('username' ,username);
-          let tokenStr = 'Bearer '+userData['token'];
-          sessionStorage.setItem('token', tokenStr);
+          // let tokenStr = 'Bearer '+userData['token'];
+          // sessionStorage.setItem('token', tokenStr);
           return userData;
         }
       )
@@ -55,7 +52,7 @@ export class LoginService {
   }
 
   logOut() {
-   this.httpClient.get(this.API + 'login?logout').subscribe(data => {
+   this.httpClient.post(this.API + 'logout', '').subscribe(data => {
       console.log('succesfully logout');
       sessionStorage.clear();
       this.router.navigate(['login']);

@@ -3,7 +3,6 @@ package com.service;
 import com.model.FileOfChanges;
 import com.model.RncModification;
 import com.opencsv.CSVReader;
-import com.utils.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -52,12 +51,13 @@ public class ParseCsvFileService {
     return  lines;
   }
 
-  public List<Map<String, String>> readMapCsv(String fileName) {
+  public List<Map<String, String>> readMapCsv(String file) {
+    String fileName = "filesOfChanges/" + file;
     List<Map<String, String>> lines = new ArrayList<>();
     String csvFile;
     int id = 1;
     if(null == fileName || fileName.isEmpty() || !isValidateFileName(fileName)) {
-      csvFile = Constants.TEST_FILE_OF_CHANGES1;
+      csvFile = fileName;
     } else {
       csvFile = fileName;
     }
@@ -135,8 +135,9 @@ public class ParseCsvFileService {
   }
 
   private boolean isValidateFileName(String file) {
+    String filename = "filesOfChanges/" + file;
 
-    if(new File(file).exists()) {
+    if(new File(filename).exists()) {
       return true;
     }
 

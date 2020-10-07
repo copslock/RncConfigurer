@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {DownloadService} from '../../../services/download/download.service';
 import {TableComponent} from '../table-main/table.component';
 
-const URL = 'http://localhost:4201/api/v1/rnc-maximo-table/upload';
+const URL = 'http://localhost:8089/api/v1/rnc/upload';
 
 @Component({
   selector: 'app-table-clone',

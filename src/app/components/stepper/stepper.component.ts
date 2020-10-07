@@ -6,7 +6,7 @@ import {TableComponent} from '../table/table-main/table.component';
 import {DownloadService} from '../../services/download/download.service';
 
 
-const URL = 'http://localhost:4201/api/v1/rnc-maximo-table/upload';
+const URL = 'http://localhost:8089/api/v1/rnc/upload';
 
 @Component({
   selector: 'app-stepper',
@@ -52,7 +52,9 @@ export class StepperComponent implements OnInit {
           this.dataSource = data;
           console.log(this.filename);
           console.log(data);
-          this.isDivVisible = true;
+          document.querySelector(".table__panel").setAttribute("style", "display:block");
+          document.querySelector(".tableComponent").setAttribute("style", "display:block");
+          // document.getElementsByClassName(".tableComponent").item(0).style.display = "block";
           alert('File uploaded successfully');
 
         });
@@ -70,5 +72,25 @@ export class StepperComponent implements OnInit {
   browse() {
     document.getElementById('selectedFile').click();
   }
+
+  downloadFiles() {
+
+    return this.service.getFiles().subscribe(data => {
+      this.saveFile(data.body, data.headers.get('content-disposition'));
+    }, error => {
+      console.log('Error during download file');
+      console.log(error);
+    }), () => console.log('OK');
+  }
+  saveFile(data: Blob, filename: string) {
+
+    const name = filename.split('"');
+    const blob = new Blob([data], { type: 'application/zip' });
+    const a = document.createElement('a');
+    a.href = window.URL.createObjectURL(blob);
+    a.download = name[1];
+    a.click();
+  }
+
 
 }

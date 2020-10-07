@@ -1,4 +1,4 @@
-package com.utils;
+package com.model;
 
 import java.util.regex.Pattern;
 

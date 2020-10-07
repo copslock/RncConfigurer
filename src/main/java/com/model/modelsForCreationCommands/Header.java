@@ -1,7 +1,7 @@
 package com.model.modelsForCreationCommands;
 
 import com.model.modelsForCreationCommands.util.CreationCommand;
-import com.utils.Patterns;
+import com.model.Patterns;
 
 import java.util.HashMap;
 import java.util.Map;

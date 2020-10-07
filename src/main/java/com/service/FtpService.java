@@ -1,11 +1,11 @@
-package com.utils;
+package com.service;
 
 
 import com.jcraft.jsch.*;
 
 import java.io.IOException;
 
-public class FtpUtils {
+public class FtpService {
 
     public static final String TEST_PATH_TO_FILE_FROM_SERVER = "/ericsson/log/amos/moshell_logfiles/dpleskac/logs_moshell/undo/undo_KITR1_200805-154825.mos";
     public static final String TEST_PATH_TO_FILE_ON_MY_PC = "C:\\Users\\atian\\Desktop\\file.mos";

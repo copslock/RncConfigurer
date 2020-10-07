@@ -10,16 +10,19 @@ import {Router} from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   constructor(private loginService: LoginService, private router: Router) {
-    window.onload = () => {
-      if (this.loginService.isUserLoggedIn()) {
-        // this.router.navigate(['table'], {
-        //   queryParams: {fileName: 'RncMaximoTable.csv'}
-        // });
-        this.router.navigate(['stepper']);
-      } else {
-        this.router.navigate(['login']);
-      }
-    };
+  //   window.onload = () => {
+  //     if (this.loginService.isUserLoggedIn()) {
+  //       // this.router.navigate(['table'], {
+  //       //   queryParams: {fileName: 'RncMaximoTable.csv'}
+  //       // });
+  //       document.querySelector(".container").classList.remove("container--hide");
+  //       this.router.navigate(['stepper']);
+  //     } else {
+  //       document.querySelector(".container").classList.add("container--hide");
+  //
+  //       this.router.navigate(['login']);
+  //     }
+  //   };
   }
 
   ngOnInit() {
