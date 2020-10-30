@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import {Rnc} from '../../model/model.rnc';
 import {map} from 'rxjs/operators';
+import {FileOfChanges} from "../../model/FileOfChanges";
 
 @Injectable({
   providedIn: 'root'
@@ -38,21 +39,12 @@ export class DownloadService {
     return this.http.get(this.API + "fileMap/" + filename);
   }
 
-  saveRnc(value) {
-    console.log(value);
-    this.http.post(this.API + 'repo/save', value).subscribe(data => {
-      console.log('submitted successfully');
-    }, error => {
-      console.log('something went wrong', error);
-    });
+  getFileOfChanges(filename: string): Observable<any> {
+    return this.http.get(this.API + "get-file-of-changes/" + filename);
   }
 
-  checkRnc(id: number): Observable<any> {
-
-    console.log('before send checking request ', id);
-
-    return this.http.get(this.API + 'repo/check/' + id);
-
+  validateRnc() {
+    return this.http.get(this.API + "validate-file-of-changes");
   }
 
   inputChanges(fileOfChanges: string): Promise<object> {

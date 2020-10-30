@@ -22,7 +22,7 @@ export class TableCloneComponent implements OnInit {
 
   headers: Array<any> = [];
 
-  displayedColumns: string[] = ['Rehom.Order', 'BSC', 'Site', 'Cell', 'LON', 'LAT', 'LAC', 'CI', 'New BSC', 'New LAC', 'New CI', 'New Ura', 'New_RBSID_1', 'New_RBSID_2'];
+  displayedColumns: string[] = ['Rehome Order', 'BSC', 'Site', 'Cell', 'LON', 'LAT', 'LAC', 'CI', 'New BSC', 'New LAC', 'New CI', 'New Ura', 'New_RBSID_1', 'New_RBSID_2'];
 
   @Input()
   dataSource = new MatTableDataSource<string>();

@@ -21,7 +21,7 @@ public class FileOfChanges {
   public FileOfChanges() {
   }
 
-  public FileOfChanges(long table_id, String rehom_Order, String BSC, String site,
+  public FileOfChanges(String rehom_Order, String BSC, String site,
                        String cell, String LON, String LAT, String LAC, String CI,
                        String new_Bsc, String new_LAC, String new_Ci, String new_Ura, String new_RBSID_1, String new_RBSID_2) {
     this.Rehom_Order = rehom_Order;
@@ -38,6 +38,23 @@ public class FileOfChanges {
     this.New_Ura = new_Ura;
     this.New_RBSID_1 = new_RBSID_1;
     this.New_RBSID_2 = new_RBSID_2;
+  }
+
+  public FileOfChanges(String[] values) {
+    this.Rehom_Order = values[0];
+    this.BSC = values[1];
+    this.Site = values[2];
+    this.Cell = values[3];
+    this.LON = values[4];
+    this.LAT = values[5];
+    this.LAC = values[6];
+    this.CI = values[7];
+    this.New_Bsc = values[8];
+    this.New_LAC = values[9];
+    this.New_Ci = values[10];
+    this.New_Ura = values[11];
+    this.New_RBSID_1 = values[12];
+    this.New_RBSID_2 = values[13];
   }
 
   public FileOfChanges(String entity) {

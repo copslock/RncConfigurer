@@ -17,4 +17,11 @@ public class RncModification {
     public void setModifications(List<FileOfChanges> modifications) {
         this.modifications = modifications;
     }
+
+  @Override
+  public String toString() {
+    return "RncModification{" +
+      "modifications=" + modifications +
+      '}';
+  }
 }

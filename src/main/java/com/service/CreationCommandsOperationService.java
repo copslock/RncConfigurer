@@ -85,11 +85,12 @@ public class CreationCommandsOperationService {
       parser.setSite(site + "/");
       List<String> fileNames = creationCommandsFiles.get(site);
 
-      List<CreationCommand> updatedCreationCommands = parser.performModification(changeCommand, fileNames, TEST_FILE_OF_RESULT);
+      List<CreationCommand> updatedCreationCommands = parser.performModification(changeCommand, fileNames, "afterModification/updated.mos");
 
       parser.placeCommandsBySeparatedFiles(updatedCreationCommands);
       parser.createLacRacUra(changeCommand);
       parser.write2GNeighbors();
+      parser.write3GNeighbors();
     }
 
   }
@@ -487,12 +488,12 @@ public class CreationCommandsOperationService {
   }
 
   public static List<Map<String, String>> extractRehomeInformation(String fileOfChanges) {
-    ParseCsvFileService service = new ParseCsvFileService();
+    FileParsingService service = new FileParsingService();
     return service.readMapCsv(fileOfChanges);
   }
 
   public static List<RncModification> extractAllRehomeInformation(String fileOfChanges) {
-    ParseCsvFileService service = new ParseCsvFileService();
+    FileParsingService service = new FileParsingService();
     return service.getAllFileChanges(fileOfChanges);
   }
 

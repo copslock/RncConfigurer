@@ -31,10 +31,6 @@ $Rnc-ui-theme: mat-light-theme($Rnc-ui-primary, $Rnc-ui-accent, $Rnc-ui-warn);
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; min-height: 100%;}
 
-.mat-snack-bar-container {
-  max-width: 100% !important;
-}
-
 /* width */
 ::-webkit-scrollbar {
   width: 10px;

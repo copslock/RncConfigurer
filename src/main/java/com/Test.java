@@ -1,6 +1,7 @@
 package com;
 
 import com.service.FtpService;
+import com.service.FileParsingService;
 import com.service.SshService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +19,9 @@ public class Test {
 
         FileUtils.cleanDirectory(new File("D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands"));
 
-        final List<String> strings = SshService.connectSsh3();
+      FileParsingService parseCsvFileService = new FileParsingService();
+      String pathToCreationCommands = "D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands";
+        final List<String> strings = SshService.createFilesInRemote(parseCsvFileService.getAllFileChanges(pathToCreationCommands));
 
         FtpService.connectViaFtp(strings.get(0), "D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands");
         FtpService.connectViaFtp(strings.get(1), "D:\\Arthur\\My_Projects\\javaProjects\\RncConfigurerParser\\rncCreationCommands");

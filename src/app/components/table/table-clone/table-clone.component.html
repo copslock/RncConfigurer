@@ -5,8 +5,14 @@
     <ng-container *ngFor="let header of displayedColumns" [matColumnDef]="header">
       <mat-header-cell class="header" *matHeaderCellDef> {{header}} </mat-header-cell>
       <mat-cell (change)="scroll()"
-                [ngClass]="{current: (header=='BSC' && element.BSC!=element['New BSC']) || (header=='CI' && element.CI!=element['New CI']) || (header=='LAC' && element.LAC!=element['New LAC']),
-        updated: (header=='New BSC' && element.BSC!=element['New BSC']) || (header=='New CI' && element.CI!=element['New CI']) || (header=='New LAC' && element.LAC!=element['New LAC']) }"
+                [ngClass]="{
+                current: (header=='BSC' && element.BSC!=element['New BSC'])
+                    || (header=='CI' && element.CI!=element['New CI'])
+                    || (header=='LAC' && element.LAC!=element['New LAC']),
+                updated: (header=='New BSC' && element.BSC!=element['New BSC'])
+                    || (header=='New CI' && element.CI!=element['New CI'])
+                    || (header=='New LAC' && element.LAC!=element['New LAC'])
+                    }"
                 *matCellDef="let element"> {{element[header]}} </mat-cell>
     </ng-container>
 

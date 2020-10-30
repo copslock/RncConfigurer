@@ -5,7 +5,8 @@
   <div class="tableComponent">
     <div class="table__panel">
 
-      <app-table-clone [dataSource]="dataSource"></app-table-clone>
+      <app-grid [headers]="headers" [values]="values" [values2]="checkedValues"></app-grid>
+<!--      <app-table-clone [dataSource]="dataSource"></app-table-clone>-->
 
     </div>
   </div>
@@ -27,11 +28,11 @@
               </mat-form-field>
 
               <button class="controls__btns__general" mat-raised-button (click)="browse()">Import file</button>
-              <button mat-raised-button>Some action</button>
+              <button mat-raised-button (click)="validateFile()" [disabled]="visible">Validate file</button>
             </div>
 
             <div class="next">
-              <button id="firstStep" mat-stroked-button color="primary" matStepperNext>Next</button>
+              <button id="firstStep" mat-stroked-button color="primary" matStepperNext [disabled]="true">Next</button>
             </div>
           </div>
         </div>

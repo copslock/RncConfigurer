@@ -7,17 +7,13 @@ import com.model.FileOfChanges;
 import com.model.RncModification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,11 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class FileStorageService {
 
-  private static final Logger LOG = LogManager.getLogger(ParseCsvFileService.class);
+  private static final Logger LOG = LogManager.getLogger(FileParsingService.class);
 
   private final Path fileStorageLocation;
   private final Path oldFilesDirectory;
@@ -60,7 +58,7 @@ public class FileStorageService {
     // Normalize file name
     String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-    try {
+    try (InputStream in = file.getInputStream()) {
       // Check if the file's name contains invalid characters
       if (fileName.contains("..")) {
         throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
@@ -72,8 +70,9 @@ public class FileStorageService {
       if (Files.exists(targetLocation)) {
         Path targetLocationForOldFile = oldFilesDirectory.resolve(fileName);
         Files.copy(targetLocation, targetLocationForOldFile, StandardCopyOption.REPLACE_EXISTING);
+      } else {
+        Files.copy(in, targetLocation, StandardCopyOption.REPLACE_EXISTING);
       }
-      Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
       return fileName;
     } catch (IOException ex) {
@@ -136,18 +135,78 @@ public class FileStorageService {
     }
   }
 
+  public String zipArchive(String zipName, String directoryToArchive) {
+
+    try (FileOutputStream fos = new FileOutputStream(directoryToArchive + "/" + zipName);
+         ZipOutputStream zipOut = new ZipOutputStream(fos)) {
+
+      List<String> srcFiles = new ArrayList<>();
+
+      File folder = new File(directoryToArchive);
+      File[] listOfFiles = folder.listFiles();
+
+      if (null != listOfFiles) {
+        for (File listOfFile : listOfFiles) {
+          if (listOfFile.isFile()) {
+            srcFiles.add(directoryToArchive + "/" + listOfFile.getName());
+          }
+        }
+      }
+
+      for (String srcFile : srcFiles) {
+        File fileToZip = new File(srcFile);
+        FileInputStream fis = new FileInputStream(fileToZip);
+        ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+        zipOut.putNextEntry(zipEntry);
+
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = fis.read(bytes)) >= 0) {
+          zipOut.write(bytes, 0, length);
+        }
+        fis.close();
+      }
+
+    } catch (IOException e) {
+      LOG.error("problem with file ", e);
+    }
+
+    return zipName;
+  }
+
   public Resource loadFilesAsResource() {
+
+    final String zipArchive = zipArchive("multiCompressed.zip", "rncCreationCommands");
+    String archivedDirectory = "rncCreationCommands";
+
     try {
-//      Path filePath = Paths.get("rncCreationCommands/").resolve("multiCompressed.zip").normalize();
-      Path filePath = Paths.get("rncCreationCommands/").resolve("multiCompressed.zip").normalize();
+      Path filePath = Paths.get(archivedDirectory + "/").resolve(zipArchive).normalize();
       Resource resource = new UrlResource(filePath.toUri());
       if (resource.exists()) {
         return resource;
       } else {
-        throw new MyFileNotFoundException("File not found rncCreationCommands/multiCompressed.zip");
+        throw new MyFileNotFoundException("File not found " + archivedDirectory + "/" + zipArchive);
       }
     } catch (MalformedURLException ex) {
-      throw new MyFileNotFoundException("File not found rncCreationCommands/multiCompressed.zip", ex);
+      throw new MyFileNotFoundException("File not found " + archivedDirectory + "/" + zipArchive, ex);
+    }
+  }
+
+  public Resource loadUpdatedFilesAsResource() {
+
+    final String zipArchive = zipArchive("afterModification.zip", "afterModification");
+    String archivedDirectory = "afterModification";
+
+    try {
+      Path filePath = Paths.get(archivedDirectory + "/").resolve(zipArchive).normalize();
+      Resource resource = new UrlResource(filePath.toUri());
+      if (resource.exists()) {
+        return resource;
+      } else {
+        throw new MyFileNotFoundException("File not found " + archivedDirectory + "/" + zipArchive);
+      }
+    } catch (MalformedURLException ex) {
+      throw new MyFileNotFoundException("File not found " + archivedDirectory + "/" + zipArchive, ex);
     }
   }
 }

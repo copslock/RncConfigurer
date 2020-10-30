@@ -8,6 +8,7 @@ import {TableWarningComponent} from './components/table/table-warning/table-warn
 import {TableDownloadComponent} from './components/table/table-download/table-download.component';
 import {CompareComponent} from './components/dialogs/compare/compare.component';
 import {StepperComponent} from './components/stepper/stepper.component';
+import {GridComponent} from "./components/grid/grid.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: 'enabled',
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: 'table-warning', component: TableWarningComponent, canActivate: [LoginGuardService]},
   {path: 'table-download', component: TableDownloadComponent, canActivate: [LoginGuardService]},
   {path: 'compare', component: CompareComponent, canActivate: [LoginGuardService]},
-  {path: 'stepper', component: StepperComponent, canActivate: [LoginGuardService]}
+  {path: 'stepper', component: StepperComponent, canActivate: [LoginGuardService]},
+  {path: 'grid', component: GridComponent}
 ];
 
 @NgModule({

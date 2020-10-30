@@ -32,6 +32,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { TableCloneComponent } from './components/table/table-clone/table-clone.component';
+import { GridComponent } from './components/grid/grid.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { TableCloneComponent } from './components/table/table-clone/table-clone.
     ShowResultComponent,
     CompareComponent,
     StepperComponent,
-    TableCloneComponent
+    TableCloneComponent,
+    GridComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,8 @@ import { TableCloneComponent } from './components/table/table-clone/table-clone.
     MatButtonModule,
     MatInputModule,
     BrowserAnimationsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatGridListModule
   ],
   providers: [CookieService,
     // {
